@@ -86,17 +86,18 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(
                     height: 15,
-                  ),RaisedButton(
-
-                    color: Colors.red,
-
-
-                    child: Text(
-                      'Google',
-                      style: textstyle,
-                    ),
                   ),
-                  MaterialButton(
+                FlatButton(onPressed: (){
+                  Navigator.pushNamed(context, PlayGroundList.id);
+                }, child: Container(
+                  color: Colors.red,
+                  child: Text(
+                    'Google',
+                    style: textstyle,
+                  ),
+                ))
+
+              , MaterialButton(
 
                     color: Colors.blue,
                     minWidth: 160,

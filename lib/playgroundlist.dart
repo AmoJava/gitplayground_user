@@ -14,11 +14,20 @@ class _PlayGroundListState extends State<PlayGroundList> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.only(top: 10),
-          child:  ListView.builder(itemCount: names.length,itemBuilder:(BuildContext context,int index){
-            return PgItem(name: names[index],);
-          } ,)
-        ));
+            padding: EdgeInsets.only(top: 10),
+            child: ListView.builder(
+              itemCount: names.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ReservationPage(names[index])),
+                    ),
+                    child: PgItem(
+                      name: names[index],
+                    ));
+              },
+            )));
   }
 }
 

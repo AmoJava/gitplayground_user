@@ -21,7 +21,7 @@ void main() {
       Login.id: (context) => Login(),
       SignUp.id: (context) => SignUp(),
       PlayGroundList.id: (context) => PlayGroundList(),
-      ReservationPage.id: (context) => ReservationPage(),
+      //ReservationPage.id: (context) => ReservationPage(),
       Confirmation.id: (context) => Confirmation(),
       Payment.id: (context) => Payment(),
     },

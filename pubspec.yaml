@@ -27,6 +27,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  queries: ^0.1.12
+  flutter_multi_carousel: ^1.0.1
 
 
 # For information on the generic Dart part of this file, see the
