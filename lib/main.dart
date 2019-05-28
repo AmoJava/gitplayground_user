@@ -1,23 +1,29 @@
+//27/5/2019
+//بسم الله الرحمن الرحيم
+
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main(){
-  runApp(new MaterialApp(
-    home: login(),
+import 'package:playground_user/auth/Login.dart';
+import 'package:playground_user/playgroundlist.dart';
+import 'ConfirmationPage.dart';
+import 'Payment.dart';
+import 'Reservationpage.dart';
+import 'auth/Wellcome.dart';
+import 'auth/Signup.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: spalsh_screen(),
+    routes: {
+      Login.id: (context) => Login(),
+      SignUp.id: (context) => SignUp(),
+      PlayGroundList.id: (context) => PlayGroundList(),
+      ReservationPage.id: (context) => ReservationPage(),
+      Confirmation.id: (context) => Confirmation(),
+      Payment.id: (context) => Payment(),
+    },
   ));
-
 }
-
-class login extends StatefulWidget {
-  @override
-  _loginState createState() => _loginState();
-}
-
-class _loginState extends State<login> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
-
