@@ -7,6 +7,7 @@ class ReservationPage extends StatefulWidget {
 }
 
 class _ReservationPageState extends State<ReservationPage> {
+var mycolor = Colors.white ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +38,32 @@ class _ReservationPageState extends State<ReservationPage> {
               width: MediaQuery.of(context).size.width,
               height: 250,
               color: Colors.red,
-              child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-              )),
-            )
+              child: GridView.count(crossAxisCount: 6,children: List.generate(24, (index) {
+                return Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Center(
+                    child: GestureDetector(
+                            onTap: (){
+                              print(index);
+                              setState(() {
+                                mycolor =Colors.green;
+                              });
+                            },
+
+                      child: Container(
+                        decoration: BoxDecoration(color: mycolor,shape: BoxShape.circle),
+                        child: Center(
+                          child: Text(
+                            ' ${index}',
+                            style: Theme.of(context).textTheme.headline,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ))
           ],
         ),
       ),
