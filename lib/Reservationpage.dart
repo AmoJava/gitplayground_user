@@ -82,7 +82,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       indexX = index;
                       return HourElement(
                         num: index,
-                        isNotReservedBefore: true,
+                        isNotReservedBefore: false,
                       );
                     }),
                   )),
@@ -134,6 +134,7 @@ class _HourElementState extends State<HourElement> {
       child: Center(
         child: GestureDetector(
           onTap: () {
+            if (isNotReservedBefore==true){
             print(hourIndex);
             tapedItems.add(hourIndex);
             selectedItems = Collection(tapedItems).distinct().toList();
@@ -151,7 +152,7 @@ class _HourElementState extends State<HourElement> {
             //reservationColor=Colors.green;
             //isNotReservedBefore=true ;
 
-
+            }
 
 
             switch (isNotReservedBefore) {
