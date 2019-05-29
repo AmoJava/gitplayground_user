@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 
+import 'ConfirmationPage.dart';
 
 class ReservationPage extends StatefulWidget {
   static const String id = "reservationPage";
   String pgname;
-  ReservationPage(this.pgname);
+  ReservationPage({this.pgname});
   @override
   _ReservationPageState createState() => _ReservationPageState(pgname);
 }
@@ -60,12 +61,9 @@ class _ReservationPageState extends State<ReservationPage> {
                         fontSize: 18,
                         fontWeight: FontWeight.w900),
                   ),
-                  IconButton(icon: Icon(Icons.calendar_today), onPressed: () {
-
-                  })
+                  IconButton(icon: Icon(Icons.calendar_today), onPressed: () {})
                 ],
               )),
-
               Container(
                   width: MediaQuery.of(context).size.width,
                   height: 260,
@@ -81,8 +79,14 @@ class _ReservationPageState extends State<ReservationPage> {
                       );
                     }),
                   )),
-
-              FlatButton(onPressed: () {}, child: Text("تأكيد الحجز",style: TextStyle(color: Colors.green,fontWeight: FontWeight.bold),))
+              FlatButton(
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Confirmation())),
+                  child: Text(
+                    "تأكيد الحجز",
+                    style: TextStyle(
+                        color: Colors.green, fontWeight: FontWeight.bold),
+                  ))
             ],
           ),
         ),
@@ -129,24 +133,24 @@ class _HourElementState extends State<HourElement> {
       child: Center(
         child: GestureDetector(
           onTap: () {
+            if (isNotReservedBefore == true) {
+              print(hourIndex);
+              tapedItems.add(hourIndex);
+              selectedItems = Collection(tapedItems).distinct().toList();
+              print(tapedItems);
+              print(selectedItems.toList());
 
-            if (isNotReservedBefore==true){
-            print(hourIndex);
-            tapedItems.add(hourIndex);
-            selectedItems = Collection(tapedItems).distinct().toList();
-            print(tapedItems);
-            print(selectedItems.toList());
-
-            var snack = SnackBar(duration: Duration(seconds: 2),
-                backgroundColor: Colors.blue,
-                content: Text(
-                  "you have select ${selectedItems.toString()} ",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ));
-            Scaffold.of(context).showSnackBar(snack);
-            //reservationColor=Colors.green;
-            //isNotReservedBefore=true ;
+              var snack = SnackBar(
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Colors.blue,
+                  content: Text(
+                    "you have select ${selectedItems.toString()} ",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ));
+              Scaffold.of(context).showSnackBar(snack);
+              //reservationColor=Colors.green;
+              //isNotReservedBefore=true ;
 
             }
 
@@ -176,7 +180,6 @@ class _HourElementState extends State<HourElement> {
                 }
                 break;
             }
-
           },
           onDoubleTap: () {
             if (isNotReservedBefore == true) {
@@ -191,10 +194,13 @@ class _HourElementState extends State<HourElement> {
                   tapedItems = [];
                 }
               });
-              var snack = SnackBar(duration: Duration(seconds: 2),
+              var snack = SnackBar(
+                  duration: Duration(seconds: 2),
                   backgroundColor: Colors.blue,
                   content: Text(
-                    selectedItems.isEmpty? "لم تحدد اي ساعه":"you have select ${selectedItems.toString()} ",
+                    selectedItems.isEmpty
+                        ? "لم تحدد اي ساعه"
+                        : "you have select ${selectedItems.toString()} ",
                     textAlign: TextAlign.left,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ));

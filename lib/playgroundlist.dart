@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'Reservationpage.dart';
@@ -15,35 +16,45 @@ class _PlayGroundListState extends State<PlayGroundList> {
     return Scaffold(
         body: Padding(
             padding: EdgeInsets.only(top: 10),
-            child: ListView.builder(
-              itemCount: names.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReservationPage(names[index])),
-                    ),
-                    child: PgItem(
-                      name: names[index],
-                    ));
-              },
-            )));
-  }
-}
+            child: Container(
+              color: Colors.white30,
+              child: StreamBuilder(
+                  stream: Firestore.instance.collection('pgs').snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                          child: Text(
+                        " Loading play grounds .... ",
+                        style: TextStyle(fontSize: 25),
+                      ));
+                    }
+                    return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot caseSnapshot =
+                              snapshot.data.documents[index];
 
-class PgItem extends StatelessWidget {
-  String name;
-  PgItem({this.name});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 50,
-      child: Card(
-        elevation: 2,
-        color: Colors.green.shade300,
-        child: Center(child: Text("  $name")),
-      ),
-    );
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ReservationPage(
+                                            pgname: "${caseSnapshot["name"]}",
+                                          ))),
+                              child: Card(
+                                elevation: 2,
+                                color: Colors.green.shade300,
+                                child: Center(
+                                    child: Text("  ${caseSnapshot["name"]}")),
+                              ),
+                            ),
+                          );
+                        });
+                  }),
+            )));
   }
 }
