@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../playgroundlist.dart';
 import 'Signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class Login extends StatefulWidget {
@@ -14,6 +16,24 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final FirebaseAuth _auth=FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn=new GoogleSignIn();
+
+  Future<FirebaseUser> _signIn()async{
+    GoogleSignInAccount googleSignInAccount=await googleSignIn.signIn();
+    GoogleSignInAuthentication gsa=await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: gsa.accessToken,
+      idToken: gsa.idToken,
+    );
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+    print("username:${user.displayName}");
+    return user;
+
+  }
+
+
+
   final TextStyle textstyle =
   TextStyle(color: Colors.black87, fontWeight: FontWeight.bold);
   final InputDecoration decoration = InputDecoration(
@@ -75,19 +95,15 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    decoration: decoration,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    decoration: decoration,
-                  ),
+
+
                   SizedBox(
                     height: 15,
                   ),
                 FlatButton(onPressed: (){
+                  _signIn().then((FirebaseUser user)=>print(user)).catchError((e)=>print(e));
+
+
                   Navigator.pushNamed(context, PlayGroundList.id);
                 }, child: Container(
                   color: Colors.red,
