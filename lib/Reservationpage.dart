@@ -2,22 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 
-String highlevel ;
 
 class ReservationPage extends StatefulWidget {
   static const String id = "reservationPage";
-
   String pgname;
-
   ReservationPage(this.pgname);
-
   @override
   _ReservationPageState createState() => _ReservationPageState(pgname);
 }
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-
   String pgname;
 
   int indexX;
@@ -134,6 +129,7 @@ class _HourElementState extends State<HourElement> {
       child: Center(
         child: GestureDetector(
           onTap: () {
+
             if (isNotReservedBefore==true){
             print(hourIndex);
             tapedItems.add(hourIndex);
@@ -153,7 +149,6 @@ class _HourElementState extends State<HourElement> {
             //isNotReservedBefore=true ;
 
             }
-
 
             switch (isNotReservedBefore) {
               case true:
