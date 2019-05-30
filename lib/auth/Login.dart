@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../playgroundlist.dart';
 import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,7 +102,7 @@ class _LoginState extends State<Login> {
                           style: textstyle,
                         ),
                       )),
-                  MaterialButton(
+                  MaterialButton(onPressed: handleSignin,
                     color: Colors.blue,
                     minWidth: 160,
                     child: Text(
@@ -125,4 +126,51 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future handleSignin() async {
+
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+    await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+
+    print("signed in " + user.displayName);
+
+    if (user != null) {
+      final QuerySnapshot result = await Firestore.instance
+          .collection("users")
+          .where("id", isEqualTo: user.uid)
+          .getDocuments();
+
+      final List<DocumentSnapshot> documents = result.documents;
+      if (documents.length == 0) {
+        Firestore.instance.collection("users").document(user.uid).setData({
+          "id": user.uid,
+          "username": user.displayName,
+          "profilepic": user.photoUrl
+        });
+
+      } else {
+
+      }
+
+      Fluttertoast.showToast(msg: "Wellcome ${user.displayName}");
+
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => PlayGroundList()));
+    } else {
+      Fluttertoast.showToast(msg: "Login failed :(");
+    }
+  }
 }
+

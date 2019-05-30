@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "674672174620-11ie4v16ofp5fvqk0agvt33fa7qek3ja.apps.googleusercontent.com",
+          "client_id": "674672174620-rjtir5io4fn1gmtqr522lb74i6t2bb3t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "amo.app.com.playground_user",
-            "certificate_hash": "5780645f5aa77d313a40c8af85df58ae8995d623"
+            "certificate_hash": "58b112ee0d79d0f6d6c005f34f7849206f6972a4"
+          }
+        },
+        {
+          "client_id": "674672174620-bbtuahutmro3iaqv82i7djt3jjssfmjj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "amo.app.com.playground_user",
+            "certificate_hash": "cdf876faf58e55905938caf36499148826f1fbce"
           }
         },
         {
