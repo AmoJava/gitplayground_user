@@ -8,6 +8,7 @@ import '../playgroundlist.dart';
 import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class Login extends StatefulWidget {
   static const String id = "login";
@@ -18,6 +19,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
+  FacebookLogin fblogin=new FacebookLogin();
+
+
 
   Future<FirebaseUser> _signIn() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -28,8 +32,11 @@ class _LoginState extends State<Login> {
     );
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("username:${user.displayName}");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => PlayGroundList()));
 
     return user;
+
   }
 
   final TextStyle textstyle =
@@ -75,6 +82,37 @@ class _LoginState extends State<Login> {
                     size: 190,
                   ),
                   RaisedButton(
+                    onPressed: (){
+
+                      fblogin.logInWithReadPermissions(['email','public_profile']).then((result){
+
+                        switch(result.status){
+
+
+                          case FacebookLoginStatus.loggedIn:
+                            AuthCredential credential = FacebookAuthProvider.getCredential(accessToken:result.accessToken.token);
+
+                            FirebaseAuth.instance.signInWithCredential(credential);
+                            Navigator.pushReplacement(
+                                context, MaterialPageRoute(builder: (context) => PlayGroundList()));
+
+
+
+                            FirebaseAuth.instance.signInWithCredential(credential);
+                            // TODO: Handle this case.
+                            break;
+                          case FacebookLoginStatus.cancelledByUser:
+                            // TODO: Handle this case.
+                            break;
+                          case FacebookLoginStatus.error:
+                            // TODO: Handle this case.
+                            break;
+                        }
+
+                      }).catchError((e){
+                        print(e);
+                      });
+                    },
                     color: Colors.blue,
                     child: Text(
                       'Facebook',
@@ -93,12 +131,11 @@ class _LoginState extends State<Login> {
                             .then((FirebaseUser user) => print(user))
                             .catchError((e) => print(e));
 
-                        Navigator.pushNamed(context, PlayGroundList.id);
                       },
                       child: Container(
                         color: Colors.red,
                         child: Text(
-                          'Google',
+                          'facebook',
                           style: textstyle,
                         ),
                       )),
@@ -106,7 +143,7 @@ class _LoginState extends State<Login> {
                     color: Colors.blue,
                     minWidth: 160,
                     child: Text(
-                      'Facebook',
+                      'gmail',
                       style: textstyle,
                     ),
                   ),
