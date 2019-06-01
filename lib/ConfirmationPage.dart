@@ -40,7 +40,7 @@ addReservationtodb(){
       .collection('pgs')
       .document("fifa")
       .collection("30 May")
-      .document("h11")
+      .document("h4")
       .setData(addReservedHour);
   print("upload done");
 }

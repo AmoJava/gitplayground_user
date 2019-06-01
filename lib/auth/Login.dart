@@ -82,6 +82,7 @@ class _LoginState extends State<Login> {
                     size: 190,
                   ),
                   RaisedButton(
+
                     onPressed: (){
 
                       fblogin.logInWithReadPermissions(['email','public_profile']).then((result){

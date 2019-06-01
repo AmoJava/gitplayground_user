@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:playground_user/Payment.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 
@@ -68,20 +70,32 @@ class _ReservationPageState extends State<ReservationPage> {
                   width: MediaQuery.of(context).size.width,
                   height: 260,
                   color: Colors.white,
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: 6,
-                    children: List.generate(24, (index) {
-                      indexX = index;
-                      return HourElement(
-                        num: index,
-                        isNotReservedBefore: false,
-                      );
-                    }),
+                  child: StreamBuilder(
+                        stream: Firestore.instance.collection("pgs").document("fifa").collection('30 May').snapshots(),
+                        builder: (BuildContext context,  snapshot) {
+                        if (!snapshot.hasData) {
+                        return Center(child: const Text('Loading events...'));
+                        }
+
+                              return GridView.builder(
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+                              shrinkWrap: true,
+                              itemCount: 24,
+                              itemBuilder: (BuildContext context, int index) {
+                              var gg = snapshot.data.documents[index]['isReserved'];
+
+                              return HourElement(
+                              num: index,
+                              isNotReservedBefore: snapshot.hasError ? gg : false,
+                              );
+                              },
+
+                              );}
                   )),
               FlatButton(
                   onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Confirmation())),
+                      MaterialPageRoute(builder: (context) => Payment())),
                   child: Text(
                     "تأكيد الحجز",
                     style: TextStyle(
