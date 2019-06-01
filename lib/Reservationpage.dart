@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:playground_user/Payment.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
+import 'dart:async';
 
 import 'ConfirmationPage.dart';
 
@@ -15,6 +16,24 @@ class ReservationPage extends StatefulWidget {
 }
 
 class _ReservationPageState extends State<ReservationPage> {
+  DateTime _date=new DateTime.now();
+  TimeOfDay _time=new TimeOfDay.now();
+
+  Future<Null> _selectDate(BuildContext context)async{
+    final DateTime picked=await showDatePicker(context: context,
+        initialDate: _date,
+        firstDate: new DateTime(2018),
+        lastDate:new DateTime(2020));
+    if(picked!=null&&picked!=_date){
+      print("date selcted:${_date.toString()}");
+      setState(() {
+        _date=picked;
+      });
+
+    }
+  }
+
+
   _ReservationPageState(this.pgname);
   String pgname;
 
@@ -57,11 +76,17 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    " Today  1 May ",
+                    "${_date.toString()}",
                     style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  new RaisedButton(
+                    child: Text("selectTime"),
+                    onPressed: (){
+                      _selectDate(context);
+                    },
                   ),
                   IconButton(icon: Icon(Icons.calendar_today), onPressed: () {})
                 ],
