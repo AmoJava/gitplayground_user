@@ -83,11 +83,11 @@ class _ReservationPageState extends State<ReservationPage> {
                               shrinkWrap: true,
                               itemCount: 24,
                               itemBuilder: (BuildContext context, int index) {
-                              var gg = snapshot.data.documents[index]['isReserved'];
+                              var reservation_bool = snapshot.data.documents[index]['isReserved'];
 
                               return HourElement(
                               num: index,
-                              isNotReservedBefore: snapshot.hasError ? gg : false,
+                              isNotReservedBefore: reservation_bool,
                               );
                               },
 
