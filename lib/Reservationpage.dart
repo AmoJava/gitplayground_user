@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:playground_user/Payment.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
@@ -17,12 +16,13 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   DateTime _date=new DateTime.now();
-  TimeOfDay _time=new TimeOfDay.now();
+
+  //TimeOfDay _time=new TimeOfDay.now();
 
   Future<Null> _selectDate(BuildContext context)async{
     final DateTime picked=await showDatePicker(context: context,
         initialDate: _date,
-        firstDate: new DateTime(2018),
+        firstDate: new DateTime(2019),
         lastDate:new DateTime(2020));
     if(picked!=null&&picked!=_date){
       print("date selcted:${_date.toString()}");
@@ -82,13 +82,15 @@ class _ReservationPageState extends State<ReservationPage> {
                         fontSize: 10,
                         fontWeight: FontWeight.w600),
                   ),
-                  new RaisedButton(
+                  /*new RaisedButton(
                     child: Text("selectTime"),
                     onPressed: (){
                       _selectDate(context);
                     },
-                  ),
-                  IconButton(icon: Icon(Icons.calendar_today), onPressed: () {})
+                  ),*/
+                  IconButton(icon: Icon(Icons.calendar_today), onPressed: () {
+                    _selectDate(context);
+                  })
                 ],
               )),
               Container(
@@ -96,10 +98,12 @@ class _ReservationPageState extends State<ReservationPage> {
                   height: 260,
                   color: Colors.white,
                   child: StreamBuilder(
-                        stream: Firestore.instance.collection("pgs").document("fifa").collection('30 May').snapshots(),
+                      stream: Firestore.instance.collection("pgs").document(
+                          "ahly").collection('1 june').snapshots(),
                         builder: (BuildContext context,  snapshot) {
-                        if (!snapshot.hasData) {
+                          if (!snapshot.hasData) {
                         return Center(child: const Text('Loading events...'));
+
                         }
 
                               return GridView.builder(
@@ -108,8 +112,14 @@ class _ReservationPageState extends State<ReservationPage> {
                               shrinkWrap: true,
                               itemCount: 24,
                               itemBuilder: (BuildContext context, int index) {
-                              var reservation_bool = snapshot.data.documents[index]['isReserved'];
-
+                                int numby = snapshot.data.documents.length;
+                                var reservation_bool = snapshot.data
+                                    .documents[index]['isReserved'];
+                                /*if (snapshot.hasData){
+                                reservation_bool ;
+                                }else
+                                  reservation_bool=true ;
+                                      for (int i=0 ; i <25 ; i++)*/
                               return HourElement(
                               num: index,
                               isNotReservedBefore: reservation_bool,
@@ -119,8 +129,10 @@ class _ReservationPageState extends State<ReservationPage> {
                               );}
                   )),
               FlatButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Payment())),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => Confirmation()));
+                  },
                   child: Text(
                     "تأكيد الحجز",
                     style: TextStyle(
@@ -132,6 +144,7 @@ class _ReservationPageState extends State<ReservationPage> {
       ),
     );
   }
+
 }
 
 class HourElement extends StatefulWidget {
@@ -183,7 +196,8 @@ class _HourElementState extends State<HourElement> {
                   duration: Duration(seconds: 2),
                   backgroundColor: Colors.blue,
                   content: Text(
-                    "you have select ${selectedItems.toString()} ",
+                    "لقد قمت بتحديد الساعه ${selectedItems
+                        .toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
                     textAlign: TextAlign.left,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ));

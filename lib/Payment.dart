@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'Reservationpage.dart';
-
 
 class Payment extends StatefulWidget {
   static const String id = "Paymemt";

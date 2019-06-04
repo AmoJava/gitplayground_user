@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -145,14 +144,6 @@ class _LoginState extends State<Login> {
                     minWidth: 160,
                     child: Text(
                       'gmail',
-                      style: textstyle,
-                    ),
-                  ),
-                  MaterialButton(
-                    color: Colors.orange,
-                    minWidth: 160,
-                    child: Text(
-                      'E-mail',
                       style: textstyle,
                     ),
                   ),

@@ -11,20 +11,31 @@ class spalsh_screen extends StatefulWidget {
 
 class _spalsh_screenState extends State<spalsh_screen> {
   @override
-
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 10),()=>Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),));
+
+    Timer(
+        Duration(seconds: 6),
+            () =>
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor:Colors.yellow.shade500,
-      body: Center(child:
-      Image.asset("assets/alex-462576-unsplash.jpg",height: 1500,),),
+      //backgroundColor:Colors.yellow.shade500,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                    "assets/alex-462576-unsplash.jpg"
+                ), fit: BoxFit.fill)),
+      ),
     );
   }
 }
-
-
