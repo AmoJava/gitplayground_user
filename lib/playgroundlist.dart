@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:playground_user/newresPage.dart';
+import 'package:playground_user/PlayGroundAdmin.dart';
 
 import 'Reservationpage.dart';
 
@@ -43,7 +43,8 @@ class _PlayGroundListState extends State<PlayGroundList> {
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ReservationPage(
+                                      builder: (context) =>
+                                          PgAdmin(
                                             pgname: "${caseSnapshot["name"]}",
                                           ))),
                               child: Card(

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../PlayGroundAdmin.dart';
 import '../playgroundlist.dart';
 import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -144,6 +145,18 @@ class _LoginState extends State<Login> {
                     minWidth: 160,
                     child: Text(
                       'gmail',
+                      style: textstyle,
+                    ),
+                  ),
+                  MaterialButton(onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => PgAdmin()));
+                  },
+                    color: Colors.green,
+                    minWidth: 160,
+                    child: Text(
+                      'playGround admin',
                       style: textstyle,
                     ),
                   ),
