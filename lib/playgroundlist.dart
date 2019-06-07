@@ -44,7 +44,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PgAdmin(
+                                          ReservationPage(
                                             pgname: "${caseSnapshot["name"]}",
                                           ))),
                               child: Card(
