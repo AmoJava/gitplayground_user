@@ -128,16 +128,25 @@ class _ReservationPageState extends State<ReservationPage> {
 
                               );}
                   )),
-              FlatButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => Confirmation()));
-                  },
-                  child: Text(
-                    "تأكيد الحجز",
-                    style: TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold),
-                  ))
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text("سعر الساعة 120"),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: FlatButton(
+                  color: Colors.yellow,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => Confirmation()));
+                    },
+                    child: Text(
+                      "تأكيد الحجز",
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold),
+                    )),
+              )
             ],
           ),
         ),
