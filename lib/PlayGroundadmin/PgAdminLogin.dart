@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'AdminCpanal.dart';
-import 'AdmiinManualReservation.dart';
 
 class PgLogin extends StatelessWidget {
   @override
