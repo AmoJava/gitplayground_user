@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../PlayGroundAdmin.dart';
-import '../playgroundlist.dart';
+import 'package:playground_user/User/UserProfile.dart';
+import 'package:playground_user/User/playgroundlist.dart';
+import 'package:playground_user/PlayGroundadmin/PlayGroundAdmin.dart';
 import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,9 +20,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
-  FacebookLogin fblogin=new FacebookLogin();
-
-
+  FacebookLogin fblogin = new FacebookLogin();
 
   Future<FirebaseUser> _signIn() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -33,10 +32,9 @@ class _LoginState extends State<Login> {
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("username:${user.displayName}");
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => PlayGroundList()));
+        context, MaterialPageRoute(builder: (context) => UserProfile()));
 
     return user;
-
   }
 
   final TextStyle textstyle =
@@ -81,51 +79,28 @@ class _LoginState extends State<Login> {
                   FlutterLogo(
                     size: 190,
                   ),
-                  RaisedButton(
-
-                    onPressed: (){
-
-                      fblogin.logInWithReadPermissions(['email','public_profile']).then((result){
-
-                        switch(result.status){
-
-
-                          case FacebookLoginStatus.loggedIn:
-                            AuthCredential credential = FacebookAuthProvider.getCredential(accessToken:result.accessToken.token);
-
-                            FirebaseAuth.instance.signInWithCredential(credential);
-                            Navigator.pushReplacement(
-                                context, MaterialPageRoute(builder: (context) => PlayGroundList()));
-
-
-
-                            FirebaseAuth.instance.signInWithCredential(credential);
-                            // TODO: Handle this case.
-                            break;
-                          case FacebookLoginStatus.cancelledByUser:
-                            // TODO: Handle this case.
-                            break;
-                          case FacebookLoginStatus.error:
-                            // TODO: Handle this case.
-                            break;
-                        }
-
-                      }).catchError((e){
-                        print(e);
-                      });
-                    },
-                    color: Colors.blue,
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text("log in with ,, "),
+                  SizedBox(height: 3,),
+                  MaterialButton(
+                    onPressed: handleSignin,
+                    color: Colors.red,
+                    minWidth: 160,
                     child: Text(
-                      'Facebook',
+                      'gmail',
                       style: textstyle,
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 3,
                   ),
+                  Text('or'),
                   SizedBox(
-                    height: 15,
+                    height: 3,
                   ),
+                  /*
                   FlatButton(
                       onPressed: () {
                         _signIn()
@@ -139,20 +114,57 @@ class _LoginState extends State<Login> {
                           'facebook',
                           style: textstyle,
                         ),
-                      )),
-                  MaterialButton(onPressed: handleSignin,
-                    color: Colors.blue,
+                      )),*/
+                  MaterialButton(
                     minWidth: 160,
+                    onPressed: () {
+                      fblogin.logInWithReadPermissions(
+                          ['email', 'public_profile']).then((result) {
+                        switch (result.status) {
+                          case FacebookLoginStatus.loggedIn:
+                            AuthCredential credential =
+                            FacebookAuthProvider.getCredential(
+                                accessToken: result.accessToken.token);
+
+                            FirebaseAuth.instance
+                                .signInWithCredential(credential);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserProfile()));
+
+                            FirebaseAuth.instance
+                                .signInWithCredential(credential);
+                            // TODO: Handle this case.
+                            break;
+                          case FacebookLoginStatus.cancelledByUser:
+                          // TODO: Handle this case.
+                            break;
+                          case FacebookLoginStatus.error:
+                          // TODO: Handle this case.
+                            break;
+                        }
+                      }).catchError((e) {
+                        print(e);
+                      });
+                    },
+                    color: Colors.blue,
                     child: Text(
-                      'gmail',
+                      'Facebook',
                       style: textstyle,
                     ),
-                  ),
-                  MaterialButton(onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => PgAdmin()));
-                  },
+                  ), SizedBox(height: 10,),
+                  MaterialButton(
+                    height: 20,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PgAdmin(
+                                    pgname: "ahly",
+                                  )));
+                    },
                     color: Colors.green,
                     minWidth: 160,
                     child: Text(
@@ -173,7 +185,6 @@ class _LoginState extends State<Login> {
   //final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future handleSignin() async {
-
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
     await googleUser.authentication;
@@ -200,19 +211,14 @@ class _LoginState extends State<Login> {
           "username": user.displayName,
           "profilepic": user.photoUrl
         });
-
-      } else {
-
-      }
+      } else {}
 
       Fluttertoast.showToast(msg: "Wellcome ${user.displayName}");
 
-
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => PlayGroundList()));
+          context, MaterialPageRoute(builder: (context) => UserProfile()));
     } else {
       Fluttertoast.showToast(msg: "Login failed :(");
     }
   }
 }
-

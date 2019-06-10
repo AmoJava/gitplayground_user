@@ -4,7 +4,7 @@ import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
 
-import 'ConfirmationPage.dart';
+import 'package:playground_user/User/ConfirmationPage.dart';
 
 class ReservationPage extends StatefulWidget {
   static const String id = "reservationPage";
@@ -99,7 +99,7 @@ class _ReservationPageState extends State<ReservationPage> {
                   color: Colors.white,
                   child: StreamBuilder(
                       stream: Firestore.instance.collection("pgs").document(
-                          "ahly").collection('1 june').snapshots(),
+                          "ahly").collection('2 june').snapshots(),
                         builder: (BuildContext context,  snapshot) {
                           if (!snapshot.hasData) {
                         return Center(child: const Text('Loading events...'));
@@ -181,11 +181,35 @@ class _HourElementState extends State<HourElement> {
     tapedItems = [];
     selectedItems = [];
 
-    if (isNotReservedBefore == true) {
-      reservationColor = Colors.green;
-    } else
-      reservationColor = Colors.red;
+
+    switch (isNotReservedBefore) {
+      case true :
+        {
+          reservationColor = Colors.lightGreenAccent;
+        }
+        break;
+
+      case false :
+        {
+          reservationColor = Colors.redAccent;
+        }
+        break;
+
+
+      default:
+        {
+          reservationColor = Colors.green;
+        }
+        break;
+    }
   }
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

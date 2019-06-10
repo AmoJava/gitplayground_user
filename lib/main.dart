@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:playground_user/auth/Login.dart';
-import 'package:playground_user/playgroundlist.dart';
-import 'ConfirmationPage.dart';
-import 'Payment.dart';
+import 'package:playground_user/User/ConfirmationPage.dart';
+import 'package:playground_user/User/Payment.dart';
+import 'User/playgroundlist.dart';
 import 'auth/Wellcome.dart';
 import 'auth/Signup.dart';
 

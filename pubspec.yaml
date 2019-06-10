@@ -36,6 +36,9 @@ dev_dependencies:
   intl: ^0.15.8
   fluttertoast: ^3.0.4
   flutter_facebook_login: ^2.0.1
+  flutter_datetime_picker: ^1.2.1
+  giffy_dialog: ^1.3.0
+
 
 
 

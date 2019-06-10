@@ -16,7 +16,7 @@ class _spalsh_screenState extends State<spalsh_screen> {
     super.initState();
 
     Timer(
-        Duration(seconds: 6),
+        Duration(seconds: 3),
             () =>
             Navigator.push(
               context,

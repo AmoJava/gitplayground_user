@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:playground_user/PlayGroundAdmin.dart';
+import 'package:playground_user/PlayGroundadmin/PlayGroundAdmin.dart';
+import 'package:playground_user/User/Reservationpage.dart';
 
-import 'Reservationpage.dart';
 
 class PlayGroundList extends StatefulWidget {
   static const String id = "pglist";
@@ -33,7 +33,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
                         physics: BouncingScrollPhysics(),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
-                          DocumentSnapshot caseSnapshot =
+                          DocumentSnapshot pgSnapshot =
                               snapshot.data.documents[index];
 
                           return Container(
@@ -45,13 +45,13 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           ReservationPage(
-                                            pgname: "${caseSnapshot["name"]}",
+                                            pgname: "${pgSnapshot["name"]}",
                                           ))),
                               child: Card(
                                 elevation: 2,
                                 color: Colors.green.shade300,
                                 child: Center(
-                                    child: Text("  ${caseSnapshot["name"]}")),
+                                    child: Text("  ${pgSnapshot["name"]}")),
                               ),
                             ),
                           );
