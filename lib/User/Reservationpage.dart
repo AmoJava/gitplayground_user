@@ -112,7 +112,6 @@ class _ReservationPageState extends State<ReservationPage> {
                               shrinkWrap: true,
                               itemCount: 24,
                               itemBuilder: (BuildContext context, int index) {
-                                int numby = snapshot.data.documents.length;
                                 var reservation_bool = snapshot.data
                                     .documents[index]['isReserved'];
                                 /*if (snapshot.hasData){

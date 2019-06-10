@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:playground_user/PlayGroundadmin/PgAdminLogin.dart';
 import 'package:playground_user/User/UserProfile.dart';
 import 'package:playground_user/User/playgroundlist.dart';
-import 'package:playground_user/PlayGroundadmin/PlayGroundAdmin.dart';
+import 'package:playground_user/PlayGroundadmin/AdmiinManualReservation.dart';
 import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -161,9 +162,9 @@ class _LoginState extends State<Login> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  PgAdmin(
-                                    pgname: "ahly",
-                                  )));
+                              /**/
+                              PgLogin()
+                          ));
                     },
                     color: Colors.green,
                     minWidth: 160,

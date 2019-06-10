@@ -2,25 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:playground_user/%D9%8DService/getDates.dart';
-import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
-import 'dart:async';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
-import 'package:playground_user/User/ConfirmationPage.dart';
 
 import 'package:playground_user/ٍService/addDataTofirestore.dart';
 
-class PgAdmin extends StatefulWidget {
+class AdmiinManualReservation extends StatefulWidget {
   String pgname;
 
-  PgAdmin({this.pgname});
+  AdmiinManualReservation({this.pgname});
 
   @override
-  _PgAdminState createState() => _PgAdminState(pgname);
+  _AdmiinManualReservationState createState() =>
+      _AdmiinManualReservationState(pgname);
 }
 
-class _PgAdminState extends State<PgAdmin> {
+class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
   bool isSelected;
   var reservationColor;
   static List tapedItems;
@@ -28,6 +26,7 @@ class _PgAdminState extends State<PgAdmin> {
   String hourStateColor;
 
   @override
+  // ignore: must_call_super
   void initState() {
     tapedItems = [];
     selectedItems = [];
@@ -35,7 +34,7 @@ class _PgAdminState extends State<PgAdmin> {
 
   var _date = getDateofdaywithoutHH();
 
-  _PgAdminState(this.pgname);
+  _AdmiinManualReservationState(this.pgname);
 
   String pgname;
 
@@ -77,8 +76,8 @@ class _PgAdminState extends State<PgAdmin> {
                     "${_date.toString()}",
                     style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                   /*new RaisedButton(
                     child: Text("selectTime"),
@@ -135,7 +134,6 @@ class _PgAdminState extends State<PgAdmin> {
                             shrinkWrap: true,
                             itemCount: 24,
                             itemBuilder: (BuildContext context, int index) {
-                              int numby = snapshot.data.documents.length;
 
                               /* var reservation_bool =
                                   snapshot.data.documents[index]['isReserved'];*/
