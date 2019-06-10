@@ -77,14 +77,21 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FlutterLogo(
-                    size: 190,
+                  Image.network(
+                    "https://media.giphy.com/media/l3vQWvLXw74jemGoU/giphy.gif",
+                    width: double.infinity,
+                    height: 230,
+                    fit: BoxFit.fitWidth,
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 30,
                   ),
-                  Text("log in with ,, "),
-                  SizedBox(height: 3,),
+                  Text("log in with ,, ", style: TextStyle(fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),),
+                  SizedBox(
+                    height: 3,
+                  ),
                   MaterialButton(
                     onPressed: handleSignin,
                     color: Colors.red,
@@ -95,11 +102,11 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(
-                    height: 3,
+                    height: 2,
                   ),
                   Text('or'),
                   SizedBox(
-                    height: 3,
+                    height: 2,
                   ),
                   /*
                   FlatButton(
@@ -154,17 +161,15 @@ class _LoginState extends State<Login> {
                       'Facebook',
                       style: textstyle,
                     ),
-                  ), SizedBox(height: 10,),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   MaterialButton(
                     height: 20,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              /**/
-                              PgLogin()
-                          ));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => PgLogin()));
                     },
                     color: Colors.green,
                     minWidth: 160,
