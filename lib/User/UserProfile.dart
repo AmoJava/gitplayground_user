@@ -37,7 +37,7 @@ class _UserProfileState extends State<UserProfile> {
                 },
                 child: Container(
                     color: Colors.lightGreen,
-                    height: 80,
+                    height: 120,
                     child: Center(
                         child: Text(
                       "احجز ملعب",
@@ -56,7 +56,7 @@ class _UserProfileState extends State<UserProfile> {
                 },
                 child: Container(
                     color: Colors.indigoAccent,
-                    height: 80,
+                    height: 120,
                     child: Center(
                         child: Text(
                       "تزاكر حجوزاتك",
