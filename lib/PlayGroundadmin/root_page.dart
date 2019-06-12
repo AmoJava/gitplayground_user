@@ -41,6 +41,7 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((user){
       setState(() {
         _userId = user.uid.toString();
+
       });
     });
     setState(() {
@@ -79,7 +80,7 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new pgAdminCpanal();
+          return new pgAdminCpanal(uid: "$_userId",);
         } else return _buildWaitingScreen();
         break;
       default:

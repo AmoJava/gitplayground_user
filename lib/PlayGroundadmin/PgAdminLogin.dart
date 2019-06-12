@@ -2,15 +2,7 @@ import 'package:flutter/material.dart';
 import 'authentication.dart';
 import 'root_page.dart';
 
-
 import 'AdminCpanal.dart';
-
-
-
-
-
-
-
 
 class PgLogin extends StatefulWidget {
   PgLogin({this.auth, this.onSignedIn});
@@ -40,6 +32,7 @@ class PgLoginState extends State<PgLogin> {
 
 
   // Check if form is valid before perform login or signup
+
   bool _validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
@@ -65,6 +58,7 @@ class PgLoginState extends State<PgLogin> {
           userId = await widget.auth.signUp(_email, _password);
           widget.auth.sendEmailVerification();
           _showVerifyEmailSentDialog();
+
           print('Signed up user: $userId');
         }
         setState(() {
@@ -122,22 +116,10 @@ class PgLoginState extends State<PgLogin> {
         body:
 
 
-
-
-
-
-
-
-
-
-
-
             Column(
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-
-
 
                     _showBody(),
                     _showCircularProgress(),
@@ -146,20 +128,8 @@ class PgLoginState extends State<PgLogin> {
 
                 ),
 
-
               ],
             ),
-
-
-
-
-
-
-
-
-
-
-
 
     );
   }

@@ -20,10 +20,12 @@ class AdmiinManualReservation extends StatefulWidget {
 
 class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
   bool isSelected;
+
   var reservationColor;
+  String hourStateColor;
+
   static List tapedItems;
   static List selectedItems;
-  String hourStateColor;
 
   @override
   // ignore: must_call_super
@@ -50,24 +52,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
         child: Container(
           child: Column(
             children: <Widget>[
-              Carousel(
-                  axis: Axis.horizontal,
-                  indicatorType: "dot",
-                  showIndicator: true,
-                  height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  type: "simple",
-                  children: [
-                    Image.asset(
-                      'assets/pg1.jpg',
-                      fit: BoxFit.fill,
-                    ),
-                    Image.asset('assets/pg2.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg3.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg4.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg5.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg6.jpg', fit: BoxFit.fill),
-                  ]),
+
               Center(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +131,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                               switch (hourStateColor) {
                                 case "green":
                                   {
-                                    reservationColor = Colors.lightGreenAccent;
+                                    reservationColor = Colors.lightGreen;
                                   }
                                   break;
 
@@ -219,7 +204,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                       print("done from h$index + " " $_date");
                                     },
                                     child: Container(
-                                      height: 40,
+                                      height: 50,
                                       decoration: BoxDecoration(
                                           color: reservationColor,
                                           shape: BoxShape.circle),
@@ -228,7 +213,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                           "$index",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 15),
+                                              fontSize: 25),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),

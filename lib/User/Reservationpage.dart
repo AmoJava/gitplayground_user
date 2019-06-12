@@ -26,12 +26,6 @@ class _ReservationPageState extends State<ReservationPage> {
   static List tapedItems;
   static List selectedItems;
 
-  @override
-  void initState() {
-    tapedItems = [];
-    selectedItems = [];
-  }
-
   var date = new DateTime.now();
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -52,7 +46,14 @@ class _ReservationPageState extends State<ReservationPage> {
   }
 
   @override
+  void initState() {
+    tapedItems = [];
+    selectedItems = [];
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var selectionColor = Colors.transparent;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -83,22 +84,22 @@ class _ReservationPageState extends State<ReservationPage> {
                   ]),
               Center(
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    DateFormat('dd MMM yyyy ').format(date),
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      onPressed: () {
-                        _selectDate(context);
-                      })
-                ],
-              )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        DateFormat('dd MMM yyyy ').format(date),
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      IconButton(
+                          icon: Icon(Icons.calendar_today),
+                          onPressed: () {
+                            _selectDate(context);
+                          })
+                    ],
+                  )),
               Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
@@ -129,7 +130,7 @@ class _ReservationPageState extends State<ReservationPage> {
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
                               snapshot.data.documents[index]['color'];
-                              bool selectionbool = false;
+                              //bool selectionbool = false;
 
                               switch (reservation_color) {
                                 case "green":
@@ -154,38 +155,45 @@ class _ReservationPageState extends State<ReservationPage> {
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Center(
-                                  child: GestureDetector(
-
+                                  child: InkWell(
                                     child: Container(
-                                      height: 60,
-
-                                      color: selectionbool == false ? Colors
-                                          .white : Colors.black,
-
-                                      child: Container(
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            color: selectionbool == false
-                                                ? reservationColor
-                                                : Colors.blue,
-                                            shape: BoxShape.circle),
-                                        child: Center(
-                                          child: Text(
-                                            "$index",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 25),
-                                            textAlign: TextAlign.center,
+                                      height: 70,
+                                      color: selectionColor,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                              color: reservationColor,
+                                              shape: BoxShape.circle),
+                                          child: Center(
+                                            child: Text(
+                                              "$index",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                     onTap: () {
+                                      print("color changed");
+                                      selectionColor = Colors.pink;
+                                      setState(() {
+                                        selectionColor = Colors.pink;
+                                        print("color changed from set state ");
+                                      });
+                                      print(selectionColor);
+                                    }
+/*                                    onTap: () {
                                       switch (reservation_color) {
                                         case 'green':
                                           {
                                             setState(() {
-                                              selectionbool = true;
+                                              selectionColor = Colors.pink;
                                             });
                                             print(index);
                                             tapedItems.add(index);
@@ -251,7 +259,8 @@ class _ReservationPageState extends State<ReservationPage> {
                                           }
                                           break;
                                       }
-                                    },
+                                    }*/
+                                    ,
                                     onDoubleTap: () {
                                       if (reservation_color == 'green') {
                                         tapedItems.remove(index);
@@ -275,8 +284,8 @@ class _ReservationPageState extends State<ReservationPage> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ));
-                                        Scaffold.of(context).showSnackBar(
-                                            snack);
+                                        Scaffold.of(context)
+                                            .showSnackBar(snack);
                                       }
                                     },
                                   ),
@@ -313,7 +322,6 @@ class _ReservationPageState extends State<ReservationPage> {
     );
   }
 }
-
 
 /*
 class HourElement extends StatefulWidget {
@@ -363,7 +371,6 @@ class _HourElementState extends State<HourElement> {
 }
 
 */
-
 
 /*showDialog(
                                           context: context,
