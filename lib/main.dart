@@ -20,7 +20,7 @@ void main() {
       SignUp.id: (context) => SignUp(),
       PlayGroundList.id: (context) => PlayGroundList(),
       //ReservationPage.id: (context) => ReservationPage(),
-      Confirmation.id: (context) => Confirmation(),
+       //Confirmation.id: (context) => Confirmation(),
       Payment.id: (context) => Payment(),
     },
   ));

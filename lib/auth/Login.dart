@@ -75,10 +75,9 @@ class _LoginState extends State<Login> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fitHeight, repeat: ImageRepeat.repeatX,
-                  image: NetworkImage(
-                    "https://media.giphy.com/media/l3vQWvLXw74jemGoU/giphy.gif",)
+                image: AssetImage("assets/intro.gif",)
                 //  "https://media.giphy.com/media/ckXTbeFGygcMiuh8pr/giphy.gif")
-              )),
+                , /*colorFilter:ColorFilter.linearToSrgbGamma() */)),
           child: Container(width: double.infinity,
             child: Column(
               children: <Widget>[

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:intl/intl.dart';
+import 'package:playground_user/%D9%8DService/addDataTofirestore.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
@@ -15,31 +18,38 @@ class ReservationPage extends StatefulWidget {
 }
 
 class _ReservationPageState extends State<ReservationPage> {
-  DateTime _date=new DateTime.now();
+  _ReservationPageState(this.pgname);
 
-  //TimeOfDay _time=new TimeOfDay.now();
+  String pgname;
+  var reservationColor;
+  String hourStateColor;
+  static List tapedItems;
+  static List selectedItems;
 
-  Future<Null> _selectDate(BuildContext context)async{
-    final DateTime picked=await showDatePicker(context: context,
-        initialDate: _date,
-        firstDate: new DateTime(2019),
-        lastDate:new DateTime(2020));
-    if(picked!=null&&picked!=_date){
-      print("date selcted:${_date.toString()}");
-      setState(() {
-        _date=picked;
-      });
-
-    }
+  @override
+  void initState() {
+    tapedItems = [];
+    selectedItems = [];
   }
 
+  var date = new DateTime.now();
 
-  _ReservationPageState(this.pgname);
-  String pgname;
+  Future<Null> _selectDate(BuildContext context) async {
+    tapedItems = [];
+    selectedItems = [];
 
-  int indexX;
-
-  var mycolor = Colors.white;
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: new DateTime(2019),
+        lastDate: new DateTime(2020));
+    if (picked != null && picked != date) {
+      print("date selcted:${date.toString()}");
+      setState(() {
+        date = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,72 +86,222 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "${_date.toString()}",
+                    DateFormat('dd MMM yyyy ').format(date),
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 10,
                         fontWeight: FontWeight.w600),
                   ),
-                  /*new RaisedButton(
-                    child: Text("selectTime"),
-                    onPressed: (){
-                      _selectDate(context);
-                    },
-                  ),*/
-                  IconButton(icon: Icon(Icons.calendar_today), onPressed: () {
-                    _selectDate(context);
-                  })
+                  IconButton(
+                      icon: Icon(Icons.calendar_today),
+                      onPressed: () {
+                        _selectDate(context);
+                      })
                 ],
               )),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 260,
                   color: Colors.white,
                   child: StreamBuilder(
-                      stream: Firestore.instance.collection("pgs").document(
-                          "ahly").collection('2 june').snapshots(),
-                        builder: (BuildContext context,  snapshot) {
-                          if (!snapshot.hasData) {
-                        return Center(child: const Text('Loading events...'));
+                      stream: Firestore.instance
+                          .collection("pgs")
+                          .document("damana")
+                          .collection(DateFormat('dd MMM yyyy').format(date))
+                          .orderBy('index', descending: false)
+                          .snapshots(),
+                      builder: (BuildContext context, snapshot) {
+                        bool selecteditem = false;
+                        if (!snapshot.hasData) {
+                          return Center(child: const Text('Loading events...'));
+                        } else if (snapshot.data.documents.length < 24) {
+                          for (int x = 0; x < 24; x++) {
+                            addReservationtodb(
+                                x, DateFormat('dd MMM yyyy').format(date));
+                          }
+                          return Center(child: const Text('creating data...'));
+                        } else
+                          return GridView.builder(
+                            gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 6),
+                            shrinkWrap: true,
+                            itemCount: 24,
+                            itemBuilder: (BuildContext context, int index) {
+                              var reservation_color =
+                              snapshot.data.documents[index]['color'];
+                              bool selectionbool = false;
 
-                        }
+                              switch (reservation_color) {
+                                case "green":
+                                  {
+                                    reservationColor = Colors.lightGreen;
+                                  }
+                                  break;
 
-                              return GridView.builder(
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
-                              shrinkWrap: true,
-                              itemCount: 24,
-                              itemBuilder: (BuildContext context, int index) {
-                                var reservation_bool = snapshot.data
-                                    .documents[index]['isReserved'];
-                                /*if (snapshot.hasData){
-                                reservation_bool ;
-                                }else
-                                  reservation_bool=true ;
-                                      for (int i=0 ; i <25 ; i++)*/
-                              return HourElement(
-                              num: index,
-                              isNotReservedBefore: reservation_bool,
+                                case "red":
+                                  {
+                                    reservationColor = Colors.redAccent;
+                                  }
+                                  break;
+
+                                case "yellow":
+                                  {
+                                    reservationColor = Colors.yellowAccent;
+                                  }
+                                  break;
+                              }
+
+                              return Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Center(
+                                  child: GestureDetector(
+
+                                    child: Container(
+                                      height: 60,
+
+                                      color: selectionbool == false ? Colors
+                                          .white : Colors.black,
+
+                                      child: Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            color: selectionbool == false
+                                                ? reservationColor
+                                                : Colors.blue,
+                                            shape: BoxShape.circle),
+                                        child: Center(
+                                          child: Text(
+                                            "$index",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      switch (reservation_color) {
+                                        case 'green':
+                                          {
+                                            setState(() {
+                                              selectionbool = true;
+                                            });
+                                            print(index);
+                                            tapedItems.add(index);
+                                            selectedItems =
+                                                Collection(tapedItems)
+                                                    .distinct()
+                                                    .toList();
+                                            print(tapedItems);
+                                            print(selectedItems.toList());
+
+                                            var snack = SnackBar(
+                                                duration: Duration(seconds: 2),
+                                                backgroundColor: Colors.blue,
+                                                content: Text(
+                                                  "لقد قمت بتحديد الساعه ${selectedItems
+                                                      .toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight
+                                                          .bold),
+                                                ));
+                                            Scaffold.of(context).showSnackBar(
+                                                snack);
+                                          }
+                                          break;
+                                        case 'red':
+                                          {
+                                            setState(() {
+                                              var snack = SnackBar(
+                                                  backgroundColor: Colors.red,
+                                                  content: Text(
+                                                    "هذه الساعه محجوزه مسبقا ",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight
+                                                            .bold),
+                                                  ));
+                                              Scaffold.of(context).showSnackBar(
+                                                  snack);
+                                            });
+                                          }
+                                          break;
+                                        case 'yellow':
+                                          {
+                                            setState(() {
+                                              var snack = SnackBar(
+                                                  backgroundColor: Colors
+                                                      .yellow,
+                                                  content: Text(
+                                                    "هذه الساعه محجوزه مؤقتا بانتظار الدفع ",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight
+                                                            .bold),
+                                                  ));
+                                              Scaffold.of(context).showSnackBar(
+                                                  snack);
+                                            });
+                                          }
+                                          break;
+                                      }
+                                    },
+                                    onDoubleTap: () {
+                                      if (reservation_color == 'green') {
+                                        tapedItems.remove(index);
+                                        selectedItems.remove(index);
+
+                                        print(selectedItems);
+                                        setState(() {
+                                          if (selectedItems.isEmpty) {
+                                            tapedItems = [];
+                                          }
+                                        });
+                                        var snack = SnackBar(
+                                            duration: Duration(seconds: 2),
+                                            backgroundColor: Colors.blue,
+                                            content: Text(
+                                              selectedItems.isEmpty
+                                                  ? "لم تحدد اي ساعه"
+                                                  : "you have select ${selectedItems
+                                                  .toString()} ",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ));
+                                        Scaffold.of(context).showSnackBar(
+                                            snack);
+                                      }
+                                    },
+                                  ),
+                                ),
                               );
-                              },
-
-                              );}
-                  )),
+                            },
+                          );
+                      })),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text("سعر الساعة 120"),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: FlatButton(
-                  color: Colors.yellow,
+                    color: Colors.yellow,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => Confirmation()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Confirmation(selectedItems)));
                     },
                     child: Text(
-                      "تأكييد الحجز",
+                      "تأكيد الحجز",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
@@ -152,13 +312,13 @@ class _ReservationPageState extends State<ReservationPage> {
       ),
     );
   }
-
-
-
-
 }
 
+
+/*
 class HourElement extends StatefulWidget {
+  var reservationColor;
+  String hourStateColor;
   HourElement({this.num, this.isNotReservedBefore});
   int num;
   bool isNotReservedBefore;
@@ -174,43 +334,6 @@ class _HourElementState extends State<HourElement> {
 
   bool isNotReservedBefore;
   bool isSelected;
-  var reservationColor;
-  static List tapedItems;
-  static List selectedItems;
-
-  @override
-  void initState() {
-    tapedItems = [];
-    selectedItems = [];
-
-
-    switch (isNotReservedBefore) {
-      case true :
-        {
-          reservationColor = Colors.lightGreenAccent;
-        }
-        break;
-
-      case false :
-        {
-          reservationColor = Colors.redAccent;
-        }
-        break;
-
-
-      default:
-        {
-          reservationColor = Colors.green;
-        }
-        break;
-    }
-  }
-
-
-
-
-
-
 
 
   @override
@@ -219,82 +342,8 @@ class _HourElementState extends State<HourElement> {
       padding: const EdgeInsets.all(2.0),
       child: Center(
         child: GestureDetector(
-          onTap: () {
-            if (isNotReservedBefore == true) {
-              print(hourIndex);
-              tapedItems.add(hourIndex);
-              selectedItems = Collection(tapedItems).distinct().toList();
-              print(tapedItems);
-              print(selectedItems.toList());
 
-              var snack = SnackBar(
-                  duration: Duration(seconds: 2),
-                  backgroundColor: Colors.blue,
-                  content: Text(
-                    "لقد قمت بتحديد الساعه ${selectedItems
-                        .toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ));
-              Scaffold.of(context).showSnackBar(snack);
-              //reservationColor=Colors.green;
-              //isNotReservedBefore=true ;
 
-            }
-
-            switch (isNotReservedBefore) {
-              case true:
-                {
-                  setState(() {
-                    reservationColor = Colors.blue;
-                    isSelected = true;
-                  });
-                }
-                break;
-              case false:
-                {
-                  setState(() {
-                    var snack = SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text(
-                          "هذه الساعه محجوزه مسبقا ",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ));
-                    Scaffold.of(context).showSnackBar(snack);
-                    //reservationColor=Colors.green;
-                    //isNotReservedBefore=true ;
-                  });
-                }
-                break;
-            }
-          },
-          onDoubleTap: () {
-            if (isNotReservedBefore == true) {
-              tapedItems.remove(hourIndex);
-              selectedItems.remove(hourIndex);
-              //print(tapedItems);
-              //print(Collection(tapedItems).distinct().toList());
-              print(selectedItems);
-              setState(() {
-                reservationColor = Colors.green;
-                if (selectedItems.isEmpty) {
-                  tapedItems = [];
-                }
-              });
-              var snack = SnackBar(
-                  duration: Duration(seconds: 2),
-                  backgroundColor: Colors.blue,
-                  content: Text(
-                    selectedItems.isEmpty
-                        ? "لم تحدد اي ساعه"
-                        : "you have select ${selectedItems.toString()} ",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ));
-              Scaffold.of(context).showSnackBar(snack);
-            }
-          },
           child: Container(
             height: 40,
             decoration:
@@ -312,3 +361,37 @@ class _HourElementState extends State<HourElement> {
     );
   }
 }
+
+*/
+
+
+/*showDialog(
+                                          context: context,
+                                          builder: (_) => NetworkGiffyDialog(
+                                              image: Image.network(
+                                                "https://media.giphy.com/media/1BGQuBhcLua8DWuE7h/giphy.gif",
+                                                fit: BoxFit.fitHeight,
+                                              ),
+                                              title: Text('رساله تأكيديه',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 22.0,
+                                                      fontWeight:
+                                                      FontWeight.w600)),
+                                              description: Text(
+                                                  "هل تريد تأكيد غلق هذه الساعه امام المستخدمين"),
+                                              onOkButtonPressed: () {
+                                                Firestore.instance
+                                                    .collection('pgs')
+                                                    .document("damana")
+                                                    .collection(DateFormat('dd MMM yyyy').format(date))
+                                                    .document("h$index")
+                                                    .updateData({
+                                                  'color': 'red',
+                                                  'reservedby': 'admin'
+                                                });
+
+                                                print("done from h$index + "
+                                                    " ${DateFormat('dd MMM yyyy').format(date)}");
+                                                Navigator.of(context).pop();
+                                              }));*/

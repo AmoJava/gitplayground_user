@@ -3,11 +3,18 @@ import 'package:playground_user/User/Fawry.dart';
 
 class Confirmation extends StatefulWidget {
   static const String id = "Confirmation";
+  var selecteditems;
+
+  Confirmation(this.selecteditems);
   @override
-  _ConfirmationState createState() => _ConfirmationState();
+  _ConfirmationState createState() => _ConfirmationState(selecteditems);
 }
 
 class _ConfirmationState extends State<Confirmation> {
+  var selecteditems;
+
+  _ConfirmationState(this.selecteditems);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +24,7 @@ class _ConfirmationState extends State<Confirmation> {
           children: <Widget>[
             Center(
                 child: Text(
-                  "لقد قمت بحجز الساعه  10 يوم 30 يونيو ",
+                  " لقد قمت بحجز الساعه   $selecteditems ",
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.indigo,
