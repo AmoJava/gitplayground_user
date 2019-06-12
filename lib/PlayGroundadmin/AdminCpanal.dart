@@ -20,7 +20,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
   String pgname = "";
   String uid;
 
-  void _fetchpgname() {
+  void _fetchdata() {
     DocumentReference ref =
     Firestore.instance.collection("Admins").document(uid);
     ref.get().then((datasnapshot) {
@@ -34,7 +34,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
 
   @override
   void initState() {
-    _fetchpgname();
+    _fetchdata();
   }
 
   @override
