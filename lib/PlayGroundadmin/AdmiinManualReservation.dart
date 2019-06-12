@@ -98,7 +98,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                   child: StreamBuilder(
                       stream: Firestore.instance
                           .collection("pgs")
-                          .document("damana")
+                          .document("$pgname")
                           .collection('$_date')
                           .orderBy('index', descending: false)
                           .snapshots(),
@@ -177,7 +177,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                               onOkButtonPressed: () {
                                                 Firestore.instance
                                                     .collection('pgs')
-                                                    .document("damana")
+                                                    .document("$pgname")
                                                     .collection("$_date")
                                                     .document("h$index")
                                                     .updateData({
@@ -193,7 +193,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                     onLongPress: () {
                                       Firestore.instance
                                           .collection('pgs')
-                                          .document("damana")
+                                          .document("$pgname")
                                           .collection("$_date")
                                           .document("h$index")
                                           .updateData({
@@ -245,4 +245,29 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
       ),
     );
   }
+
+  addReservationtodb(int inty, String date) {
+    Map<String, dynamic> addReservedHour = {
+      'color': 'green',
+      'index': inty,
+      //'userName': "amo",
+      //'userID': "Ghgffgfg211fgfgfgfgfgfg",
+      //'userEmail': "ph.ahmedmohsin@gmai.com",
+      //"userProfilePic":"httppp/gjgjhgjhgjhg",
+      //'dateOfReservation': "${getDateofnow()}",
+      'isReserved': true,
+      //"paymentConfirmed" : true ,
+      //"paymentMethod": "visa",
+      //"operationNumber": 2121512121212442
+    };
+
+    Firestore.instance
+        .collection('pgs')
+        .document("$pgname")
+        .collection("$date")
+        .document("h$inty")
+        .setData(addReservedHour);
+    print("upload done");
+  }
+
 }
