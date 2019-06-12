@@ -141,7 +141,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           builder: (context) => Confirmation()));
                     },
                     child: Text(
-                      "تأكيد الحجز",
+                      "تأكييد الحجز",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
@@ -152,6 +152,9 @@ class _ReservationPageState extends State<ReservationPage> {
       ),
     );
   }
+
+
+
 
 }
 

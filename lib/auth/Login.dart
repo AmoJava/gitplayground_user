@@ -11,6 +11,8 @@ import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:playground_user/PlayGroundadmin/root_page.dart';
+import 'package:playground_user/PlayGroundadmin/authentication.dart';
 
 class Login extends StatefulWidget {
   static const String id = "login";
@@ -187,7 +189,7 @@ class _LoginState extends State<Login> {
                     height: 20,
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => PgLogin()));
+                          MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
                     },
                     color: Colors.grey,
                     minWidth: 100,
@@ -246,3 +248,4 @@ class _LoginState extends State<Login> {
     }
   }
 }
+
