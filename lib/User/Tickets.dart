@@ -10,7 +10,15 @@ class _TicketsState extends State<Tickets> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('هنا ستظهر التزاكرالخاصه بالعضو '),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('لا توجد لديك تذاكـر حاليا ',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),),
+            Text(' :( ',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),),
+
+          ],
+        ),
       ),
     );
   }

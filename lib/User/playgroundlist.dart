@@ -13,12 +13,17 @@ class _PlayGroundListState extends State<PlayGroundList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("الملاعب المتاحه"), backgroundColor: Colors.lightGreen,),
+          title: Text("الملاعب المتاحه"),
+          backgroundColor: Colors.lightGreen,
+        ),
         body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/pglist.jpg'), fit: BoxFit.cover)),
           child: Padding(
               padding: EdgeInsets.only(top: 10),
               child: Container(
-                color: Colors.white30,
+                color: Colors.white10,
                 child: StreamBuilder(
                     stream: Firestore.instance.collection('pgs').snapshots(),
                     builder: (context, snapshot) {
@@ -37,6 +42,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
                             snapshot.data.documents[index];
 
                             return Container(
+
                               width: MediaQuery
                                   .of(context)
                                   .size
@@ -53,14 +59,14 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                                 ))),
                                 child: Card(
                                   elevation: 2,
-                                  color: Colors.green.shade100,
+                                  color: Colors.transparent,
                                   child: Center(
                                       child: Row(
                                         children: <Widget>[
-
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: CircleAvatar(radius: 35,
+                                            child: CircleAvatar(
+                                              radius: 35,
                                               backgroundImage: NetworkImage(
                                                   "${pgSnapshot["pgpic"]}"),
                                             ),
@@ -74,7 +80,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                                     "  ${pgSnapshot["name"]}",
                                                     style: TextStyle(
                                                         fontSize: 30,
-                                                        color: Colors.black,
+                                                        color: Colors.white,
                                                         fontWeight: FontWeight
                                                             .w900),
                                                   ),
@@ -82,7 +88,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                                     "  ${pgSnapshot["address"]}",
                                                     style: TextStyle(
                                                         fontSize: 15,
-                                                        color: Colors.black,
+                                                        color: Colors.white,
                                                         fontWeight: FontWeight
                                                             .w100),
                                                   ),

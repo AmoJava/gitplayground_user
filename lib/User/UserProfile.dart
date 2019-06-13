@@ -13,21 +13,21 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/ubg.jpg'), fit: BoxFit.cover)),
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            /*Text(
               "أهلا أحمد",
               style: TextStyle(
                   fontSize: 25,
                   color: Colors.pink,
                   fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
+            ),*/
             FlatButton(
                 onPressed: () {
                   Navigator.push(
@@ -36,16 +36,20 @@ class _UserProfileState extends State<UserProfile> {
                           builder: (context) => PlayGroundList()));
                 },
                 child: Container(
-                    color: Colors.lightGreen,
-                    height: 120,
+                    decoration: ShapeDecoration(
+                        color: Colors.lightGreen,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0))),
+                    width: 280,
+                    height: 80,
                     child: Center(
                         child: Text(
-                      "احجز ملعب",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )))),
+                          "احجز ملعب",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )))),
             SizedBox(
               height: 5,
             ),
@@ -55,16 +59,21 @@ class _UserProfileState extends State<UserProfile> {
                       MaterialPageRoute(builder: (context) => Tickets()));
                 },
                 child: Container(
-                    color: Colors.indigoAccent,
-                    height: 120,
+                    decoration: ShapeDecoration(
+                        color: Colors.green,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0))),
+                    width: 280,
+                    //color: Colors.indigoAccent,
+                    height: 80,
                     child: Center(
                         child: Text(
-                      "تزاكر حجوزاتك",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )))),
+                          "تزاكر حجوزاتك",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )))),
           ],
         ),
       ),

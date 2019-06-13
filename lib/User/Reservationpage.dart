@@ -179,6 +179,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                         ),
                                       ),
                                     ),
+                                    /*
                                     onTap: () {
                                       print("color changed");
                                       selectionColor = Colors.pink;
@@ -187,8 +188,8 @@ class _ReservationPageState extends State<ReservationPage> {
                                         print("color changed from set state ");
                                       });
                                       print(selectionColor);
-                                    }
-/*                                    onTap: () {
+                                    }*/
+                                    onTap: () {
                                       switch (reservation_color) {
                                         case 'green':
                                           {
@@ -259,7 +260,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                           }
                                           break;
                                       }
-                                    }*/
+                                    }
                                     ,
                                     onDoubleTap: () {
                                       if (reservation_color == 'green') {
