@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                /*Container(
+                Container(
                   alignment: Alignment.centerRight,
                   child: MaterialButton(
                     height: 20,
@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
                       style: textstyle,
                     ),
                   ),
-                ),*/
+                ),
               ],
             ),
           ),
