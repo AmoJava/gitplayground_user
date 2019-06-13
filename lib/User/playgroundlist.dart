@@ -19,7 +19,7 @@ class _PlayGroundListState extends State<PlayGroundList> {
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/pglist.jpg'), fit: BoxFit.cover)),
+                  image: AssetImage('assets/pglist.jpg'), fit: BoxFit.fill)),
           child: Padding(
               padding: EdgeInsets.only(top: 10),
               child: Container(
