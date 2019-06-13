@@ -27,6 +27,27 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
   static List tapedItems;
   static List selectedItems;
 
+  var date = new DateTime.now();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    tapedItems = [];
+    selectedItems = [];
+
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: new DateTime(2019),
+        lastDate: new DateTime(2020));
+    if (picked != null && picked != date) {
+      print("date selcted:${date.toString()}");
+      setState(() {
+        date = picked;
+      });
+    }
+  }
+
+
+
   @override
   // ignore: must_call_super
   void initState() {
@@ -58,7 +79,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "${_date.toString()}",
+                    DateFormat('dd MMM yyyy ').format(date),
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20,
@@ -73,9 +94,9 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                   IconButton(
                       icon: Icon(Icons.calendar_today),
                       onPressed: () {
-                        //  _selectDate(context);
+                        _selectDate(context);
 
-                        DatePicker.showDatePicker(context,
+                        /*DatePicker.showDatePicker(context,
                             showTitleActions: true,
                             minTime: DateTime(2019, 6, 7),
                             maxTime: DateTime(2019, 7, 15), onChanged: (date) {
@@ -88,7 +109,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                             _date = dateFormat;
                           });
                           print('confirm $date');
-                        }, currentTime: DateTime.now(), locale: LocaleType.ar);
+                        }, currentTime: DateTime.now(), locale: LocaleType.ar);*/
                       })
                 ],
               )),
@@ -99,7 +120,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                       stream: Firestore.instance
                           .collection("pgs")
                           .document("$pgname")
-                          .collection('$_date')
+                          .collection(DateFormat('dd MMM yyyy').format(date))
                           .orderBy('index', descending: false)
                           .snapshots(),
                       builder: (BuildContext context, snapshot) {
@@ -107,7 +128,8 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {
                           for (int x = 0; x < 24; x++) {
-                            addReservationtodb(x, '$_date');
+                            addReservationtodb(
+                                x, DateFormat('dd MMM yyyy').format(date));
                           }
 
                           return Center(child: const Text('creating data...'));
@@ -178,15 +200,15 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                 Firestore.instance
                                                     .collection('pgs')
                                                     .document("$pgname")
-                                                    .collection("$_date")
+                                                    .collection(
+                                                    DateFormat('dd MMM yyyy')
+                                                        .format(date))
                                                     .document("h$index")
                                                     .updateData({
                                                   'color': 'red',
                                                   'reservedby': 'admin'
                                                 });
 
-                                                print("done from h$index + "
-                                                    " $_date");
                                                 Navigator.of(context).pop();
                                               }));
                                     },
@@ -194,14 +216,18 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                       Firestore.instance
                                           .collection('pgs')
                                           .document("$pgname")
-                                          .collection("$_date")
+                                          .collection(
+                                          DateFormat('dd MMM yyyy').format(
+                                              date))
                                           .document("h$index")
                                           .updateData({
                                         'color': 'red',
                                         'reservedby': 'admin'
                                       });
                                       Navigator.pop(context);
-                                      print("done from h$index + " " $_date");
+                                      print(
+                                          "done from h$index + " " ${DateFormat(
+                                              'dd MMM yyyy').format(date)}");
                                     },
                                     child: Container(
                                       height: 50,

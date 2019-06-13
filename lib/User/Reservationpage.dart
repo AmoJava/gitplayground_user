@@ -116,7 +116,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {
                           for (int x = 0; x < 24; x++) {
-                            addReservationtodb(
+                            adduReservationtodb(
                                 x, DateFormat('dd MMM yyyy').format(date));
                           }
                           return Center(child: const Text('creating data...'));
@@ -320,6 +320,30 @@ class _ReservationPageState extends State<ReservationPage> {
         ),
       ),
     );
+  }
+
+  adduReservationtodb(int inty, String date) {
+    Map<String, dynamic> addReservedHour = {
+      'color': 'green',
+      'index': inty,
+      //'userName': "amo",
+      //'userID': "Ghgffgfg211fgfgfgfgfgfg",
+      //'userEmail': "ph.ahmedmohsin@gmai.com",
+      //"userProfilePic":"httppp/gjgjhgjhgjhg",
+      //'dateOfReservation': "${getDateofnow()}",
+      'isReserved': true,
+      //"paymentConfirmed" : true ,
+      //"paymentMethod": "visa",
+      //"operationNumber": 2121512121212442
+    };
+
+    Firestore.instance
+        .collection('pgs')
+        .document("$pgname")
+        .collection("$date")
+        .document("h$inty")
+        .setData(addReservedHour);
+    print("upload done");
   }
 }
 
