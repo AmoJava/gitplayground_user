@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:intl/intl.dart';
-import 'package:playground_user/%D9%8DService/addDataTofirestore.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
@@ -111,7 +109,6 @@ class _ReservationPageState extends State<ReservationPage> {
                           .orderBy('index', descending: false)
                           .snapshots(),
                       builder: (BuildContext context, snapshot) {
-                        bool selecteditem = false;
                         if (!snapshot.hasData) {
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {

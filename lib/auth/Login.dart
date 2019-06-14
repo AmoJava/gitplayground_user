@@ -3,16 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:playground_user/PlayGroundadmin/PgAdminLogin.dart';
 import 'package:playground_user/User/UserProfile.dart';
-import 'package:playground_user/User/playgroundlist.dart';
-import 'package:playground_user/PlayGroundadmin/AdmiinManualReservation.dart';
-import 'Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:playground_user/PlayGroundadmin/root_page.dart';
-import 'package:playground_user/PlayGroundadmin/authentication.dart';
 
 class Login extends StatefulWidget {
   static const String id = "login";
@@ -25,7 +19,7 @@ class _LoginState extends State<Login> {
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   FacebookLogin fblogin = new FacebookLogin();
 
-  Future<FirebaseUser> _signIn() async {
+  /*Future<FirebaseUser> _signIn() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     GoogleSignInAuthentication gsa = await googleSignInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -38,7 +32,7 @@ class _LoginState extends State<Login> {
         context, MaterialPageRoute(builder: (context) => UserProfile()));
 
     return user;
-  }
+  }*/
 
   final TextStyle textstyle =
       TextStyle(color: Colors.black87, fontWeight: FontWeight.bold);
@@ -182,7 +176,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                Container(
+                /*Container(
                   alignment: Alignment.centerRight,
                   child: MaterialButton(
                     height: 20,
@@ -197,7 +191,7 @@ class _LoginState extends State<Login> {
                       style: textstyle,
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
           ),

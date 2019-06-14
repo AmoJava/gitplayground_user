@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:playground_user/%D9%8DService/getDates.dart';
-import 'package:flutter_multi_carousel/carousel.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 
-import 'package:playground_user/ٍService/addDataTofirestore.dart';
 
 class AdmiinManualReservation extends StatefulWidget {
   String pgname;
@@ -55,7 +51,6 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
     selectedItems = [];
   }
 
-  var _date = getDateofdaywithoutHH();
 
   _AdmiinManualReservationState(this.pgname);
 

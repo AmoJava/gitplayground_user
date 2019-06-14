@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:playground_user/auth/Login.dart';
-import 'package:playground_user/User/ConfirmationPage.dart';
 import 'package:playground_user/User/Payment.dart';
 import 'User/playgroundlist.dart';
 import 'auth/Wellcome.dart';
 import 'auth/Signup.dart';
-import 'package:playground_user/PlayGroundadmin/root_page.dart';
-import 'package:playground_user/PlayGroundadmin/authentication.dart';
 
 void main() {
   runApp(MaterialApp(
-
+    debugShowCheckedModeBanner: false,
     initialRoute: "splash",
 
      routes: {

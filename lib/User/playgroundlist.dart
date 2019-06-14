@@ -73,24 +73,22 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                           ),
                                           Container(
                                               child: Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    "  ${pgSnapshot["name"]}",
+                                                    "${pgSnapshot["name"]}",
                                                     style: TextStyle(
-                                                        fontSize: 30,
+                                                        fontSize: 28,
                                                         color: Colors.white,
                                                         fontWeight: FontWeight
-                                                            .w900),
+                                                            .w800),
                                                   ),
                                                   Text(
-                                                    "  ${pgSnapshot["address"]}",
+                                                    "${pgSnapshot["address"]}",
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         color: Colors.white,
                                                         fontWeight: FontWeight
-                                                            .w100),
+                                                            .w300),
                                                   ),
                                                 ],
                                               )),

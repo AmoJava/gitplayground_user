@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'PgAdminLogin.dart';
 import 'authentication.dart';
-import 'home_page.dart';
 import 'AdminCpanal.dart';
 
 class RootPage extends StatefulWidget {
@@ -50,12 +49,12 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
-  void _onSignedOut() {
+  /*void _onSignedOut() {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
     });
-  }
+  }*/
 
   Widget _buildWaitingScreen() {
     return Scaffold(
