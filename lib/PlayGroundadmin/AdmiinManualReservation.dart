@@ -61,7 +61,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("mal3ab$pgname "),
+        title: Text("$pgname "),
         backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
