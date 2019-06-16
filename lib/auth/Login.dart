@@ -15,6 +15,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool loading ;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   FacebookLogin fblogin = new FacebookLogin();
@@ -98,7 +99,45 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 3,
                       ),
-                      MaterialButton(
+                      Container(
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: 35,
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: MaterialButton(
+                                onPressed: () {
+                                  handleSignin();
+                                }
+                                ,
+                                child: Text(
+                                  "Log in",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.teal.shade700,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: loading ?? true,
+                              child: Center(
+                                child: Container(
+                                  color: Colors.white.withOpacity(.7),
+                                  child: CircularProgressIndicator(
+
+                                    valueColor:
+                                    AlwaysStoppedAnimation<Color>(
+                                        Colors.teal),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                      ,MaterialButton(
                         onPressed: handleSignin,
                         color: Colors.red,
                         minWidth: 160,

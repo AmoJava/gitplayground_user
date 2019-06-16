@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "674672174620-derm6ivn2u6kmkcuu2r533tq418tejla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "amo.app.com.playground_user",
+            "certificate_hash": "54c8b2a8539222ce1af98104d8c75428e9271cdb"
+          }
+        },
+        {
           "client_id": "674672174620-rjtir5io4fn1gmtqr522lb74i6t2bb3t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
