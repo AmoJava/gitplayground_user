@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:playground_user/User/Payment.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
@@ -305,7 +306,7 @@ class _ReservationPageState extends State<ReservationPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Confirmation(selectedItems)));
+                              Payment()));
                     },
                     child: Text(
                       "تأكيد الحجز",

@@ -40,6 +40,11 @@ dev_dependencies:
   flutter_datetime_picker: ^1.2.1
   giffy_dialog: ^1.3.0
   firebase_database: ^3.0.2
+  http: ^0.12.0+2
+  crypto: any
+  crypt: ^1.0.7
+
+
 
 
 
