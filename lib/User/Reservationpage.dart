@@ -26,6 +26,7 @@ class _ReservationPageState extends State<ReservationPage> {
   String hourStateColor;
   static List tapedItems;
   static List selectedItems;
+  int month , day ;
 
   Future<void> getUserId ()async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -51,6 +52,9 @@ class _ReservationPageState extends State<ReservationPage> {
       print("date selcted:${date.toString()}");
       setState(() {
         date = picked;
+        month = date.month ;
+        day=date.day;
+
       });
     }
   }
@@ -321,7 +325,7 @@ getUserId();
                           MaterialPageRoute(
                               builder: (context) =>
                                   //Confirmation(pgname: pgname,date: DateFormat('dd MMM yyyy').format(date) ,selecteditems: selectedItems,)));
-                      Payment(uid: userId,umail: usermail,)));
+                      Payment(uid: userId,umail: usermail,day: day,month: month,)));
                     },
                     child: Text(
                       "تأكيد الحجز",

@@ -18,7 +18,8 @@ import 'package:dio/dio.dart';
 class Payment extends StatefulWidget {
   static const String id = "Paymemt";
 String uid , umail ;
-Payment({this.uid,this.umail});
+int month , day ;
+Payment({this.uid,this.umail,this.month,this.day});
   @override
   _PaymentState createState() => _PaymentState();
 }
@@ -28,7 +29,7 @@ getuid(){
 }
 
 class _PaymentState extends State<Payment> {
-  String refNum = "0000033202" ;
+  String refNum  ;
   String merchCode = "1PC8/vkn3GzHnfhDcneBrA==";
   String secureCode = "aa8f660ed9804afdb7daeafdef009829" ;
   String userid , userMail ;
@@ -37,8 +38,8 @@ class _PaymentState extends State<Payment> {
   void initState() {
     userid = widget.uid ;
     userMail = widget.umail ;
-    // pgcode + mobil last 2 num + pgsub + month + day
-    refNum="16610601" ;
+    // pgcode + mobil last 2 num + pgsub + month + day+userid
+    refNum="1661${widget.day}${widget.month}$userid" ;
   }
 
   @override
@@ -52,35 +53,13 @@ class _PaymentState extends State<Payment> {
 
 
           SizedBox(height: 20,),
-          Center(child: FlatButton(onPressed: fetchPost, child: Text("getPost")),),
+
           SizedBox(height: 20,),
 
           Center(child: FlatButton(onPressed:
               (){
 
             Navigator.push(context, MaterialPageRoute(builder: (_)=>nn()));
-/*
-                var  httpClient  =  new  HttpClient();
-                var  uri  =  new  Uri.https('atfawry.fawrystaging.com','/ECommerceWeb/Fawry/payments/status?merchantCode=1PC8/vkn3GzHnfhDcneBrA==&merchantRefNumber=0000003202&signature=927d1875d02ef6b1c1c9e694f1c6c56e4469fce9d6d76a07283d24eb32a950c0');
-                var  request  =  await httpClient.getUrl(uri);
-                var  response  =  await request.close();
-                var  responseBody  =  await response.transform(utf8.decoder).join();
-                print(responseBody);
-                return  responseBody;
-
-*/
-
-            /*        String concatData = merchCode +
-                 refNum+
-                secureCode;
-            List<int> bytes = utf8.encode(concatData);
-            String hash = sha256.convert(bytes).toString();
-            print("hash is $hash");
-            String url ="http://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$refNum&signature=$hash";
-            print(url);
-            http.Response res = await http.get(url);
-            print(jsonDecode(res.body));
-*/
               }, child: Text("check")),),
           Center(
               child: FlatButton(
@@ -94,9 +73,22 @@ class _PaymentState extends State<Payment> {
                     List<int> bytes = utf8.encode(concatData);
                     String hash = sha256.convert(bytes).toString();
                     print("hash is $hash");
+
                     var today = new DateTime.now();
-                    var expirationDate = today.add(new Duration(hours: 1));
+                    var expirationDate = today.add(new Duration(hours: 1)).toUtc().millisecondsSinceEpoch;
                     print(expirationDate);
+
+
+                    // expire date that will be sent to the mobile of user
+                    var date = DateTime.now();
+                    print('date of now = $date');
+                    print('date of nowEpoch = ${date.toUtc().millisecondsSinceEpoch}');
+                    var dateplushour = date.add(new Duration(hours: 1));
+                    print('date of now = $dateplushour');
+                    print('date of nowEpoch = ${dateplushour.toUtc().millisecondsSinceEpoch}');
+                    var expireDate = dateplushour.toUtc().millisecondsSinceEpoch ;
+
+
                     var url =
                         'https://atfawry.fawrystaging.com//ECommerceWeb/Fawry/payments/charge';
                     Map<String, dynamic> data = {
@@ -109,7 +101,7 @@ class _PaymentState extends State<Payment> {
                       "amount": 25.00,
                       "currencyCode": "EGP",
                       "description": "hello first operation",
-                      "paymentExpiry": 2101201819140,
+                      "paymentExpiry": expireDate,//1561379640000
                       "chargeItems": [
                         {
                           "itemId": "897fa8e81be26df25db592e81c31c",
@@ -218,17 +210,5 @@ class Post {
       statusCode: json['statusCode'],
 
     );
-  }
-}
-Future<Post> fetchPost() async {
-  final response =
-  await http.get('https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=1PC8/vkn3GzHnfhDcneBrA==&merchantRefNumber=0000003202&signature=927d1875d02ef6b1c1c9e694f1c6c56e4469fce9d6d76a07283d24eb32a950c0');
-
-  if (response.statusCode == 200) {
-
-    return Post.fromJson(json.decode(response.body));
-  } else {
-    // If that response was not OK, throw an error.
-    throw Exception('Failed to load post');
   }
 }

@@ -16,7 +16,17 @@ class _payatfawryState extends State<payatfawry> {
             children: <Widget>[
               Card(
                 color: Colors.lightGreen.shade300,
-                child: Container(height: 120,child: Text("طلبك "),),)
+                child: Container(
+                  width: 400,
+                  height: 120,
+                  child: Column(
+                    children: <Widget>[
+                      Text("Ref num   0232563253",style:TextStyle(fontSize: 20 , color: Colors.white),),
+                      Text("Expire date is  3232",style:TextStyle(fontSize: 20 , color: Colors.white))
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -24,4 +34,3 @@ class _payatfawryState extends State<payatfawry> {
     );
   }
 }
-
