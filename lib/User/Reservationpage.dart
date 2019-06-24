@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:playground_user/User/Payment.dart';
@@ -19,22 +18,12 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String userId ;
-  String usermail ;
+
   String pgname;
   var reservationColor;
   String hourStateColor;
   static List tapedItems;
   static List selectedItems;
-
-  Future<void> getUserId ()async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
-    setState(() {
-      userId = user.uid ;
-       usermail = user.email ;
-    });
-  }
 
   var date = new DateTime.now();
 
@@ -59,8 +48,6 @@ class _ReservationPageState extends State<ReservationPage> {
   void initState() {
     tapedItems = [];
     selectedItems = [];
-getUserId();
-
   }
 
   @override
@@ -141,7 +128,6 @@ getUserId();
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
                               snapshot.data.documents[index]['color'];
-
                               //bool selectionbool = false;
 
                               switch (reservation_color) {
@@ -320,8 +306,7 @@ getUserId();
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  //Confirmation(pgname: pgname,date: DateFormat('dd MMM yyyy').format(date) ,selecteditems: selectedItems,)));
-                      Payment(uid: userId,umail: usermail,)));
+                                  Confirmation(selectedItems,DateFormat('dd MMM yyyy').format(date),pgname)));
                     },
                     child: Text(
                       "تأكيد الحجز",
@@ -340,7 +325,6 @@ getUserId();
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
-      'price':120 ,
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
@@ -356,7 +340,7 @@ getUserId();
         .collection('pgs')
         .document("$pgname")
         .collection("$date")
-        .document("h$inty")
+        .document("$inty")
         .setData(addReservedHour);
     print("upload done");
   }
