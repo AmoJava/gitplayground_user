@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:playground_user/User/paybyFawry.dart';
 import 'package:playground_user/User/playgroundlist.dart';
 
 import 'Tickets.dart';
@@ -53,6 +54,28 @@ class _UserProfileState extends State<UserProfile> {
             SizedBox(
               height: 5,
             ),
+            FlatButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => payatfawry()));
+                },
+                child: Container(
+                    decoration: ShapeDecoration(
+                        color: Colors.green,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0))),
+                    width: 280,
+                    //color: Colors.indigoAccent,
+                    height: 80,
+                    child: Center(
+                        child: Text(
+                          "الدفع بواسطه فوري",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )))),
+            SizedBox(height: 5,),
             FlatButton(
                 onPressed: () {
                   Navigator.push(context,

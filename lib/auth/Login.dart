@@ -120,20 +120,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ),
-                            Visibility(
-                              visible: loading ?? true,
-                              child: Center(
-                                child: Container(
-                                  color: Colors.white.withOpacity(.7),
-                                  child: CircularProgressIndicator(
 
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        Colors.teal),
-                                  ),
-                                ),
-                              ),
-                            )
                           ],
                         ),
                       )

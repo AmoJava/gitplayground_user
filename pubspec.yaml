@@ -43,7 +43,7 @@ dev_dependencies:
   http: ^0.12.0+2
   crypto: any
   crypt: ^1.0.7
-
+  dio: ^2.1.7
 
 
 

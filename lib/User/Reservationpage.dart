@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:playground_user/User/Payment.dart';
@@ -18,12 +19,22 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-
+  String userId ;
+  String usermail ;
   String pgname;
   var reservationColor;
   String hourStateColor;
   static List tapedItems;
   static List selectedItems;
+
+  Future<void> getUserId ()async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+      userId = user.uid ;
+       usermail = user.email ;
+    });
+  }
 
   var date = new DateTime.now();
 
@@ -48,6 +59,8 @@ class _ReservationPageState extends State<ReservationPage> {
   void initState() {
     tapedItems = [];
     selectedItems = [];
+getUserId();
+
   }
 
   @override
@@ -128,6 +141,7 @@ class _ReservationPageState extends State<ReservationPage> {
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
                               snapshot.data.documents[index]['color'];
+
                               //bool selectionbool = false;
 
                               switch (reservation_color) {
@@ -306,7 +320,8 @@ class _ReservationPageState extends State<ReservationPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              Payment()));
+                                  //Confirmation(pgname: pgname,date: DateFormat('dd MMM yyyy').format(date) ,selecteditems: selectedItems,)));
+                      Payment(uid: userId,umail: usermail,)));
                     },
                     child: Text(
                       "تأكيد الحجز",
@@ -325,6 +340,7 @@ class _ReservationPageState extends State<ReservationPage> {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
+      'price':120 ,
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",

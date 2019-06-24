@@ -271,6 +271,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
+      'price':120 ,
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
