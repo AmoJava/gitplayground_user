@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:playground_user/User/paybyFawry.dart';
 import 'package:playground_user/User/playgroundlist.dart';
@@ -10,6 +11,25 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  var userId  ;
+  var usermail ;
+
+  Future<void> getUserId ()async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+       userId = user.uid ;
+       usermail = user.email ;
+    });
+  }
+
+
+
+  @override
+  void initState() {
+    getUserId();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +77,7 @@ class _UserProfileState extends State<UserProfile> {
             FlatButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => payatfawry()));
+                      MaterialPageRoute(builder: (context) => payatfawry(userid: userId,)));
                 },
                 child: Container(
                     decoration: ShapeDecoration(

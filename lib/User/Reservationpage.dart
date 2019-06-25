@@ -33,7 +33,7 @@ class _ReservationPageState extends State<ReservationPage> {
 
     setState(() {
       userId = user.uid ;
-       usermail = user.email ;
+      usermail = user.email ;
     });
   }
 
@@ -63,7 +63,7 @@ class _ReservationPageState extends State<ReservationPage> {
   void initState() {
     tapedItems = [];
     selectedItems = [];
-getUserId();
+    getUserId();
 
   }
 
@@ -312,10 +312,6 @@ getUserId();
                           );
                       })),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text("سعر الساعة 120"),
-              ),
-              Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: FlatButton(
                     color: Colors.yellow,
@@ -324,11 +320,27 @@ getUserId();
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  //Confirmation(pgname: pgname,date: DateFormat('dd MMM yyyy').format(date) ,selecteditems: selectedItems,)));
-                      Payment(uid: userId,umail: usermail,day: day,month: month,)));
+                                  Confirmation(selectedItems,DateFormat('dd MMM yyyy').format(date),pgname)));
                     },
                     child: Text(
-                      "تأكيد الحجز",
+                      "confirmation",
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: FlatButton(
+                    color: Colors.yellow,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              Payment(uid: userId,umail: usermail,day: day,month: month,)));
+                    },
+                    child: Text(
+                      "pay",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),

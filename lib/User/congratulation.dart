@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:playground_user/User/UserProfile.dart';
+import 'package:playground_user/User/paybyFawry.dart';
 import 'Tickets.dart';
 
 class Congratulation extends StatelessWidget {
@@ -59,7 +61,7 @@ class Congratulation extends StatelessWidget {
               FlatButton(
                   onPressed: () {
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Tickets()));
+                        MaterialPageRoute(builder: (context) => UserProfile()));
                   },
                   child: Container(
                       alignment: Alignment.center,

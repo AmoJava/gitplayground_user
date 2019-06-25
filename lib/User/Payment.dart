@@ -84,7 +84,7 @@ class _PaymentState extends State<Payment> {
                     print('date of now = $date');
                     print('date of nowEpoch = ${date.toUtc().millisecondsSinceEpoch}');
                     var dateplushour = date.add(new Duration(hours: 1));
-                    print('date of now = $dateplushour');
+                    print('date of nowplushour = $dateplushour');
                     print('date of nowEpoch = ${dateplushour.toUtc().millisecondsSinceEpoch}');
                     var expireDate = dateplushour.toUtc().millisecondsSinceEpoch ;
 
@@ -153,7 +153,10 @@ class _PaymentState extends State<Payment> {
 
                     Firestore.instance.collection('users').document(userid).collection("Transaction")
                         .document(rfn)
-                        .setData({ 'refnum': rfn,
+                        .setData({
+                      'Expired time' : "${date.add(new Duration(hours: 1))}" ,
+                      'hours':'6', // loop for each hour
+                      'refnum': rfn,
                       'pay': "not paid",
                       'pgname':"damana",
                       'day': " 1 june "

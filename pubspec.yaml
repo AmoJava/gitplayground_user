@@ -44,7 +44,7 @@ dev_dependencies:
   crypto: any
   crypt: ^1.0.7
   dio: ^2.1.7
-
+  easy_dialog: ^1.0.4
 
 
 
