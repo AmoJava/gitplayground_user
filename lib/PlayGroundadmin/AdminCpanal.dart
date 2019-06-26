@@ -21,8 +21,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
   String uid;
 
   void _fetchdata() {
-    DocumentReference ref =
-    Firestore.instance.collection("Admins").document(uid);
+    DocumentReference ref = Firestore.instance.collection("Admins").document(uid);
     ref.get().then((datasnapshot) {
       if (datasnapshot.exists) {
         setState(() {
