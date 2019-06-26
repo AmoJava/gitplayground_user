@@ -2,10 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 gryhttp()async{
-  Response response;
-  Dio dio = new Dio();
-  response = await dio.get("https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=1PC8/vkn3GzHnfhDcneBrA==&merchantRefNumber=0000003202&signature=927d1875d02ef6b1c1c9e694f1c6c56e4469fce9d6d76a07283d24eb32a950c0");
-  print(response.data.toString());
 
 }
 
@@ -26,7 +22,33 @@ class _nnState extends State<nn> {
 
     return Scaffold(body:
     Center(child:
-    FlatButton(onPressed: gryhttp, child:Text("cc")),),);
+    Column(
+      children: <Widget>[
+        FlatButton(onPressed: (){
+          var date = DateTime.now();
+
+          print('date of now = $date');
+          print('date of nowEpoch = ${date.toUtc().millisecondsSinceEpoch}');
+          var dateplushour = date.add(new Duration(hours: 1));
+          print('date of now = $dateplushour');
+          var msepoch = dateplushour.toUtc().millisecondsSinceEpoch ;
+          print("print Epoch $msepoch");
+          print('date of nowEpoch = ${dateplushour.toUtc().millisecondsSinceEpoch}');
+          var dateorginal = new DateTime.fromMillisecondsSinceEpoch( msepoch);
+
+          print ("return to orignal date $dateorginal");
+
+        },child: Text("time of now")),
+        FlatButton(onPressed: ()async{
+          Response response;
+          Dio dio = new Dio();
+          response = await dio.get("https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=1PC8/vkn3GzHnfhDcneBrA==&merchantRefNumber=0000003202&signature=927d1875d02ef6b1c1c9e694f1c6c56e4469fce9d6d76a07283d24eb32a950c0");
+          print(response.data.toString());
+
+
+        }, child:Text("cc")),
+      ],
+    ),),);
   }
 
   @override

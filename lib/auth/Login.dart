@@ -98,31 +98,6 @@ class _LoginState extends State<Login> {
                       ),
                       SizedBox(
                         height: 3,
-                      ),
-                      Container(
-                        color: Colors.white,
-                        width: double.infinity,
-                        height: 35,
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                              child: MaterialButton(
-                                onPressed: () {
-                                  handleSignin();
-                                }
-                                ,
-                                child: Text(
-                                  "Log in",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.teal.shade700,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
                       )
                       ,MaterialButton(
                         onPressed: handleSignin,

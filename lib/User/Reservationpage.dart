@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:playground_user/User/Payment.dart';
@@ -18,12 +19,23 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-
+  String userId ;
+  String usermail ;
   String pgname;
   var reservationColor;
   String hourStateColor;
   static List tapedItems;
   static List selectedItems;
+  int month , day ;
+
+  Future<void> getUserId ()async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+      userId = user.uid ;
+      usermail = user.email ;
+    });
+  }
 
   var date = new DateTime.now();
 
@@ -40,6 +52,9 @@ class _ReservationPageState extends State<ReservationPage> {
       print("date selcted:${date.toString()}");
       setState(() {
         date = picked;
+        month = date.month ;
+        day=date.day;
+
       });
     }
   }
@@ -48,6 +63,8 @@ class _ReservationPageState extends State<ReservationPage> {
   void initState() {
     tapedItems = [];
     selectedItems = [];
+    getUserId();
+
   }
 
   @override
@@ -128,6 +145,7 @@ class _ReservationPageState extends State<ReservationPage> {
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
                               snapshot.data.documents[index]['color'];
+
                               //bool selectionbool = false;
 
                               switch (reservation_color) {
@@ -294,10 +312,6 @@ class _ReservationPageState extends State<ReservationPage> {
                           );
                       })),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text("سعر الساعة 120"),
-              ),
-              Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: FlatButton(
                     color: Colors.yellow,
@@ -309,7 +323,24 @@ class _ReservationPageState extends State<ReservationPage> {
                                   Confirmation(selectedItems,DateFormat('dd MMM yyyy').format(date),pgname)));
                     },
                     child: Text(
-                      "تأكيد الحجز",
+                      "confirmation",
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: FlatButton(
+                    color: Colors.yellow,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              Payment(uid: userId,umail: usermail,day: day,month: month,)));
+                    },
+                    child: Text(
+                      "pay",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
@@ -325,6 +356,7 @@ class _ReservationPageState extends State<ReservationPage> {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
+      'price':120 ,
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
@@ -340,7 +372,7 @@ class _ReservationPageState extends State<ReservationPage> {
         .collection('pgs')
         .document("$pgname")
         .collection("$date")
-        .document("$inty")
+        .document("h$inty")
         .setData(addReservedHour);
     print("upload done");
   }
