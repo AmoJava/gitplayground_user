@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:playground_user/User/Fawry.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:queries/collections.dart';
 
 import 'Payment.dart';
 
@@ -17,11 +17,19 @@ class Confirmation extends StatefulWidget {
 }
 
 class _ConfirmationState extends State<Confirmation> {
+
+int sum = 0 ;
+
+
+  List pricelist = [] ;
   List selecteditems;
   var date;
   String pgname;
-
+  static int tp =0 ;
   _ConfirmationState(this.selecteditems, this.date, this.pgname);
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +47,10 @@ class _ConfirmationState extends State<Confirmation> {
         centerTitle: true,
       ),
       body: Container(
-        height: 250,
+        height: 450,
         color: Colors.white,
         child: StreamBuilder(
-            stream: Firestore.instance
-                .collection('/pgs/damana/$date/')
-                .orderBy("index")
-                .snapshots(),
+            stream: Firestore.instance.collection('/pgs/damana/$date/').orderBy("index").snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
@@ -54,6 +59,7 @@ class _ConfirmationState extends State<Confirmation> {
                   style: TextStyle(fontSize: 25),
                 ));
               }
+
               return Container(
                 child: Column(
                   children: <Widget>[
@@ -62,6 +68,13 @@ class _ConfirmationState extends State<Confirmation> {
                       child: ListView.builder(
                           itemCount: selecteditems.length,
                           itemBuilder: (BuildContext context, int index) {
+
+                            int price = snapshot.data.documents[selecteditems[index]]["price"] ;
+
+                            pricelist.add(price);
+
+                            print(pricelist);
+
                             return ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: Colors.red,
@@ -79,7 +92,8 @@ class _ConfirmationState extends State<Confirmation> {
                           }),
                     ),
                     SizedBox(height: 15,),
-                    Text( "total price " ),
+
+                    Text( "total  $tp" ),
                     SizedBox(height: 8,),
                     FlatButton(onPressed: (){
 
@@ -90,120 +104,42 @@ class _ConfirmationState extends State<Confirmation> {
                 ),
               );
 
-              /*
-         Container(child:  ListView.builder(itemCount: selecteditems.length,
-itemBuilder: (BuildContext context,int index){
-return ListTile(
-title: Text(" الساعات المحجوزةبتاريخ  "  +date.toString()+" $pgnameملعب"),
-subtitle:CircleAvatar(backgroundColor: Colors.red,child: Text(selecteditems[index].toString()),));
-
-}
-
-),)
-
-
-
-
-
-
-
-"    $pgname   ملعب " +
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-
-              itemBuilder: (context,index){
-                DocumentSnapshot pgSnapshot =
-                snapshot.data.documents[index];
-
-                return Text(pgSnapshot[]["price"].toString());
-
-             });*/
             }),
       ),
 
-      /**ListView(
-        children: <Widget>[
-          Text("$pgname"),
-          Column(children: <Widget>[
-            Text(" الساعات المحجوزةبتاريخ  "  +date.toString()),
-
-            ListTile(
-              leading: CircleAvatar(backgroundColor: Colors.red,child: Text(selecteditems[0].toString()),),
-
-
-            ),
-            ListTile(
-              leading: CircleAvatar(backgroundColor: Colors.red,child: Text(selecteditems[1].toString()),),
-            ),
-            ListTile(
-              leading: CircleAvatar(backgroundColor: Colors.red,child: Text(selecteditems[2].toString()),),
-            )
-
-        ],)
-
-
-        ],
-
-      ) ,*/
-
-      /* Container(
-        child: Column(
-         
-          children: <Widget>[
-
-
-            Text("$index"),
-
-
-
-                 Text(
-                  " لقد قمت بحجز الساعه   $selecteditems ",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.bold),
-                ),
-            Text(
-              "قيمه الحجز 120 جنيها ",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.indigo.shade300,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 30,),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(onPressed: () {}, child: Text("رجوع")),
-                FlatButton(
-                    onPressed: () {
-                      // صفحه فوري
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Fawry()));
-                    },
-                    child: Text("الدفع"))
-              ],
-            )
-          ],
-        ),
-      ),*/
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+
+    for(final i in selecteditems){
+
+      DocumentReference ref = Firestore.instance.collection('pgs').document("damana").collection('$date').document("h$i");
+      ref.get().then((datasnapshot) {
+        if (datasnapshot.exists) {
+
+          int  price  = datasnapshot.data['price'];
+
+           sum = sum +price;
+
+
+          print(sum);
+          setState(() {
+            tp=sum ;
+          });
+        }
+      });
+
+
+      /*print('$i');
+      if (i == 2){
+        break;
+      }*/
+    }
+
+  }
+
 }
+
