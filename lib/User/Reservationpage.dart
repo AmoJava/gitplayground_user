@@ -313,15 +313,15 @@ print(month);
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Confirmation(selectedItems,DateFormat('dd MMM yyyy').format(date),pgname)));
-                    },
+                                  Confirmation(selecteditems:selectedItems ,date: DateFormat('dd MMM yyyy').format(date),pgname: pgname,month: month,day: day,umail: usermail,uid: userId,)));
+                    },//selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
                     child: Text(
                       "confirmation",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
               ),
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: FlatButton(
                     color: Colors.yellow,
@@ -337,7 +337,7 @@ print(month);
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
-              )
+              )*/
             ],
           ),
         ),

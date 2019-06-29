@@ -1,19 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import 'package:crypto/crypto.dart';
-import 'package:http/http.dart';
-import 'package:path/path.dart';
-import 'package:crypt/crypt.dart';
 import 'package:playground_user/User/congratulation.dart';
 import 'package:playground_user/User/httpget.dart';
-import 'package:playground_user/User/playgroundlist.dart';
-import 'dart:convert';
-import 'package:dio/dio.dart';
 
 class Payment extends StatefulWidget {
   static const String id = "Paymemt";
@@ -40,7 +31,6 @@ class _PaymentState extends State<Payment> {
     print(widget.month);
     userid = widget.uid ;
     userMail = widget.umail ;
-    // pgcode + mobil last 2 num + pgsub + month + day+userid
     refNum="1661${widget.day}${widget.month}$userid" ;
     print(refNum);
   }

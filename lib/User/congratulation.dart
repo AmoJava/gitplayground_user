@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:playground_user/User/UserProfile.dart';
-import 'package:playground_user/User/paybyFawry.dart';
-import 'Tickets.dart';
 
 class Congratulation extends StatelessWidget {
   var refNumber, ExpirationDate;
@@ -11,6 +9,7 @@ class Congratulation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Container(
           alignment: Alignment.center,
@@ -19,21 +18,22 @@ class Congratulation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Spacer(),
+              Image.asset("assets/mark.jpg"),
               Text(
-                "تهانينا احمد",
+                "تهانينا ",
                 textAlign: TextAlign.center,
                 softWrap: true,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 15),
               ),
               Text(
                 " يمكنك الآن الذهاب لاقرب نقطه فوري و  تنفيذ عمليه الدفع  لاتمام عمليه الحجز قبل  ",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 15),
               ),
               Text(
                 "${DateTime.fromMillisecondsSinceEpoch(ExpirationDate)}",
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.pink,
                     fontWeight: FontWeight.w800),
               ),
@@ -43,12 +43,12 @@ class Congratulation extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w900,
-                    fontSize: 25),
+                    fontSize: 15),
               ),
               Text(
                 "  ستجد ايضا الرقم علي الموبايل الذي قمت بادخاله سابقا  ",
                 textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 15),
               ),
               Text(
                 " ملاحظه لن تكتمل عمليه الحجز اذا لم تقم بالدفع خلال 1 ساعه من الآن و سيكون بمقدور اي شخص حجز الساعه مره اخري ",
@@ -77,4 +77,6 @@ class Congratulation extends StatelessWidget {
       ),
     );
   }
+
+
 }
