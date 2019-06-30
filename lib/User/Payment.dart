@@ -1,19 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import 'package:crypto/crypto.dart';
-import 'package:http/http.dart';
-import 'package:path/path.dart';
-import 'package:crypt/crypt.dart';
 import 'package:playground_user/User/congratulation.dart';
 import 'package:playground_user/User/httpget.dart';
-import 'package:playground_user/User/playgroundlist.dart';
-import 'dart:convert';
-import 'package:dio/dio.dart';
 
 class Payment extends StatefulWidget {
   static const String id = "Paymemt";
@@ -36,10 +27,12 @@ class _PaymentState extends State<Payment> {
 
   @override
   void initState() {
+    print(widget.day);
+    print(widget.month);
     userid = widget.uid ;
     userMail = widget.umail ;
-    // pgcode + mobil last 2 num + pgsub + month + day+userid
     refNum="1661${widget.day}${widget.month}$userid" ;
+    print(refNum);
   }
 
   @override
@@ -146,7 +139,9 @@ class _PaymentState extends State<Payment> {
                         .document("damana")
                         .collection("1 june")
                         .document("h1")
-                        .setData({ 'refnum': rfn,
+                        .setData({
+                      'merchrefnum' : refNum,
+                      'refnum': rfn,
                       'index': 2,
                       'pay': "not paid",
                     });
@@ -154,6 +149,7 @@ class _PaymentState extends State<Payment> {
                     Firestore.instance.collection('users').document(userid).collection("Transaction")
                         .document(rfn)
                         .setData({
+                      'merchrefnum' : refNum,
                       'Expired time' : "${date.add(new Duration(hours: 1))}" ,
                       'hours':'6', // loop for each hour
                       'refnum': rfn,
@@ -170,16 +166,7 @@ class _PaymentState extends State<Payment> {
   }
 }
 
-/*{"type":"PaymentStatusResponse",
-"referenceNumber":"918615055",
-"merchantRefNumber":"0000003202",
-"paymentAmount":25.0,
-"expirationTime":1516554874077,
-"paymentMethod":"PAYATFAWRY",
-"paymentStatus":"EXPIRED",
-"statusCode":200,
-"statusDescription":"Operation done successfully",
-"accTypesInfo":{}}*/
+
 class Post {
   final String type;
   final String referenceNumber;

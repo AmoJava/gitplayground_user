@@ -115,21 +115,8 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 2,
                       ),
-                      /*
-                      FlatButton(
-                          onPressed: () {
-                            _signIn()
-                                .then((FirebaseUser user) => print(user))
-                                .catchError((e) => print(e));
 
-                          },
-                          child: Container(
-                            color: Colors.red,
-                            child: Text(
-                              'facebook',
-                              style: textstyle,
-                            ),
-                          )),*/
+
                       MaterialButton(
                         minWidth: 160,
                         onPressed: () {

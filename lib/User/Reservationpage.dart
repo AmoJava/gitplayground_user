@@ -54,7 +54,8 @@ class _ReservationPageState extends State<ReservationPage> {
         date = picked;
         month = date.month ;
         day=date.day;
-
+print (day);
+print(month);
       });
     }
   }
@@ -195,16 +196,8 @@ class _ReservationPageState extends State<ReservationPage> {
                                         ),
                                       ),
                                     ),
-                                    /*
-                                    onTap: () {
-                                      print("color changed");
-                                      selectionColor = Colors.pink;
-                                      setState(() {
-                                        selectionColor = Colors.pink;
-                                        print("color changed from set state ");
-                                      });
-                                      print(selectionColor);
-                                    }*/
+
+
                                     onTap: () {
                                       switch (reservation_color) {
                                         case 'green':
@@ -320,15 +313,15 @@ class _ReservationPageState extends State<ReservationPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Confirmation(selectedItems,DateFormat('dd MMM yyyy').format(date),pgname)));
-                    },
+                                  Confirmation(selecteditems:selectedItems ,date: DateFormat('dd MMM yyyy').format(date),pgname: pgname,month: month,day: day,umail: usermail,uid: userId,)));
+                    },//selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
                     child: Text(
                       "confirmation",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
               ),
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: FlatButton(
                     color: Colors.yellow,
@@ -344,7 +337,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
-              )
+              )*/
             ],
           ),
         ),
@@ -377,83 +370,3 @@ class _ReservationPageState extends State<ReservationPage> {
     print("upload done");
   }
 }
-
-/*
-class HourElement extends StatefulWidget {
-  var reservationColor;
-  String hourStateColor;
-  HourElement({this.num, this.isNotReservedBefore});
-  int num;
-  bool isNotReservedBefore;
-
-  @override
-  _HourElementState createState() => _HourElementState(
-      hourIndex: num, isNotReservedBefore: isNotReservedBefore);
-}
-
-class _HourElementState extends State<HourElement> {
-  int hourIndex;
-  _HourElementState({this.hourIndex, this.isNotReservedBefore});
-
-  bool isNotReservedBefore;
-  bool isSelected;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Center(
-        child: GestureDetector(
-
-
-          child: Container(
-            height: 40,
-            decoration:
-                BoxDecoration(color: reservationColor, shape: BoxShape.circle),
-            child: Center(
-              child: Text(
-                "$hourIndex",
-                style: TextStyle(color: Colors.white, fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-*/
-
-/*showDialog(
-                                          context: context,
-                                          builder: (_) => NetworkGiffyDialog(
-                                              image: Image.network(
-                                                "https://media.giphy.com/media/1BGQuBhcLua8DWuE7h/giphy.gif",
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                              title: Text('رساله تأكيديه',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontWeight:
-                                                      FontWeight.w600)),
-                                              description: Text(
-                                                  "هل تريد تأكيد غلق هذه الساعه امام المستخدمين"),
-                                              onOkButtonPressed: () {
-                                                Firestore.instance
-                                                    .collection('pgs')
-                                                    .document("damana")
-                                                    .collection(DateFormat('dd MMM yyyy').format(date))
-                                                    .document("h$index")
-                                                    .updateData({
-                                                  'color': 'red',
-                                                  'reservedby': 'admin'
-                                                });
-
-                                                print("done from h$index + "
-                                                    " ${DateFormat('dd MMM yyyy').format(date)}");
-                                                Navigator.of(context).pop();
-                                              }));*/

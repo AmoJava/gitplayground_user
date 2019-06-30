@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 gryhttp()async{
 
 }
@@ -40,10 +39,12 @@ class _nnState extends State<nn> {
 
         },child: Text("time of now")),
         FlatButton(onPressed: ()async{
-          Response response;
+
+          //Navigator.push(context, MaterialPageRoute(builder: (_)=>bnkhaldon()));
+          /*Response response;
           Dio dio = new Dio();
           response = await dio.get("https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=1PC8/vkn3GzHnfhDcneBrA==&merchantRefNumber=0000003202&signature=927d1875d02ef6b1c1c9e694f1c6c56e4469fce9d6d76a07283d24eb32a950c0");
-          print(response.data.toString());
+          print(response.data.toString());*/
 
 
         }, child:Text("cc")),
