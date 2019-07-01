@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,13 @@ class _ReservationPageState extends State<ReservationPage> {
   static List tapedItems;
   static List selectedItems;
   int month , day ;
+  String merchrefforyellow ;
+  String merchcode ;
+  Response response;
+  Dio dio = new Dio();
+  var dateofnowepoch ;
+  var expiredate = 00 ;
+
 
   Future<void> getUserId ()async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -65,7 +73,7 @@ print(month);
     tapedItems = [];
     selectedItems = [];
     getUserId();
-
+     dateofnowepoch = date.toUtc().millisecondsSinceEpoch ;
   }
 
   @override
@@ -107,7 +115,7 @@ print(month);
                         DateFormat('dd MMM yyyy ').format(date),
                         style: TextStyle(
                             color: Colors.blue,
-                            fontSize: 10,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600),
                       ),
                       IconButton(
@@ -144,10 +152,10 @@ print(month);
                             shrinkWrap: true,
                             itemCount: 24,
                             itemBuilder: (BuildContext context, int index) {
-                              var reservation_color =
-                              snapshot.data.documents[index]['color'];
+                              var reservation_color = snapshot.data.documents[index]['color'];
 
-                              //bool selectionbool = false;
+
+                              bool loading  = false ;
 
                               switch (reservation_color) {
                                 case "green":
@@ -169,34 +177,58 @@ print(month);
                                   break;
                               }
 
+                              if (reservation_color=="yellow"){
+                                //merchrefforyellow = snapshot.data.documents[index]['merchrefnum'];
+                                 expiredate = snapshot.data.documents[index]['Expired time'];
+
+                                if (expiredate>dateofnowepoch){
+
+                                print(" $index still under the time");
+
+                                }else {
+
+                                  loading=true ;
+                                  print(" $index can be checked now") ;
+
+
+
+                                }
+
+                              }
+
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Center(
                                   child: InkWell(
-                                    child: Container(
-                                      height: 70,
-                                      color: selectionColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Container(
-                                          height: 45,
-                                          width: 45,
-                                          decoration: BoxDecoration(
-                                              color: reservationColor,
-                                              shape: BoxShape.circle),
-                                          child: Center(
-                                            child: Text(
-                                              "$index",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25),
-                                              textAlign: TextAlign.center,
+                                    child: Stack(children: <Widget>[
+                                      Container(
+                                        height: 70,
+                                        color: selectionColor,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Container(
+                                            height: 45,
+                                            width: 45,
+                                            decoration: BoxDecoration(
+                                                color: reservationColor,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: Text(
+                                                "$index",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-
+                                      Visibility(visible: loading,child: Padding(
+                                        padding: EdgeInsets.fromLTRB(6, 6, 0, 0),
+                                        child: CircularProgressIndicator(strokeWidth: 6,),
+                                      ))
+                                    ]),
 
                                     onTap: () {
                                       switch (reservation_color) {
@@ -350,12 +382,13 @@ print(month);
       'color': 'green',
       'index': inty,
       'price':120 ,
+      'merchrefnum' : "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
       //"userProfilePic":"httppp/gjgjhgjhgjhg",
       //'dateOfReservation': "${getDateofnow()}",
-      'isReserved': true,
+      //'isReserved': true,
       //"paymentConfirmed" : true ,
       //"paymentMethod": "visa",
       //"operationNumber": 2121512121212442
@@ -367,6 +400,6 @@ print(month);
         .collection("$date")
         .document("h$inty")
         .setData(addReservedHour);
-    print("upload done");
+    print("data created for this hour");
   }
 }

@@ -1,12 +1,7 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:easy_dialog/easy_dialog.dart';
-import 'Reservationpage.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 
 class payatfawry extends StatefulWidget {
   String userid;
@@ -50,7 +45,7 @@ class _payatfawryState extends State<payatfawry> {
                         .collection('users')
                         .document('${widget.userid}')
                         .collection('Transaction')
-                        .orderBy('refnum', descending: true)
+                        .orderBy('Expired time', descending: true)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
@@ -255,7 +250,7 @@ class _payatfawryState extends State<payatfawry> {
                                     color: Colors.transparent,
                                     child: Center(
                                         child: Container(
-                                            height: 180,
+                                            height: 230,
                                             child: Column(
                                               children: <Widget>[
                                                 Padding(
@@ -278,13 +273,15 @@ class _payatfawryState extends State<payatfawry> {
                                                       fontWeight:
                                                           FontWeight.w300),
                                                 ),
-                                                Text(
-                                                  " will expire in ${pgSnapshot["Expired time"]}",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w300),
+                                                Center(
+                                                  child: Text(
+                                                    " will expire in ${pgSnapshot["Expired time"]}",textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w300),
+                                                  ),
                                                 ),
                                                 Text(
                                                   "${pgSnapshot["hours"]}",

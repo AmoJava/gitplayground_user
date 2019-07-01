@@ -44,6 +44,7 @@ class _ConfirmationState extends State<Confirmation> {
 
 
   _ConfirmationState(this.selecteditems, this.date, this.pgname);
+  var nn = Firestore.instance.collection('/pgs/damana/"/').orderBy("index").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -170,12 +171,7 @@ class _ConfirmationState extends State<Confirmation> {
                                         ),
                                         onPressed: () async{
 
-                                          String concatData = merchCode +
-                                              refNum +
-                                              userid +
-                                              "PAYATFAWRY" +
-                                              "$tp.00" +
-                                              secureCode ;
+                                          String concatData = merchCode + refNum + userid + "PAYATFAWRY" + "$tp.00" + secureCode ;
                                           List<int> bytes = utf8.encode(concatData);
                                           String hash = sha256.convert(bytes).toString();
                                           print("hash is $hash");
@@ -257,6 +253,8 @@ class _ConfirmationState extends State<Confirmation> {
                                                 .document("h$i")
                                                 .updateData({
                                               'color': 'yellow',
+                                              'merchrefnum' : refNum,
+                                              'Expired time' : expireDate
                                             });
 
 
