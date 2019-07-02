@@ -103,7 +103,7 @@ class _payatfawryState extends State<payatfawry> {
                                                           '404 server not found ${error.response.statusCode}';
                                                     return Center(
                                                         child: Text(
-                                                            'Error: ${message}'));
+                                                            'Error: $message'));
                                                   }
 
                                                   Response response =

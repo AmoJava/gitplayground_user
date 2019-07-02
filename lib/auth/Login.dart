@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool loading ;
+  bool loading =false ;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   FacebookLogin fblogin = new FacebookLogin();
@@ -77,92 +77,98 @@ class _LoginState extends State<Login> {
             child: Column(
               children: <Widget>[
                 Spacer(),
-                Container(
-                  width: 250,
-                  color: Colors.white54,
-                  child: Column(
+Stack(children: <Widget>[
+  Container(
+    width: 250,
+    color: Colors.white54,
+    child: Column(
 
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
 
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Login by ",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      )
-                      ,MaterialButton(
-                        onPressed: handleSignin,
-                        color: Colors.red,
-                        minWidth: 160,
-                        child: Text(
-                          'gmail',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text('or'),
-                      SizedBox(
-                        height: 2,
-                      ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "Login by ",
+          style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.w900,
+              color: Colors.white),
+        ),
+        SizedBox(
+          height: 3,
+        )
+        ,MaterialButton(
+          onPressed: handleSignin,
+          color: Colors.red,
+          minWidth: 160,
+          child: Text(
+            'gmail',
+            style: TextStyle(fontSize: 25, color: Colors.white),
+          ),
+        ),
+        SizedBox(
+          height: 2,
+        ),
+        Text('or'),
+        SizedBox(
+          height: 2,
+        ),
 
 
-                      MaterialButton(
-                        minWidth: 160,
-                        onPressed: () {
-                          fblogin.logInWithReadPermissions(
-                              ['email', 'public_profile']).then((result) {
-                            switch (result.status) {
-                              case FacebookLoginStatus.loggedIn:
-                                AuthCredential credential =
-                                FacebookAuthProvider.getCredential(
-                                    accessToken: result.accessToken.token);
+        MaterialButton(
+          minWidth: 160,
+          onPressed: () {
+            fblogin.logInWithReadPermissions(
+                ['email', 'public_profile']).then((result) {
+              switch (result.status) {
+                case FacebookLoginStatus.loggedIn:
+                  AuthCredential credential =
+                  FacebookAuthProvider.getCredential(
+                      accessToken: result.accessToken.token);
 
-                                FirebaseAuth.instance
-                                    .signInWithCredential(credential);
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserProfile()));
+                  FirebaseAuth.instance
+                      .signInWithCredential(credential);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserProfile()));
 
-                                FirebaseAuth.instance
-                                    .signInWithCredential(credential);
-                                // TODO: Handle this case.
-                                break;
-                              case FacebookLoginStatus.cancelledByUser:
-                              // TODO: Handle this case.
-                                break;
-                              case FacebookLoginStatus.error:
-                              // TODO: Handle this case.
-                                break;
-                            }
-                          }).catchError((e) {
-                            print(e);
-                          });
-                        },
-                        color: Colors.blue,
-                        child: Text(
-                          'Facebook',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                  FirebaseAuth.instance
+                      .signInWithCredential(credential);
+                  // TODO: Handle this case.
+                  break;
+                case FacebookLoginStatus.cancelledByUser:
+                // TODO: Handle this case.
+                  break;
+                case FacebookLoginStatus.error:
+                // TODO: Handle this case.
+                  break;
+              }
+            }).catchError((e) {
+              print(e);
+            });
+          },
+          color: Colors.blue,
+          child: Text(
+            'Facebook',
+            style: TextStyle(fontSize: 25, color: Colors.white),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
 
-                    ],
-                  ),
-                ),
+      ],
+    ),
+  ),
+  Visibility(visible: loading,child: Padding(
+    padding: EdgeInsets.only(left: 100,top: 80),
+    child: CircularProgressIndicator(backgroundColor: Colors.purpleAccent,strokeWidth: 10,),
+  ),)
+],),
                 SizedBox(height: 20,),
                 /*Container(
                   alignment: Alignment.centerRight,
@@ -192,6 +198,11 @@ class _LoginState extends State<Login> {
   //final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future handleSignin() async {
+
+    setState(() {
+      loading=true ;
+    });
+
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
     await googleUser.authentication;
