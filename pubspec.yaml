@@ -45,6 +45,7 @@ dev_dependencies:
   crypt: ^1.0.7
   dio: ^2.1.7
   easy_dialog: ^1.0.4
+  rflutter_alert: ^1.0.3
 
 
 

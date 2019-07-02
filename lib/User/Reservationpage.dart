@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,21 +23,36 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String userId ;
-  String usermail ;
+  String merchCode = "1PC8/vkn3GzHnfhDcneBrA==";
+  String secureCode = "aa8f660ed9804afdb7daeafdef009829";
+  String userId;
+  String usermail;
   String pgname;
   var reservationColor;
   String hourStateColor;
   static List tapedItems;
   static List selectedItems;
-  int month , day ;
+  int month, day;
+  String merchantRefNum;
+  Response response;
+  Dio dio = new Dio();
+  var dateofnowepoch;
+  var expiredate = 00;
 
-  Future<void> getUserId ()async {
+  _fetchData(String url) async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get(url);
+    print(response);
+    return response;
+  }
+
+  Future<void> getUserId() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     setState(() {
-      userId = user.uid ;
-      usermail = user.email ;
+      userId = user.uid;
+      usermail = user.email;
     });
   }
 
@@ -52,25 +71,30 @@ class _ReservationPageState extends State<ReservationPage> {
       print("date selcted:${date.toString()}");
       setState(() {
         date = picked;
-        month = date.month ;
-        day=date.day;
-print (day);
-print(month);
+        month = date.month;
+        day = date.day;
+        print(day);
+        print(month);
       });
     }
   }
 
   @override
   void initState() {
+
     tapedItems = [];
     selectedItems = [];
     getUserId();
-
+    dateofnowepoch = date.toUtc().millisecondsSinceEpoch;
   }
 
   @override
   Widget build(BuildContext context) {
     var selectionColor = Colors.transparent;
+    var st=Firestore.instance.collection("pgs").document("damana")
+        .collection(DateFormat('dd MMM yyyy').format(date))
+        .orderBy('index', descending: false)
+        .snapshots();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -101,32 +125,27 @@ print(month);
                   ]),
               Center(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        DateFormat('dd MMM yyyy ').format(date),
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          onPressed: () {
-                            _selectDate(context);
-                          })
-                    ],
-                  )),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    DateFormat('dd MMM yyyy ').format(date),
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.calendar_today),
+                      onPressed: () {
+                        _selectDate(context);
+                      })
+                ],
+              )),
               Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                   child: StreamBuilder(
-                      stream: Firestore.instance
-                          .collection("pgs")
-                          .document("damana")
-                          .collection(DateFormat('dd MMM yyyy').format(date))
-                          .orderBy('index', descending: false)
-                          .snapshots(),
+                      stream: st,
                       builder: (BuildContext context, snapshot) {
                         if (!snapshot.hasData) {
                           return Center(child: const Text('Loading events...'));
@@ -139,15 +158,15 @@ print(month);
                         } else
                           return GridView.builder(
                             gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 6),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 6),
                             shrinkWrap: true,
                             itemCount: 24,
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
-                              snapshot.data.documents[index]['color'];
+                                  snapshot.data.documents[index]['color'];
 
-                              //bool selectionbool = false;
+                              bool loading = false;
 
                               switch (reservation_color) {
                                 case "green":
@@ -169,35 +188,169 @@ print(month);
                                   break;
                               }
 
+                              if (reservation_color == "yellow") {
+
+                                expiredate = snapshot.data.documents[index]['Expired time'];
+
+                                if (expiredate > dateofnowepoch) {
+                                  print(" $index still under the time");
+                                } else {
+                                  merchantRefNum = snapshot.data.documents[index]['merchrefnum'];
+                                print(merchantRefNum);
+                                  String conc = merchCode +
+                                      merchantRefNum +
+                                      secureCode;
+                                  List<int> bytess = utf8.encode(conc);
+                                  String hash = sha256.convert(bytess).toString();
+                                  //print("hash is $hash");
+                                String url = "https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
+                                print(url);
+                                //print(concatData);
+                                loading = true;
+                                  print(" $index can be checked now");
+
+                                  return FutureBuilder(
+                                      future: _fetchData("https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash"),
+                                      builder: (context, snapshot) {
+                                        Response FawryState = snapshot.data;
+                                        var paymentStatus =
+                                            FawryState.data["paymentStatus"];
+                                        print(paymentStatus);
+                                        switch (paymentStatus) {
+                                          case "EXPIRED":
+                                            {
+                                              Firestore.instance
+                                                  .collection('pgs')
+                                                  .document("$pgname")
+                                                  .collection(
+                                                      DateFormat('dd MMM yyyy')
+                                                          .format(date))
+                                                  .document("h$index")
+                                                  .updateData({
+                                                'color': 'green',
+                                                'merchrefnum': "",
+                                                'Expired time': ""
+                                              });
+                                            }
+                                            break;
+                                          case "UNPAID":
+                                            {
+                                              Firestore.instance
+                                                  .collection('pgs')
+                                                  .document("$pgname")
+                                                  .collection(
+                                                  DateFormat('dd MMM yyyy')
+                                                      .format(date))
+                                                  .document("h$index")
+                                                  .updateData({
+                                                'color': 'green',
+                                                'merchrefnum': "",
+                                                'Expired time': ""
+                                              });
+                                            }
+                                            break;
+                                          case "PAID":
+                                            {
+                                              Firestore.instance
+                                                  .collection('pgs')
+                                                  .document("$pgname")
+                                                  .collection(
+                                                      DateFormat('dd MMM yyyy')
+                                                          .format(date))
+                                                  .document("h$index")
+                                                  .updateData({
+                                                'color': 'red',
+                                              });
+                                            }
+                                            break;
+
+                                          default:
+                                            {
+                                              reservationColor = Colors.yellow;
+                                            }
+                                            break;
+                                        }
+                                        var c = Colors.yellow;
+                                        return Stack(children: <Widget>[
+                                          Container(
+                                            height: 70,
+                                            color: selectionColor,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2.0),
+                                              child: Container(
+                                                height: 45,
+                                                width: 45,
+                                                decoration: BoxDecoration(
+                                                    color: c,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                  child: Text(
+                                                    "$index",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 25),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Visibility(
+                                              visible: loading,
+                                              child: Padding(
+                                                padding:
+                                                EdgeInsets.fromLTRB(7, 7, 0, 0),
+                                                child: CircularProgressIndicator(
+                                                  strokeWidth: 1,
+                                                ),
+                                              ))
+                                        ]);
+                                      }
+
+
+                                      );
+
+                                }
+                              }
+
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Center(
                                   child: InkWell(
-                                    child: Container(
-                                      height: 70,
-                                      color: selectionColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Container(
-                                          height: 45,
-                                          width: 45,
-                                          decoration: BoxDecoration(
-                                              color: reservationColor,
-                                              shape: BoxShape.circle),
-                                          child: Center(
-                                            child: Text(
-                                              "$index",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25),
-                                              textAlign: TextAlign.center,
+                                    child: Stack(children: <Widget>[
+                                      Container(
+                                        height: 70,
+                                        color: selectionColor,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Container(
+                                            height: 45,
+                                            width: 45,
+                                            decoration: BoxDecoration(
+                                                color: reservationColor,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: Text(
+                                                "$index",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-
-
+                                      Visibility(
+                                          visible: loading,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.fromLTRB(7, 7, 0, 0),
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 1,
+                                            ),
+                                          ))
+                                    ]),
                                     onTap: () {
                                       switch (reservation_color) {
                                         case 'green':
@@ -218,15 +371,14 @@ print(month);
                                                 duration: Duration(seconds: 2),
                                                 backgroundColor: Colors.blue,
                                                 content: Text(
-                                                  "لقد قمت بتحديد الساعه ${selectedItems
-                                                      .toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
+                                                  "لقد قمت بتحديد الساعه ${selectedItems.toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight
-                                                          .bold),
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ));
-                                            Scaffold.of(context).showSnackBar(
-                                                snack);
+                                            Scaffold.of(context)
+                                                .showSnackBar(snack);
                                           }
                                           break;
                                         case 'red':
@@ -240,11 +392,11 @@ print(month);
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         color: Colors.black,
-                                                        fontWeight: FontWeight
-                                                            .bold),
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ));
-                                              Scaffold.of(context).showSnackBar(
-                                                  snack);
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snack);
                                             });
                                           }
                                           break;
@@ -252,25 +404,24 @@ print(month);
                                           {
                                             setState(() {
                                               var snack = SnackBar(
-                                                  backgroundColor: Colors
-                                                      .yellow,
+                                                  backgroundColor:
+                                                      Colors.yellow,
                                                   content: Text(
                                                     "هذه الساعه محجوزه مؤقتا بانتظار الدفع ",
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         color: Colors.black,
-                                                        fontWeight: FontWeight
-                                                            .bold),
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ));
-                                              Scaffold.of(context).showSnackBar(
-                                                  snack);
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snack);
                                             });
                                           }
                                           break;
                                       }
-                                    }
-                                    ,
+                                    },
                                     onDoubleTap: () {
                                       if (reservation_color == 'green') {
                                         tapedItems.remove(index);
@@ -288,8 +439,7 @@ print(month);
                                             content: Text(
                                               selectedItems.isEmpty
                                                   ? "لم تحدد اي ساعه"
-                                                  : "you have select ${selectedItems
-                                                  .toString()} ",
+                                                  : "you have select ${selectedItems.toString()} ",
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
@@ -312,9 +462,15 @@ print(month);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  Confirmation(selecteditems:selectedItems ,date: DateFormat('dd MMM yyyy').format(date),pgname: pgname,month: month,day: day,umail: usermail,uid: userId,)));
-                    },//selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
+                              builder: (context) => Confirmation(
+                                    selecteditems: selectedItems,
+                                    date:
+                                        DateFormat('dd MMM yyyy').format(date),
+                                    pgname: pgname,
+                                    umail: usermail,
+                                    uid: userId,
+                                  )));
+                    }, //selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
                     child: Text(
                       "confirmation",
                       style: TextStyle(
@@ -343,19 +499,21 @@ print(month);
         ),
       ),
     );
+
   }
 
   adduReservationtodb(int inty, String date) {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
-      'price':120 ,
+      'price': 120,
+      'merchrefnum': "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
       //"userProfilePic":"httppp/gjgjhgjhgjhg",
       //'dateOfReservation': "${getDateofnow()}",
-      'isReserved': true,
+      //'isReserved': true,
       //"paymentConfirmed" : true ,
       //"paymentMethod": "visa",
       //"operationNumber": 2121512121212442
@@ -367,6 +525,7 @@ print(month);
         .collection("$date")
         .document("h$inty")
         .setData(addReservedHour);
-    print("upload done");
+    print("data created for this hour");
   }
+
 }
