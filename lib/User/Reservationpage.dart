@@ -306,13 +306,9 @@ class _ReservationPageState extends State<ReservationPage> {
                                               ))
                                         ]);
                                       }
-
-
                                       );
-
                                 }
                               }
-
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Center(
@@ -459,7 +455,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 child: FlatButton(
                     color: Colors.yellow,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Confirmation(

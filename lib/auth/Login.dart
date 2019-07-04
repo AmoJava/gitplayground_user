@@ -164,9 +164,9 @@ Stack(children: <Widget>[
       ],
     ),
   ),
-  Visibility(visible: loading,child: Padding(
+  Visibility ( visible: loading,child: Padding(
     padding: EdgeInsets.only(left: 100,top: 80),
-    child: CircularProgressIndicator(backgroundColor: Colors.purpleAccent,strokeWidth: 10,),
+    child: CircularProgressIndicator( backgroundColor : Colors.purpleAccent,strokeWidth: 10,),
   ),)
 ],),
                 SizedBox(height: 20,),
