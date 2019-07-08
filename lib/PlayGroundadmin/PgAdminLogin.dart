@@ -40,7 +40,7 @@ class PgLoginState extends State<PgLogin> {
   }
 
   // Perform login or signup
-   _validateAndSubmit() async {
+  _validateAndSubmit() async {
     setState(() {
       _errorMessage = "";
       _isLoading = true;
@@ -107,26 +107,26 @@ class PgLoginState extends State<PgLogin> {
   Widget build(BuildContext context) {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Flutter login demooooo'),
-        ),
-        body:
+      appBar: new AppBar(
+        title: new Text('Flutter login demooooo'),
+      ),
+      body:
 
 
-            Column(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
+      Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
 
-                    _showBody(),
-                    _showCircularProgress(),
+              _showBody(),
+              _showCircularProgress(),
 
-                  ],
+            ],
 
-                ),
+          ),
 
-              ],
-            ),
+        ],
+      ),
 
     );
   }

@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:playground_user/PlayGroundadmin/authentication.dart';
+import 'package:playground_user/PlayGroundadmin/root_page.dart';
 import 'package:playground_user/User/UserProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -164,13 +166,13 @@ Stack(children: <Widget>[
       ],
     ),
   ),
-  Visibility(visible: loading,child: Padding(
+  Visibility ( visible: loading,child: Padding(
     padding: EdgeInsets.only(left: 100,top: 80),
-    child: CircularProgressIndicator(backgroundColor: Colors.purpleAccent,strokeWidth: 10,),
+    child: CircularProgressIndicator( backgroundColor : Colors.purpleAccent,strokeWidth: 10,),
   ),)
 ],),
                 SizedBox(height: 20,),
-                /*Container(
+                Container(
                   alignment: Alignment.centerRight,
                   child: MaterialButton(
                     height: 20,
@@ -185,7 +187,7 @@ Stack(children: <Widget>[
                       style: textstyle,
                     ),
                   ),
-                ),*/
+                ),
               ],
             ),
           ),
