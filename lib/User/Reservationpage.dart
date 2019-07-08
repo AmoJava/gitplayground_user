@@ -23,8 +23,8 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String merchCode = "1PC8/vkn3GzHnfhDcneBrA==";
-  String secureCode = "aa8f660ed9804afdb7daeafdef009829";
+  String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
+  String secureCode = "53c6b354a3934f2697a7078394944f89";
   String userId;
   String usermail;
   String pgname;
@@ -190,11 +190,14 @@ class _ReservationPageState extends State<ReservationPage> {
 
                               if (reservation_color == "yellow") {
 
+
+
                                 expiredate = snapshot.data.documents[index]['Expired time'];
 
                                 if (expiredate > dateofnowepoch) {
                                   print(" $index still under the time");
                                 } else {
+
                                   merchantRefNum = snapshot.data.documents[index]['merchrefnum'];
                                 print(merchantRefNum);
                                   String conc = merchCode +
@@ -203,14 +206,14 @@ class _ReservationPageState extends State<ReservationPage> {
                                   List<int> bytess = utf8.encode(conc);
                                   String hash = sha256.convert(bytess).toString();
                                   //print("hash is $hash");
-                                String url = "https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
+                                String url = "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
                                 print(url);
                                 //print(concatData);
                                 loading = true;
                                   print(" $index can be checked now");
 
                                   return FutureBuilder(
-                                      future: _fetchData("https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash"),
+                                      future: _fetchData("https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash"),
                                       builder: (context, snapshot) {
                                         Response FawryState = snapshot.data;
                                         var paymentStatus =
@@ -455,17 +458,30 @@ class _ReservationPageState extends State<ReservationPage> {
                 child: FlatButton(
                     color: Colors.yellow,
                     onPressed: () {
-                      Navigator.pushReplacement(
+
+                      if (selectedItems.length!=0){Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Confirmation(
-                                    selecteditems: selectedItems,
-                                    date:
-                                        DateFormat('dd MMM yyyy').format(date),
-                                    pgname: pgname,
-                                    umail: usermail,
-                                    uid: userId,
-                                  )));
+                                selecteditems: selectedItems,
+                                date:
+                                DateFormat('dd MMM yyyy').format(date),
+                                pgname: pgname,
+                                umail: usermail,
+                                uid: userId,
+                              )));}
+                      else { var snack1 = SnackBar(
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.blue,
+                          content: Text(
+                             "لم تحدد أي ساعه",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold),
+                          ));
+                      Scaffold.of(context)
+                          .showSnackBar(snack1); }
+
                     }, //selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
                     child: Text(
                       "confirmation",

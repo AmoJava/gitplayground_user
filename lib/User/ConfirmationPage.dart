@@ -8,6 +8,7 @@ import 'dart:math';
 import 'Payment.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+
 class Confirmation extends StatefulWidget {
   static const String id = "Confirmation";
 
@@ -35,8 +36,8 @@ class _ConfirmationState extends State<Confirmation> {
   static int tp = 0;
   int amount;
   String merchantRefNum;
-  String merchCode = "1PC8/vkn3GzHnfhDcneBrA==";
-  String secureCode = "aa8f660ed9804afdb7daeafdef009829";
+  String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
+  String secureCode = "53c6b354a3934f2697a7078394944f89";
   String userid, userMail;
   var mobile;
   int mobilelegnth;
@@ -253,7 +254,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       .millisecondsSinceEpoch;
 
                                                   var url =
-                                                      'https://atfawry.fawrystaging.com//ECommerceWeb/Fawry/payments/charge';
+                                                      'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
                                                   Map<String, dynamic> data = {
                                                     "merchantCode": merchCode,
                                                     "merchantRefNum":
@@ -273,8 +274,8 @@ class _ConfirmationState extends State<Confirmation> {
                                                         "itemId":
                                                         "897fa8e81be26df25db592e81c31c",
                                                         "description":
-                                                        "new description",
-                                                        "price": 20.00,
+                                                        " حجز ملعب $pgname يوم  $date  الساعه  $selecteditems ",
+                                                        "price": tp,
                                                         "quantity": 1
                                                       }
                                                     ],
@@ -309,7 +310,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       .convert(bytess)
                                                       .toString();
                                                   print(
-                                                      "https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash2");
+                                                      "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash2");
 
                                                   Navigator.pushReplacement(
                                                       context,
@@ -381,7 +382,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                     type: AlertType.warning,
                                                     title: "Wrong mobile number",
                                                     desc:
-                                                    " ما تدخل رقم موبايل مظبوط ياعم -- الكود هيتبعت عليه",
+                                                    " من فضلك ادخل رقم موبايل مظبوط  -- الكود هيتبعت عليه",
                                                     buttons: [
                                                       DialogButton(
                                                         child: Text(

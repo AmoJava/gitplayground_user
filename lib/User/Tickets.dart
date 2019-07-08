@@ -44,18 +44,28 @@ Widget ticket() {
             SizedBox(height: 15,),
             Column(
               children: <Widget>[
-                Text("Refnumber",style: TextStyle(fontSize: 15,color: Colors.black),),
-                Text("9009523",style: TextStyle(fontSize: 25,color: Colors.white),),
+                
+                Text("playing Ticket",style: TextStyle(fontSize: 25,color: Colors.yellowAccent),),
+                SizedBox(height: 25,)
+                , Row(
+                  children: <Widget>[
+                    SizedBox(width: 10,),
+                    Text("Refnumber",style: TextStyle(fontSize: 15,color: Colors.black),),
+                    SizedBox(width: 10,),
+                    Text("9009523",style: TextStyle(fontSize: 25,color: Colors.white),),
+                  ],
+                ),
               ],
             ),
 
-SizedBox(height: 15,),
+            SizedBox(height: 15,),
 
-Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: <Widget>[
-          Column(
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: <Widget>[
+
+            Column(
             children: <Widget>[
               Text("name",style: TextStyle(fontSize: 13,color: Colors.black),),
-        Text("amo",style: TextStyle(fontSize: 25,color: Colors.white),),
+              Text("amo",style: TextStyle(fontSize: 25,color: Colors.white),),
             ],
           ),
 

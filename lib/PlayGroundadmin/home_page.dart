@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
     _textEditingController.clear();
     await showDialog<String>(
         context: context,
-      builder: (BuildContext context) {
+        builder: (BuildContext context) {
           return AlertDialog(
             content: new Row(
               children: <Widget>[
@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                   })
             ],
           );
-      }
+        }
     );
   }
 

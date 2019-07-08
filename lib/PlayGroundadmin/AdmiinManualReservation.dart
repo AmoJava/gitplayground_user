@@ -38,6 +38,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
       print("date selcted:${date.toString()}");
       setState(() {
         date = picked;
+
       });
     }
   }
@@ -61,7 +62,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("$pgname "),
+        title: Text("$pgname"),
         backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
@@ -74,7 +75,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    DateFormat('dd MMM yyyy ').format(date),
+                    DateFormat('dd MMM yyyy').format(date),
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20,
@@ -114,7 +115,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                   child: StreamBuilder(
                       stream: Firestore.instance
                           .collection("pgs")
-                          .document("$pgname")
+                          .document("damana")
                           .collection(DateFormat('dd MMM yyyy').format(date))
                           .orderBy('index', descending: false)
                           .snapshots(),
@@ -194,7 +195,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                               onOkButtonPressed: () {
                                                 Firestore.instance
                                                     .collection('pgs')
-                                                    .document("$pgname")
+                                                    .document("damana")
                                                     .collection(
                                                     DateFormat('dd MMM yyyy')
                                                         .format(date))
@@ -210,7 +211,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                     onLongPress: () {
                                       Firestore.instance
                                           .collection('pgs')
-                                          .document("$pgname")
+                                          .document("damana")
                                           .collection(
                                           DateFormat('dd MMM yyyy').format(
                                               date))
@@ -272,12 +273,13 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
       'color': 'green',
       'index': inty,
       'price':120 ,
+      'merchrefnum': "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
       //"userProfilePic":"httppp/gjgjhgjhgjhg",
       //'dateOfReservation': "${getDateofnow()}",
-      'isReserved': true,
+      //'isReserved': true,
       //"paymentConfirmed" : true ,
       //"paymentMethod": "visa",
       //"operationNumber": 2121512121212442
@@ -285,7 +287,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
 
     Firestore.instance
         .collection('pgs')
-        .document("$pgname")
+        .document("damana")
         .collection("$date")
         .document("h$inty")
         .setData(addReservedHour);
