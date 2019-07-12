@@ -23,6 +23,7 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
+  String textofindex ;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
   String userId;
@@ -188,6 +189,134 @@ class _ReservationPageState extends State<ReservationPage> {
                                   break;
                               }
 
+                              switch (index) {
+                                case 0 :
+                                  {
+
+                                    textofindex = "12 ص";
+                                  }
+                                  break;
+
+                                case 1 :
+                                  {
+                                    textofindex = "1 ص";
+                                  }
+                                  break;
+
+                                case 2 :
+                                  {
+                                    textofindex = "2 ص";
+                                  }
+                                  break;
+                                case 3 :
+                                  {
+                                    textofindex = "3 ص";
+                                  }
+                                  break;
+                                case 4 :
+                                  {
+                                    textofindex = "4 ص";
+                                  }
+                                  break;
+                                case 5 :
+                                  {
+                                    textofindex = "5 ص";
+                                  }
+                                  break;
+                                case 6 :
+                                  {
+                                    textofindex = "6 ص";
+                                  }
+                                  break;
+                                case 7 :
+                                  {
+                                    textofindex = "7 ص";
+                                  }
+                                  break;
+                                case 8 :
+                                  {
+                                    textofindex = "8 ص";
+                                  }
+                                  break;
+                                case 9 :
+                                  {
+                                    textofindex = "9 ص";
+                                  }
+                                  break;
+                                case 10 :
+                                  {
+                                    textofindex = "10 ص";
+                                  }
+                                  break;
+                                case 11 :
+                                  {
+                                    textofindex = "11 ص";
+                                  }
+                                  break;
+                                case 12 :
+                                  {
+                                    textofindex = "12 ظ ";
+                                  }
+                                  break;
+                                case 13 :
+                                  {
+                                    textofindex = "1 ظ";
+                                  }
+                                  break;
+                                case 14 :
+                                  {
+                                    textofindex = "2 ظ";
+                                  }
+                                  break;
+                                case 15 :
+                                  {
+                                    textofindex = "3 م";
+                                  }
+                                  break;
+                                case 16 :
+                                  {
+                                    textofindex = "4 م";
+                                  }
+                                  break;
+                                case 17 :
+                                  {
+                                    textofindex = "5 م";
+                                  }
+                                  break;
+                                case 18 :
+                                  {
+                                    textofindex = "6 م";
+                                  }
+                                  break;
+                                case 19 :
+                                  {
+                                    textofindex = "7 م";
+                                  }
+                                  break;
+                                case 20 :
+                                  {
+                                    textofindex = "8 م";
+                                  }
+                                  break;
+                                case 21 :
+                                  {
+                                    textofindex = "9 م";
+                                  }
+                                  break;
+                                case 22 :
+                                  {
+                                    textofindex = "10 م";
+                                  }
+                                  break;
+                                case 23 :
+                                  {
+                                    textofindex = "11 م";
+                                  }
+                                  break;
+
+                              }
+
+
                               if (reservation_color == "yellow") {
 
 
@@ -288,7 +417,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                                     shape: BoxShape.circle),
                                                 child: Center(
                                                   child: Text(
-                                                    "$index",
+                                                    "$textofindex",
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 25),
@@ -330,10 +459,10 @@ class _ReservationPageState extends State<ReservationPage> {
                                                 shape: BoxShape.circle),
                                             child: Center(
                                               child: Text(
-                                                "$index",
+                                                "$textofindex",
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 25),
+                                                    fontSize: 15),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),

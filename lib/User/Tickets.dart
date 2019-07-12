@@ -12,14 +12,18 @@ class _TicketsState extends State<Tickets> {
       body: Container(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 25,),
+            SizedBox(
+              height: 25,
+            ),
             Expanded(
-              child: ListView(shrinkWrap: true,scrollDirection: Axis.horizontal,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  ticket(),
-                  ticket(),
-                  ticket()
-
+                  tabelticeket(context),
+                  tabelticeket(context),
+                  tabelticeket(context),
                 ],
               ),
             )
@@ -30,87 +34,157 @@ class _TicketsState extends State<Tickets> {
   }
 }
 
-Widget ticket() {
-  return Padding(
-    padding: EdgeInsets.fromLTRB(8, 1, 8, 1),
-    child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,color: Colors.teal,
+Widget tabelticeket(var context) {
+  return Card(
+    borderOnForeground: true,
+    elevation: 123,
+    color: Colors.teal,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    child: SingleChildScrollView(
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-        height: 100,
-        width: 280,
+        width: MediaQuery.of(context).size.width * .86,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 15,),
-            Column(
-              children: <Widget>[
-                
-                Text("playing Ticket",style: TextStyle(fontSize: 25,color: Colors.yellowAccent),),
-                SizedBox(height: 25,)
-                , Row(
-                  children: <Widget>[
-                    SizedBox(width: 10,),
-                    Text("Refnumber",style: TextStyle(fontSize: 15,color: Colors.black),),
-                    SizedBox(width: 10,),
-                    Text("9009523",style: TextStyle(fontSize: 25,color: Colors.white),),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "تــزكــــره ملعب",
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Table(
+                  columnWidths: {1: FractionColumnWidth(.7)},
+                  border: TableBorder.all(color: Colors.black12),
+                  children: [
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "الملعب",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 5, top: 6),
+                        child: Text(
+                          "CampNou",
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "اليوم",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Text(
+                        "3 يوليو",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "الساعه",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Text(
+                        "الخامسه",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "الاسم",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Text(
+                        "أحمد",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "الموبايل",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Text(
+                        "01553969051",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "رقم الفاتوره",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Text(
+                        "3232326565",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          "تاريخ الحجز",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "3 يوليو الساعه 12 مساء",
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      )
+                    ])
                   ],
                 ),
-              ],
-            ),
-
-            SizedBox(height: 15,),
-
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: <Widget>[
-
-            Column(
-            children: <Widget>[
-              Text("name",style: TextStyle(fontSize: 13,color: Colors.black),),
-              Text("amo",style: TextStyle(fontSize: 25,color: Colors.white),),
-            ],
-          ),
-
-        Column(
-          children: <Widget>[
-            Text("pg name",style: TextStyle(fontSize: 13,color: Colors.black),),
-            Text("damana",style: TextStyle(fontSize: 25,color: Colors.white),),
-          ],
-        ),
-
-          ],),
-            SizedBox(height: 15,),
-
-
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text("day",style: TextStyle(fontSize: 13,color: Colors.black),),
-                  Text("03 - july ",style: TextStyle(fontSize: 25,color: Colors.white),),
-                ],
               ),
-              Column(
-                children: <Widget>[
-                  Text("hour",style: TextStyle(fontSize: 13,color: Colors.black),),
-                  Text("3",style: TextStyle(fontSize: 25,color: Colors.white),),
-                ],
-              ),
-            ],),
-SizedBox(height:15),
-            Column(
-              children: <Widget>[
-                Text("booked in ",style: TextStyle(fontSize: 13,color: Colors.black),),
-                Text("23 may 2018 12: 12",style: TextStyle(fontSize: 18,color: Colors.white),),
-
-              ],
             ),
-            SizedBox(height: 15,)
-          ,
-            Column(
-              children: <Widget>[
-                Text("mobile",style: TextStyle(fontSize: 13,color: Colors.black),),
-                Text("01553969051",style: TextStyle(fontSize: 18,color: Colors.white),),
-              ],
-            ),
-
           ],
         ),
       ),
