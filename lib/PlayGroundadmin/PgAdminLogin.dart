@@ -227,6 +227,7 @@ class PgLoginState extends State<PgLogin> {
         onSaved: (value) => _email = value,
       ),
     );
+
   }
 
   Widget _showPasswordInput() {
