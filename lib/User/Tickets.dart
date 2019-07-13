@@ -43,8 +43,14 @@ class _TicketsState extends State<Tickets> {
                       itemBuilder: (context,index){
                         DocumentSnapshot pgSnapshot =
                         snapshot.data.documents[index];
+                        if(snapshot.data.documents.length==0){
 
-                        return Card(
+                          return Text("you dont have any tickets ");
+                        }
+
+                        else
+
+                          return Card(
                           borderOnForeground: true,
                           elevation: 123,
                           color: Colors.teal,
