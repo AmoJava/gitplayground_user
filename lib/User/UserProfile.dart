@@ -131,7 +131,7 @@ class _UserProfileState extends State<UserProfile> {
               FlatButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Tickets()));
+                        MaterialPageRoute(builder: (context) => Tickets(userid: userId,)));
                   },
                   child: Container(
                       decoration: ShapeDecoration(
