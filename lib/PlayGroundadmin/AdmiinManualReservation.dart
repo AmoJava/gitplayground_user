@@ -177,36 +177,38 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                 child: Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (_) => NetworkGiffyDialog(
-                                              image: Image.network(
-                                                "https://media.giphy.com/media/1BGQuBhcLua8DWuE7h/giphy.gif",
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                              title: Text('رساله تأكيديه',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                              description: Text(
-                                                  "هل تريد تأكيد غلق هذه الساعه امام المستخدمين"),
-                                              onOkButtonPressed: () {
-                                                Firestore.instance
-                                                    .collection('pgs')
-                                                    .document("damana")
-                                                    .collection(
-                                                    DateFormat('dd MMM yyyy')
-                                                        .format(date))
-                                                    .document("h$index")
-                                                    .updateData({
-                                                  'color': 'red',
-                                                  'reservedby': 'admin'
-                                                });
+                                      if (reservation_color=="green"){
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) => NetworkGiffyDialog(
+                                                image: Image.network(
+                                                  "https://media.giphy.com/media/1BGQuBhcLua8DWuE7h/giphy.gif",
+                                                  fit: BoxFit.fitHeight,
+                                                ),
+                                                title: Text('رساله تأكيديه',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 22.0,
+                                                        fontWeight:
+                                                        FontWeight.w600)),
+                                                description: Text(
+                                                    "هل تريد تأكيد غلق هذه الساعه امام المستخدمين"),
+                                                onOkButtonPressed: () {
+                                                  Firestore.instance
+                                                      .collection('pgs')
+                                                      .document("damana")
+                                                      .collection(
+                                                      DateFormat('dd MMM yyyy')
+                                                          .format(date))
+                                                      .document("h$index")
+                                                      .updateData({
+                                                    'color': 'red',
+                                                    'reservedby': 'admin'
+                                                  });
 
-                                                Navigator.of(context).pop();
-                                              }));
+                                                  Navigator.of(context).pop();
+                                                }));
+                                      }
                                     },
                                     onLongPress: () {
                                       Firestore.instance

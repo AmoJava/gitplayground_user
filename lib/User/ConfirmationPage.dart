@@ -322,13 +322,8 @@ class _ConfirmationState extends State<Confirmation> {
                                                                 refNumber: rfn,
                                                               )));
 
-                                                  /*                                      addtranstodb(int refnum, int inty,
-                                                String date) {
-                                              Map<String, dynamic>
-                                                  addReservedHour = {};
-                                              print("upload data");
-                                            }
-*/
+
+                                                  //change the hour state
                                                   for (final i in selecteditems) {
                                                     print(i);
                                                     Firestore.instance
@@ -343,37 +338,32 @@ class _ConfirmationState extends State<Confirmation> {
                                                     });
                                                   }
 
-                                                  Firestore.instance
-                                                      .collection('Transaction')
-                                                      .document("damana")
-                                                      .collection("1 june")
-                                                      .document("h1")
-                                                      .setData({
-                                                    'merchrefnum': merchantRefNum,
-                                                    'refnum': rfn,
-                                                    'index': 2,
-                                                    'pay': "not paid",
-                                                  });
+                                                  //add to transactions
+                                                  for (final i in selecteditems) {
+                                                    print(i);
+                                                    Firestore.instance
+                                                        .collection('users')
+                                                        .document(userid)
+                                                        .collection("Transaction")
+                                                        .document(rfn)
+                                                        .setData({
+                                                      'merchrefnum': merchantRefNum,
+                                                      'Expired time': "${date.add(new Duration(hours: 1))}",
+                                                      'hours': '$i', // loop for each hour
+                                                      'refnum': rfn,
+                                                      'pay': "not paid",
+                                                      'pgname': "$pgname",
+                                                      'day': " 1 june ",
+                                                      'mobile' : "$mobile",
+                                                      "reservation time" : date
+                                                    });
 
-                                                  Firestore.instance
-                                                      .collection('users')
-                                                      .document(userid)
-                                                      .collection("Transaction")
-                                                      .document(rfn)
-                                                      .setData({
-                                                    'merchrefnum': merchantRefNum,
-                                                    'Expired time':
-                                                    "${date.add(new Duration(hours: 1))}",
-                                                    'hours':
-                                                    '6', // loop for each hour
-                                                    'refnum': rfn,
-                                                    'pay': "not paid",
-                                                    'pgname': "damana",
-                                                    'day': " 1 june "
-                                                  });
+                                                  }
 
                                                   selecteditems = [];
-                                                } else {
+
+                                                } else
+                                                  {
                                                   print(
                                                       "please enter valid mobile number ");
 

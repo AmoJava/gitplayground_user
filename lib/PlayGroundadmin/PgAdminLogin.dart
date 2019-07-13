@@ -107,13 +107,14 @@ class PgLoginState extends State<PgLogin> {
   Widget build(BuildContext context) {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: new AppBar(
         title: new Text('Flutter login demooooo'),
       ),
       body:
 
 
-      Column(
+      ListView(
         children: <Widget>[
           Stack(
             children: <Widget>[
