@@ -115,7 +115,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                   child: StreamBuilder(
                       stream: Firestore.instance
                           .collection("pgs")
-                          .document("damana")
+                          .document("$pgname")
                           .collection(DateFormat('dd MMM yyyy').format(date))
                           .orderBy('index', descending: false)
                           .snapshots(),
@@ -126,6 +126,8 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                           for (int x = 0; x < 24; x++) {
                             addReservationtodb(
                                 x, DateFormat('dd MMM yyyy').format(date));
+
+
                           }
 
                           return Center(child: const Text('creating data...'));
@@ -196,7 +198,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                 onOkButtonPressed: () {
                                                   Firestore.instance
                                                       .collection('pgs')
-                                                      .document("damana")
+                                                      .document("$pgname")
                                                       .collection(
                                                       DateFormat('dd MMM yyyy')
                                                           .format(date))
@@ -213,7 +215,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                     onLongPress: () {
                                       Firestore.instance
                                           .collection('pgs')
-                                          .document("damana")
+                                          .document("$pgname")
                                           .collection(
                                           DateFormat('dd MMM yyyy').format(
                                               date))
@@ -289,7 +291,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
 
     Firestore.instance
         .collection('pgs')
-        .document("damana")
+        .document("$pgname")
         .collection("$date")
         .document("h$inty")
         .setData(addReservedHour);

@@ -30,18 +30,69 @@ class _PlayGroundListState extends State<PlayGroundList> {
                       if (!snapshot.hasData) {
                         return Center(
                             child: Text(
-                              " Loading play grounds .... ",
-                              style: TextStyle(fontSize: 25),
-                            ));
+                          " Loading play grounds .... ",
+                          style: TextStyle(fontSize: 25),
+                        ));
                       }
                       return ListView.builder(
                           physics: BouncingScrollPhysics(),
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot pgSnapshot =
-                            snapshot.data.documents[index];
+                                snapshot.data.documents[index];
 
-                            return Container(
+                            return InkWell(onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>ReservationPage(pgname: pgSnapshot["pgname"],)  ));
+
+                            },
+                              child: Card(
+                                color: Colors.transparent,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 130,
+                                  //color: Colors.transparent,
+                                  child: Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(pgSnapshot["pgpic"]),
+                                        radius: 35,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "${pgSnapshot["name"]}",
+                                              style: TextStyle(fontWeight: FontWeight.w900,
+                                                  fontSize: 25,
+                                                  color: Colors.white),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                            Center(
+                                                child: Text(
+                                              "${pgSnapshot["address"]}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    }),
+              )),
+        ));
+  }
+}
+
+/*
+* Container(
 
                               width: MediaQuery
                                   .of(context)
@@ -71,35 +122,31 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                                   "${pgSnapshot["pgpic"]}"),
                                             ),
                                           ),
-                                          Container(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${pgSnapshot["name"]}",
-                                                    style: TextStyle(
-                                                        fontSize: 28,
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight
-                                                            .w800),
-                                                  ),
-                                                  Text(
-                                                    "${pgSnapshot["address"]}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight
-                                                            .w300),
-                                                  ),
-                                                ],
-                                              )),
+                                          Expanded(
+                                            child: Container(
+                                                child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "${pgSnapshot["name"]}",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight
+                                                              .w800),
+                                                    ),
+                                                    Text(
+                                                      "${pgSnapshot["address"]}",
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight
+                                                              .w300),
+                                                    ),
+                                                  ],
+                                                )),
+                                          ),
                                         ],
                                       )),
                                 ),
                               ),
-                            );
-                          });
-                    }),
-              )),
-        ));
-  }
-}
+                            );*/

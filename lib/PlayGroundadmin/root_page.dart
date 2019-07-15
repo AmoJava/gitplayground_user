@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:playground_user/PlayGroundadmin/adminpglist.dart';
 import 'PgAdminLogin.dart';
 import 'authentication.dart';
 import 'AdminCpanal.dart';
@@ -79,7 +80,7 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new pgAdminCpanal(uid: "$_userId",);
+          return new adminpglist();
         } else return _buildWaitingScreen();
         break;
       default:

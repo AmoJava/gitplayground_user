@@ -92,7 +92,7 @@ class _ReservationPageState extends State<ReservationPage> {
   @override
   Widget build(BuildContext context) {
     var selectionColor = Colors.transparent;
-    var st=Firestore.instance.collection("pgs").document("damana")
+    var st=Firestore.instance.collection("pgs").document("$pgname")
         .collection(DateFormat('dd MMM yyyy').format(date))
         .orderBy('index', descending: false)
         .snapshots();
