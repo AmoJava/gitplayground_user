@@ -5,9 +5,10 @@ import 'package:giffy_dialog/giffy_dialog.dart';
 
 
 class AdmiinManualReservation extends StatefulWidget {
+  int price1 , price2 , price3 ;
   String pgname;
 
-  AdmiinManualReservation({this.pgname});
+  AdmiinManualReservation({this.pgname,this.price1,this.price2,this.price3});
 
   @override
   _AdmiinManualReservationState createState() =>
@@ -92,20 +93,6 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                       onPressed: () {
                         _selectDate(context);
 
-                        /*DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime(2019, 6, 7),
-                            maxTime: DateTime(2019, 7, 15), onChanged: (date) {
-                          print('change $date');
-                        }, onConfirm: (date) {
-                          setState(() {
-                            var dateFormat =
-                                DateFormat('dd MMM yyyy ').format(date);
-
-                            _date = dateFormat;
-                          });
-                          print('confirm $date');
-                        }, currentTime: DateTime.now(), locale: LocaleType.ar);*/
                       })
                 ],
               )),
@@ -123,11 +110,14 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                         if (!snapshot.hasData) {
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {
-                          for (int x = 0; x < 24; x++) {
-                            addReservationtodb(
-                                x, DateFormat('dd MMM yyyy').format(date));
-
-
+                          for (int x = 0; x < 4; x++) {
+                            addReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty:x ,price: widget.price1);
+                          };
+                          for (int x = 4; x < 17; x++) {
+                            addReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: widget.price2 );
+                          };
+                          for (int x = 17; x < 24; x++) {
+                            addReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: widget.price3);
                           }
 
                           return Center(child: const Text('creating data...'));
@@ -179,6 +169,39 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                 child: Center(
                                   child: GestureDetector(
                                     onTap: () {
+
+                                      if(reservation_color=="red"){
+                                        showDialog(context: context,
+                                            builder:(_){
+                                              return    StreamBuilder(
+                                                  stream: Firestore.instance
+                                                      .collection("pgs")
+                                                      .document("$pgname")
+                                                      .collection(DateFormat('dd MMM yyyy').format(date))
+                                                      .orderBy('index', descending: false)
+                                                      .snapshots(),
+
+                                                  builder: (BuildContext context, snapshot) {
+                                                    return AlertDialog(
+                                                      title: Text("بيانات الساعة المحجوزة"),
+                                                      content: Column(
+                                                        children: <Widget>[
+
+                                                          Text(snapshot.data.documents[index]["mobile"].toString()),
+                                                          Text(snapshot.data.documents[index]["price"].toString()),
+                                                          //Text("الموبايل:0101520")
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }
+                                              );
+
+
+                                            }
+                                        );
+                                      }
+
+
                                       if (reservation_color=="green"){
                                         showDialog(
                                             context: context,
@@ -272,11 +295,11 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
     );
   }
 
-  addReservationtodb(int inty, String date) {
+  addReservationtodb({int inty, String date,int price}) {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
-      'price':120 ,
+      'price':price ,
       'merchrefnum': "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
@@ -295,7 +318,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
         .collection("$date")
         .document("h$inty")
         .setData(addReservedHour);
-    print("upload done");
+    print("upload done +h$inty +$price");
   }
 
 }

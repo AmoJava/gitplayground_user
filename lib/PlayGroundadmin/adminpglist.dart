@@ -10,6 +10,7 @@ class adminpglist extends StatefulWidget {
 
 class _adminpglistState extends State<adminpglist> {
   String userId;
+  int price1 , price2 , price3 ;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,8 @@ class _adminpglistState extends State<adminpglist> {
                               itemBuilder: (context, index) {
                                 DocumentSnapshot pgAdminlistSnapshot =
                                     snapshot.data.documents[index];
+
+
                                 return InkWell(
                                   onTap: () {
                                     Navigator.push(
@@ -60,7 +63,7 @@ class _adminpglistState extends State<adminpglist> {
                                         MaterialPageRoute(
                                             builder: (_) => pgAdminCpanal(
                                                   pgname: pgAdminlistSnapshot[
-                                                      "pgname"],
+                                                      "pgname"],price1:pgAdminlistSnapshot['price1'] ,price2:pgAdminlistSnapshot['price2'] ,price3:pgAdminlistSnapshot['price3'] ,
                                                 )));
                                   },
                                   child: Card(
@@ -82,7 +85,7 @@ class _adminpglistState extends State<adminpglist> {
                                                   color: Colors.white,
                                                   fontSize: 25),
                                             )),
-                                            //Text("",style: TextStyle(color: Colors.lightGreenAccent,fontSize: 30),)
+                                           // Text("${pgAdminlistSnapshot['price1']}",style: TextStyle(color: Colors.lightGreenAccent,fontSize: 30),)
                                           ],
                                         ),
                                       ),

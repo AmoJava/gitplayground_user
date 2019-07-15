@@ -257,8 +257,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
                                                   Map<String, dynamic> data = {
                                                     "merchantCode": merchCode,
-                                                    "merchantRefNum":
-                                                    merchantRefNum,
+                                                    "merchantRefNum": merchantRefNum,
                                                     "customerProfileId": userid,
                                                     "customerMobile": mobile,
                                                     "customerEmail": userMail,
@@ -334,7 +333,9 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .updateData({
                                                       'color': 'yellow',
                                                       'merchrefnum': merchantRefNum,
-                                                      'Expired time': expireDate
+                                                      'Expired time': expireDate ,
+                                                      'mobile' : mobile,
+
                                                     });
                                                   }
 

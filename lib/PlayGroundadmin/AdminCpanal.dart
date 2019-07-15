@@ -7,9 +7,10 @@ import 'Pgdetails.dart';
 import 'Pricing.dart';
 
 class pgAdminCpanal extends StatefulWidget {
+  int price1,price2,price3;
   String uid;
   String pgname;
-  pgAdminCpanal({this.uid, this.pgname});
+  pgAdminCpanal({this.uid, this.pgname,this.price1,this.price2,this.price3});
 
   @override
   _pgAdminCpanalState createState() => _pgAdminCpanalState(uid);
@@ -99,7 +100,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => AdmiinManualReservation(
-                                    pgname: pgname,
+                                    pgname: pgname,price1: widget.price1,price2: widget.price2,price3: widget.price3,
                                   )));
                     },
                     child: Container(
@@ -117,11 +118,14 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
                     )),
                 SizedBox(
                   height: 8,
-                ),
-                FlatButton(
+                ) /*,
+                Text("${widget.price1}"),
+                Text("${widget.price2}"),
+                Text("${widget.price3}")*/
+                ,FlatButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => adminpglist()));
+                          MaterialPageRoute(builder: (_) => PricingPanal(price1: widget.price1,price2: widget.price2,price3: widget.price3,)));
                     },
                     child: Container(
                       child: Center(
@@ -143,4 +147,9 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
       ),
     );
   }
+
+
+
 }
+
+
