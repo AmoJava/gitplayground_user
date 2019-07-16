@@ -39,7 +39,7 @@ class _ReservationPageState extends State<ReservationPage> {
   Dio dio = new Dio();
   var dateofnowepoch;
   var expiredate = 00;
-
+int price1,price2,price3;
   _fetchData(String url) async {
     Response response;
     Dio dio = new Dio();
@@ -66,8 +66,8 @@ class _ReservationPageState extends State<ReservationPage> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: date,
-        firstDate: new DateTime(2019),
-        lastDate: new DateTime(2020));
+        firstDate: date,
+        lastDate: date.add(Duration(days: 14)));
     if (picked != null && picked != date) {
       print("date selcted:${date.toString()}");
       setState(() {
@@ -82,11 +82,28 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   void initState() {
-
+    _loadprice(pgname);
     tapedItems = [];
     selectedItems = [];
     getUserId();
     dateofnowepoch = date.toUtc().millisecondsSinceEpoch;
+  }
+
+  void _loadprice(String pgname) {
+    DocumentReference ref =
+    Firestore.instance.collection("pgs").document(pgname);
+    ref.get().then((datasnapshot) {
+      if (datasnapshot.exists) {
+        setState(() {
+          price1 = datasnapshot.data['price1'];
+          price2 = datasnapshot.data['price2'];
+          price3 = datasnapshot.data['price3'];
+          print(price1);
+          print(price2);
+          print(price3);
+        });
+      }
+    });
   }
 
   @override
@@ -149,12 +166,20 @@ class _ReservationPageState extends State<ReservationPage> {
                       stream: st,
                       builder: (BuildContext context, snapshot) {
                         if (!snapshot.hasData) {
+
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {
-                          for (int x = 0; x < 24; x++) {
-                            adduReservationtodb(
-                                x, DateFormat('dd MMM yyyy').format(date));
+
+                          for (int x = 0; x < 4; x++) {
+                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty:x ,price: price1);
+                          };
+                          for (int x = 4; x < 17; x++) {
+                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: price2 );
+                          };
+                          for (int x = 17; x < 24; x++) {
+                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: price3);
                           }
+
                           return Center(child: const Text('creating data...'));
                         } else
                           return GridView.builder(
@@ -611,30 +636,13 @@ class _ReservationPageState extends State<ReservationPage> {
                       Scaffold.of(context)
                           .showSnackBar(snack1); }
 
-                    }, //selectedItems,DateFormat('dd MMM yyyy').format(date),pgname
-                    child: Text(
+                    },child: Text(
                       "confirmation",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
               ),
-              /*Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: FlatButton(
-                    color: Colors.yellow,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              Payment(uid: userId,umail: usermail,day: day,month: month,)));
-                    },
-                    child: Text(
-                      "pay",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
-                    )),
-              )*/
+
             ],
           ),
         ),
@@ -643,11 +651,11 @@ class _ReservationPageState extends State<ReservationPage> {
 
   }
 
-  adduReservationtodb(int inty, String date) {
+  adduReservationtodb({int inty, String date,int price}) {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
-      'price': 120,
+      'price': price,
       'merchrefnum': "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",

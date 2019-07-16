@@ -9,6 +9,7 @@ class PlayGroundList extends StatefulWidget {
 }
 
 class _PlayGroundListState extends State<PlayGroundList> {
+  int price1 , price2 ,price3 ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +43,13 @@ class _PlayGroundListState extends State<PlayGroundList> {
                                 snapshot.data.documents[index];
 
                             return InkWell(onTap: (){
+
+
+
                               Navigator.push(context, MaterialPageRoute(builder: (_)=>ReservationPage(pgname: pgSnapshot["pgname"],)  ));
 
                             },
-                              child: Card(
+                              child: Card(elevation: 1,
                                 color: Colors.transparent,
                                 child: Container(
                                   width: double.infinity,
@@ -89,64 +93,6 @@ class _PlayGroundListState extends State<PlayGroundList> {
               )),
         ));
   }
+
+
 }
-
-/*
-* Container(
-
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
-                              height: 90,
-                              child: InkWell(
-                                onTap: () =>
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReservationPage(
-                                                  pgname: "${pgSnapshot["name"]}",
-                                                ))),
-                                child: Card(
-                                  elevation: 2,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: CircleAvatar(
-                                              radius: 35,
-                                              backgroundImage: NetworkImage(
-                                                  "${pgSnapshot["pgpic"]}"),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                                child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "${pgSnapshot["name"]}",
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight
-                                                              .w800),
-                                                    ),
-                                                    Text(
-                                                      "${pgSnapshot["address"]}",
-                                                      style: TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight
-                                                              .w300),
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            );*/

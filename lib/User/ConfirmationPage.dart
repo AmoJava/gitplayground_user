@@ -53,7 +53,7 @@ class _ConfirmationState extends State<Confirmation> {
     for (final i in selecteditems) {
       DocumentReference ref = Firestore.instance
           .collection('pgs')
-          .document("damana")
+          .document("$pgname")
           .collection('$date')
           .document("h$i");
       ref.get().then((datasnapshot) {
@@ -78,351 +78,347 @@ class _ConfirmationState extends State<Confirmation> {
   var correctnumbool = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
-            "تاكيد الحجز",
-          ),
-          centerTitle: true,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          "تاكيد الحجز",
         ),
-        body: Container(
-          height: 450,
-          color: Colors.white,
-          child: StreamBuilder(
-              stream: Firestore.instance
-                  .collection('/pgs/damana/$date/')
-                  .orderBy("index")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                      child: Text(
-                    " Loading play grounds .... ",
-                    style: TextStyle(fontSize: 25),
-                  ));
-                }
+        centerTitle: true,
+      ),
+      body: Container(
+        height: 450,
+        color: Colors.white,
+        child: StreamBuilder(
+            stream: Firestore.instance
+                .collection('/pgs/$pgname/$date/')
+                .orderBy("index")
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                    child: Text(
+                  " Loading play grounds .... ",
+                  style: TextStyle(fontSize: 25),
+                ));
+              }
 
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Text("لقد قمت بإختـيـار"),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: selecteditems.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  child: Text(selecteditems[index].toString()),
-                                ),
-                                title: Container(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text("day ::" + date.toString()), //+
-                                    Text(" price ::" +
-                                        snapshot
-                                            .data
-                                            .documents[selecteditems[index]]
-                                                ["price"]
-                                            .toString()),
-                                    //Text("day ::" + date.toString() ),
-                                  ],
-                                )),
-                              );
-                            }),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text("total  $tp"),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      FlatButton(
-                          onPressed: () {
-                            showDialog(
-                                child: new Dialog(
-                                  child: SingleChildScrollView(
-                                    child: new Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Image.asset(
-                                          "assets/fawry.png",
-                                          height: 150,
-                                          width: 200,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Text("please enter your mobile number"),
-                                        TextField(
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              mobilelegnth = val.length;
-                                            });
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Text("لقد قمت بإختـيـار"),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: selecteditems.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.red,
+                                child: Text(selecteditems[index].toString()),
+                              ),
+                              title: Container(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("day ::" + date.toString()), //+
+                                  Text(" price ::" +
+                                      snapshot
+                                          .data
+                                          .documents[selecteditems[index]]
+                                              ["price"]
+                                          .toString()),
+                                  //Text("day ::" + date.toString() ),
+                                ],
+                              )),
+                            );
+                          }),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text("total  $tp"),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    FlatButton(
+                        onPressed: () {
+                          showDialog(
+                              child: new Dialog(
+                                child: SingleChildScrollView(
+                                  child: new Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Image.asset(
+                                        "assets/fawry.png",
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Text("please enter your mobile number"),
+                                      TextField(
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            mobilelegnth = val.length;
+                                          });
 
-                                            mobile = val;
-                                            print(val.length);
-                                            print("val = $mobile");
-                                          },
-                                          onSubmitted: (value) {
-                                            mobile = value;
+                                          mobile = val;
+                                          print(val.length);
+                                          print("val = $mobile");
+                                        },
+                                        onSubmitted: (value) {
+                                          mobile = value;
 
-                                            print(value.length);
+                                          print(value.length);
 
-                                            setState(() {
-                                              mobilelegnth = value.length;
-                                            });
-                                            print(mobile);
-                                          },
-                                          decoration: new InputDecoration(
-                                              prefixIcon:
-                                                  Icon(Icons.mobile_screen_share),
-                                              hintText: "01004545545 "),
-                                        ),
-                                        Text("سيصلك كود الدفع علي هذا الرقم"),
-                                        Stack(children: <Widget>[
-                                          FlatButton(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.yellow,
-                                                  borderRadius: BorderRadius.only(
-                                                      topLeft: Radius.circular(
-                                                        30,
-                                                      ),
-                                                      bottomRight:
-                                                      Radius.circular(30))),
-                                              alignment: Alignment.center,
-                                              height: 55,
-                                              width: double.maxFinite,
-                                              child: Text(
-                                                "ادفع فوري",
-                                                style: TextStyle(
-                                                    fontSize: 25,
-                                                    color: Colors.blue,
-                                                    fontWeight: FontWeight.w900),
-                                              ),
+                                          setState(() {
+                                            mobilelegnth = value.length;
+                                          });
+                                          print(mobile);
+                                        },
+                                        decoration: new InputDecoration(
+                                            prefixIcon:
+                                                Icon(Icons.mobile_screen_share),
+                                            hintText: "01004545545"),
+                                      ),
+                                      Text("سيصلك كود الدفع علي هذا الرقم"),
+                                      Stack(children: <Widget>[
+                                        FlatButton(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.yellow,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(
+                                                      30,
+                                                    ),
+                                                    bottomRight:
+                                                    Radius.circular(30))),
+                                            alignment: Alignment.center,
+                                            height: 55,
+                                            width: double.maxFinite,
+                                            child: Text(
+                                              "ادفع فوري",
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.w900),
                                             ),
-                                            onPressed: () async {
+                                          ),
+                                          onPressed: () async {
 
-                                              if ( btnpressed == true ){
+                                            if ( btnpressed == true ){
 
-                                                if ( mobilelegnth == 11 && userMail !=null && userid !=null && merchantRefNum !=null && tp != null  ) {
-                                                  payloading=true;
-                                                  btnpressed = false ;
-                                                  print(btnpressed);
+                                              if ( mobilelegnth == 11 && userMail !=null && userid !=null && merchantRefNum !=null && tp != null  ) {
+                                                payloading=true;
+                                                btnpressed = false ;
+                                                print(btnpressed);
 
-                                                  String concatData = merchCode +
-                                                      merchantRefNum +
-                                                      userid +
-                                                      "PAYATFAWRY" +
-                                                      "$tp.00" +
-                                                      secureCode;
-                                                  List<int> bytes =
-                                                  utf8.encode(concatData);
-                                                  String hash = sha256
-                                                      .convert(bytes)
-                                                      .toString();
-                                                  print("hash is $hash");
+                                                String concatData = merchCode +
+                                                    merchantRefNum +
+                                                    userid +
+                                                    "PAYATFAWRY" +
+                                                    "$tp.00" +
+                                                    secureCode;
+                                                List<int> bytes =
+                                                utf8.encode(concatData);
+                                                String hash = sha256
+                                                    .convert(bytes)
+                                                    .toString();
+                                                print("hash is $hash");
 
-                                                  var today = new DateTime.now();
-                                                  var expirationDate = today
-                                                      .add(new Duration(hours: 1))
-                                                      .toUtc()
-                                                      .millisecondsSinceEpoch;
-                                                  print(expirationDate);
+                                                var today = new DateTime.now();
+                                                var expirationDate = today
+                                                    .add(new Duration(hours: 1))
+                                                    .toUtc()
+                                                    .millisecondsSinceEpoch;
+                                                print(expirationDate);
 
-                                                  // expire date that will be sent to the mobile of user
-                                                  var date = DateTime.now();
-                                                  print('date of now = $date');
-                                                  print(
-                                                      'date of nowEpoch = ${date.toUtc().millisecondsSinceEpoch}');
-                                                  var dateplushour = date
-                                                      .add(new Duration(hours: 1));
-                                                  print(
-                                                      'date of nowplushour = $dateplushour');
-                                                  print(
-                                                      'date of nowEpoch = ${dateplushour.toUtc().millisecondsSinceEpoch}');
-                                                  var expireDate = dateplushour
-                                                      .toUtc()
-                                                      .millisecondsSinceEpoch;
+                                                // expire date that will be sent to the mobile of user
+                                                var date = DateTime.now();
+                                                print('date of now = $date');
+                                                print(
+                                                    'date of nowEpoch = ${date.toUtc().millisecondsSinceEpoch}');
+                                                var dateplushour = date
+                                                    .add(new Duration(hours: 1));
+                                                print(
+                                                    'date of nowplushour = $dateplushour');
+                                                print(
+                                                    'date of nowEpoch = ${dateplushour.toUtc().millisecondsSinceEpoch}');
+                                                var expireDate = dateplushour
+                                                    .toUtc()
+                                                    .millisecondsSinceEpoch;
 
-                                                  var url =
-                                                      'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
-                                                  Map<String, dynamic> data = {
-                                                    "merchantCode": merchCode,
-                                                    "merchantRefNum": merchantRefNum,
-                                                    "customerProfileId": userid,
-                                                    "customerMobile": mobile,
-                                                    "customerEmail": userMail,
-                                                    "paymentMethod": "PAYATFAWRY",
-                                                    "amount": tp,
-                                                    "currencyCode": "EGP",
-                                                    "description":
-                                                    "hello first operation",
-                                                    "paymentExpiry":
-                                                    expireDate, //1561379640000
-                                                    "chargeItems": [
-                                                      {
-                                                        "itemId":
-                                                        "897fa8e81be26df25db592e81c31c",
-                                                        "description":
-                                                        " حجز ملعب $pgname يوم  $date  الساعه  $selecteditems ",
-                                                        "price": tp,
-                                                        "quantity": 1
-                                                      }
-                                                    ],
-                                                    "signature": hash
-                                                  };
-                                                  final http.Response response =
-                                                  await http.post(
-                                                      Uri.encodeFull(url),
-                                                      headers: {
-                                                        "content-type":
-                                                        "application/json",
-                                                        "accept":
-                                                        "application/json"
-                                                      },
-                                                      body: json.encode(data));
-                                                  String bb = response.body;
-                                                  print(bb);
-                                                  String rfn = jsonDecode(
-                                                      bb)["referenceNumber"];
-                                                  var Expiretion = jsonDecode(
-                                                      bb)["expirationTime"];
-                                                  print("expiretion time " +
-                                                      "$Expiretion");
-                                                  print("refnum is " + "$rfn");
+                                                var url =
+                                                    'https://www.atfawry.com/ECommerceWeb/Fawry/payments/charge';
+                                                Map<String, dynamic> data = {
+                                                  "merchantCode": merchCode,
+                                                  "merchantRefNum": merchantRefNum,
+                                                  "customerProfileId": userid,
+                                                  "customerMobile": mobile,
+                                                  "customerEmail": userMail,
+                                                  "paymentMethod": "PAYATFAWRY",
+                                                  "amount": tp,
+                                                  "currencyCode": "EGP",
+                                                  "description":
+                                                  "hello first operation",
+                                                  "paymentExpiry":
+                                                  expireDate, //1561379640000
+                                                  "chargeItems": [
+                                                    {
+                                                      "itemId":
+                                                      "897fa8e81be26df25db592e81c31c",
+                                                      "description":
+                                                      " حجز ملعب $pgname يوم  $date  الساعه  $selecteditems ",
+                                                      "price": tp,
+                                                      "quantity": 1
+                                                    }
+                                                  ],
+                                                  "signature": hash
+                                                };
+                                                final http.Response response =
+                                                await http.post(
+                                                    Uri.encodeFull(url),
+                                                    headers: {
+                                                      "content-type":
+                                                      "application/json",
+                                                      "accept":
+                                                      "application/json"
+                                                    },
+                                                    body: json.encode(data));
+                                                String bb = response.body;
+                                                print(bb);
+                                                String rfn = jsonDecode(
+                                                    bb)["referenceNumber"];
+                                                var Expiretion = jsonDecode(
+                                                    bb)["expirationTime"];
+                                                print("expiretion time " +
+                                                    "$Expiretion");
+                                                print("refnum is " + "$rfn");
 
-                                                  String conc = merchCode +
-                                                      merchantRefNum +
-                                                      secureCode;
-                                                  List<int> bytess =
-                                                  utf8.encode(conc);
-                                                  String hash2 = sha256
-                                                      .convert(bytess)
-                                                      .toString();
-                                                  print(
-                                                      "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash2");
+                                                String conc = merchCode +
+                                                    merchantRefNum +
+                                                    secureCode;
+                                                List<int> bytess =
+                                                utf8.encode(conc);
+                                                String hash2 = sha256
+                                                    .convert(bytess)
+                                                    .toString();
+                                                print(
+                                                    "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash2");
 
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Congratulation(
-                                                                ExpirationDate:
-                                                                Expiretion,
-                                                                refNumber: rfn,
-                                                              )));
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Congratulation(
+                                                              ExpirationDate:
+                                                              Expiretion,
+                                                              refNumber: rfn,
+                                                            )));
 
 
-                                                  //change the hour state
-                                                  for (final i in selecteditems) {
-                                                    print(i);
-                                                    Firestore.instance
-                                                        .collection('pgs')
-                                                        .document("$pgname")
-                                                        .collection(widget.date)
-                                                        .document("h$i")
-                                                        .updateData({
-                                                      'color': 'yellow',
-                                                      'merchrefnum': merchantRefNum,
-                                                      'Expired time': expireDate ,
-                                                      'mobile' : mobile,
-
-                                                    });
-                                                  }
-
-                                                  //add to transactions
-                                                  for (final i in selecteditems) {
-                                                    print(i);
-                                                    Firestore.instance
-                                                        .collection('users')
-                                                        .document(userid)
-                                                        .collection("Transaction")
-                                                        .document(rfn)
-                                                        .setData({
-                                                      'merchrefnum': merchantRefNum,
-                                                      'Expired time': "${date.add(new Duration(hours: 1))}",
-                                                      'hours': '$i', // loop for each hour
-                                                      'refnum': rfn,
-                                                      'pay': "not paid",
-                                                      'pgname': "$pgname",
-                                                      'day': " 1 june ",
-                                                      'mobile' : "$mobile",
-                                                      "reservation time" : date
-                                                    });
-
-                                                  }
-
-                                                  selecteditems = [];
-
-                                                } else
-                                                  {
-                                                  print(
-                                                      "please enter valid mobile number ");
-
-                                                  Alert(
-                                                    context: context,
-                                                    type: AlertType.warning,
-                                                    title: "Wrong mobile number",
-                                                    desc:
-                                                    " من فضلك ادخل رقم موبايل مظبوط  -- الكود هيتبعت عليه",
-                                                    buttons: [
-                                                      DialogButton(
-                                                        child: Text(
-                                                          "حاضر",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 20),
-                                                        ),
-                                                        onPressed: () =>
-                                                            Navigator.pop(context),
-                                                        gradient:
-                                                        LinearGradient(colors: [
-                                                          Color.fromRGBO(
-                                                              116, 116, 191, 1.0),
-                                                          Color.fromRGBO(
-                                                              52, 138, 199, 1.0)
-                                                        ]),
-                                                      )
-                                                    ],
-                                                  ).show();
+                                                //change the hour state
+                                                for (final i in selecteditems) {
+                                                  print(i);
+                                                  Firestore.instance
+                                                      .collection('pgs')
+                                                      .document("$pgname")
+                                                      .collection(widget.date)
+                                                      .document("h$i")
+                                                      .updateData({
+                                                    'color': 'yellow',
+                                                    'merchrefnum': merchantRefNum,
+                                                    'Expired time': expireDate ,
+                                                    'mobile' : mobile,
+                                                  });
                                                 }
 
+                                                //add to transactions
+                                                for (final i in selecteditems) {
+                                                  print(i);
+                                                  Firestore.instance
+                                                      .collection('users')
+                                                      .document(userid)
+                                                      .collection("Transaction")
+                                                      .document(rfn)
+                                                      .setData({
+                                                    'merchrefnum': merchantRefNum,
+                                                    'Expired time': "${date.add(new Duration(hours: 1))}",
+                                                    'hours': '$i', // loop for each hour
+                                                    'refnum': rfn,
+                                                    'pay': "not paid",
+                                                    'pgname': "$pgname",
+                                                    'day': " 1 june ",
+                                                    'mobile' : "$mobile",
+                                                    "reservation time" : date
+                                                  });
 
+                                                }
+
+                                                selecteditems = [];
+
+                                              } else
+                                                {
+                                                print(
+                                                    "please enter valid mobile number ");
+
+                                                Alert(
+                                                  context: context,
+                                                  type: AlertType.warning,
+                                                  title: "Wrong mobile number",
+                                                  desc:
+                                                  " من فضلك ادخل رقم موبايل مظبوط  -- الكود هيتبعت عليه",
+                                                  buttons: [
+                                                    DialogButton(
+                                                      child: Text(
+                                                        "حاضر",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 20),
+                                                      ),
+                                                      onPressed: () =>
+                                                          Navigator.pop(context),
+                                                      gradient:
+                                                      LinearGradient(colors: [
+                                                        Color.fromRGBO(
+                                                            116, 116, 191, 1.0),
+                                                        Color.fromRGBO(
+                                                            52, 138, 199, 1.0)
+                                                      ]),
+                                                    )
+                                                  ],
+                                                ).show();
                                               }
-                                              else {
 
 
-                                                print("cant click more than one time soo wait please");
+                                            }
+                                            else {
 
-                                              }
-                                            },
-                                          ),
-                                          Visibility(visible: payloading,child:CircularProgressIndicator(backgroundColor: Colors.blue,strokeWidth: 10,))
-                                        ],),
-                                        SizedBox(
-                                          height: 16,
-                                        )
-                                      ],
-                                    ),
+
+                                              print("cant click more than one time soo wait please");
+
+                                            }
+                                          },
+                                        ),
+                                        Visibility(visible: payloading,child:CircularProgressIndicator(backgroundColor: Colors.blue,strokeWidth: 10,))
+                                      ],),
+                                      SizedBox(
+                                        height: 16,
+                                      )
+                                    ],
                                   ),
                                 ),
-                                context: context);
-                          },
-                          child: Text("Pay"))
-                    ],
-                  ),
-                );
-              }),
-        ),
+                              ),
+                              context: context);
+                        },
+                        child: Text("Pay"))
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }
