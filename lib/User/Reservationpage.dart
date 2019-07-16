@@ -141,6 +141,9 @@ int price1,price2,price3;
                     Image.asset('assets/pg5.jpg', fit: BoxFit.fill),
                     Image.asset('assets/pg6.jpg', fit: BoxFit.fill),
                   ]),
+              Text("ملعب المحموديه طريق المنصوره الدايري مقابل مدرسه الصفوه"),
+              Text("موبايل 01553969051"),
+              Text("من الساعه 6 مساء حتي الساعه الرابعه صباحا $price1 جنيها و من الساعه الرابعه صباحا ختي السادسه مساء $price2 جنيه عرض لفتره محدوده"),
               Center(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
