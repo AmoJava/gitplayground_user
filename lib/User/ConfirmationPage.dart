@@ -7,6 +7,7 @@ import 'package:playground_user/User/congratulation.dart';
 import 'dart:math';
 import 'Payment.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:intl/intl.dart';
 
 class Confirmation extends StatefulWidget {
   static const String id = "Confirmation";
@@ -269,8 +270,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                     "customerProfileId": userid,
                                                     "customerMobile": mobile,
                                                     "customerEmail": userMail,
-                                                    "paymentMethod":
-                                                        "PAYATFAWRY",
+                                                    "paymentMethod": "PAYATFAWRY",
                                                     "amount": tp,
                                                     "currencyCode": "EGP",
                                                     "description":
@@ -343,11 +343,11 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .document("h$i")
                                                         .updateData({
                                                       'color': 'yellow',
-                                                      'merchrefnum':
-                                                          merchantRefNum,
-                                                      'Expired time':
-                                                          expireDate,
+                                                      'merchrefnum': merchantRefNum,
+                                                      'Expired time': expireDate,
                                                       'mobile': mobile,
+                                                      'reservedBy' : userid ,
+                                                      'refnum': rfn,
                                                     });
                                                   }
 
@@ -373,7 +373,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       'pgname': "$pgname",
                                                       'day': " 1 june ",
                                                       'mobile': "$mobile",
-                                                      "reservation time": date
+                                                      "reservation time": "${DateFormat(' dd MMM yyyy  @ hh:mm').format(date)}"
                                                     });
                                                   }
 

@@ -23,7 +23,8 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String textofindex ;
+  String pic1 ;
+  String textofindex;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
   String userId;
@@ -39,7 +40,8 @@ class _ReservationPageState extends State<ReservationPage> {
   Dio dio = new Dio();
   var dateofnowepoch;
   var expiredate = 00;
-int price1,price2,price3;
+  int price1, price2, price3;
+  String location;
   _fetchData(String url) async {
     Response response;
     Dio dio = new Dio();
@@ -82,6 +84,7 @@ int price1,price2,price3;
 
   @override
   void initState() {
+
     _loadprice(pgname);
     tapedItems = [];
     selectedItems = [];
@@ -91,13 +94,15 @@ int price1,price2,price3;
 
   void _loadprice(String pgname) {
     DocumentReference ref =
-    Firestore.instance.collection("pgs").document(pgname);
+        Firestore.instance.collection("pgs").document(pgname);
     ref.get().then((datasnapshot) {
       if (datasnapshot.exists) {
         setState(() {
+          location = datasnapshot.data['address'];
           price1 = datasnapshot.data['price1'];
           price2 = datasnapshot.data['price2'];
           price3 = datasnapshot.data['price3'];
+          pic1 = datasnapshot.data['pic1'];
           print(price1);
           print(price2);
           print(price3);
@@ -109,7 +114,9 @@ int price1,price2,price3;
   @override
   Widget build(BuildContext context) {
     var selectionColor = Colors.transparent;
-    var st=Firestore.instance.collection("pgs").document("$pgname")
+    var st = Firestore.instance
+        .collection("pgs")
+        .document("$pgname")
         .collection(DateFormat('dd MMM yyyy').format(date))
         .orderBy('index', descending: false)
         .snapshots();
@@ -135,15 +142,43 @@ int price1,price2,price3;
                       'assets/pg1.jpg',
                       fit: BoxFit.fill,
                     ),
-                    Image.asset('assets/pg2.jpg', fit: BoxFit.fill),
+                    pic1!=null?Image.network(pic1,fit: BoxFit.fill,):Image.asset("assets/pg3.jpg"),
+                    pic1!=null?Image.network(pic1):Image.asset("assets/pg3.jpg"),
+                    pic1!=null?Image.network(pic1):Image.asset("assets/pg3.jpg"),
+
                     Image.asset('assets/pg3.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg4.jpg', fit: BoxFit.fill),
+                    //Image.network(pic1),
                     Image.asset('assets/pg5.jpg', fit: BoxFit.fill),
-                    Image.asset('assets/pg6.jpg', fit: BoxFit.fill),
+                    //Image.network(pic1),
                   ]),
-              Text("ملعب المحموديه طريق المنصوره الدايري مقابل مدرسه الصفوه"),
-              Text("موبايل 01553969051"),
-              Text("من الساعه 6 مساء حتي الساعه الرابعه صباحا $price1 جنيها و من الساعه الرابعه صباحا ختي السادسه مساء $price2 جنيه عرض لفتره محدوده"),
+              Container(alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Icon(
+                      Icons.location_on,
+                      size: 25,
+                      color: Colors.green,
+                    ),
+                    Text("$location"),
+                  ],
+                ),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text("01553969051"),
+                  Icon(Icons.call,size: 45,color: Colors.lime,)
+                ],
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا $price1 جنيها و من الساعه الرابعه صباحا ختي السادسه مساء $price2 جنيه عرض لفتره محدوده"),
+                  ),
+                  Icon(Icons.monetization_on,size: 25,color: Colors.lime,)
+                ],
+              ),
               Center(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -169,18 +204,27 @@ int price1,price2,price3;
                       stream: st,
                       builder: (BuildContext context, snapshot) {
                         if (!snapshot.hasData) {
-
                           return Center(child: const Text('Loading events...'));
                         } else if (snapshot.data.documents.length < 24) {
-
                           for (int x = 0; x < 4; x++) {
-                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty:x ,price: price1);
-                          };
+                            adduReservationtodb(
+                                date: DateFormat('dd MMM yyyy').format(date),
+                                inty: x,
+                                price: price1);
+                          }
+                          ;
                           for (int x = 4; x < 17; x++) {
-                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: price2 );
-                          };
+                            adduReservationtodb(
+                                date: DateFormat('dd MMM yyyy').format(date),
+                                inty: x,
+                                price: price2);
+                          }
+                          ;
                           for (int x = 17; x < 24; x++) {
-                            adduReservationtodb(date:DateFormat('dd MMM yyyy').format(date),inty: x ,price: price3);
+                            adduReservationtodb(
+                                date: DateFormat('dd MMM yyyy').format(date),
+                                inty: x,
+                                price: price3);
                           }
 
                           return Center(child: const Text('creating data...'));
@@ -218,159 +262,156 @@ int price1,price2,price3;
                               }
 
                               switch (index) {
-                                case 0 :
+                                case 0:
                                   {
-
                                     textofindex = "12 ص";
                                   }
                                   break;
 
-                                case 1 :
+                                case 1:
                                   {
                                     textofindex = "1 ص";
                                   }
                                   break;
 
-                                case 2 :
+                                case 2:
                                   {
                                     textofindex = "2 ص";
                                   }
                                   break;
-                                case 3 :
+                                case 3:
                                   {
                                     textofindex = "3 ص";
                                   }
                                   break;
-                                case 4 :
+                                case 4:
                                   {
                                     textofindex = "4 ص";
                                   }
                                   break;
-                                case 5 :
+                                case 5:
                                   {
                                     textofindex = "5 ص";
                                   }
                                   break;
-                                case 6 :
+                                case 6:
                                   {
                                     textofindex = "6 ص";
                                   }
                                   break;
-                                case 7 :
+                                case 7:
                                   {
                                     textofindex = "7 ص";
                                   }
                                   break;
-                                case 8 :
+                                case 8:
                                   {
                                     textofindex = "8 ص";
                                   }
                                   break;
-                                case 9 :
+                                case 9:
                                   {
                                     textofindex = "9 ص";
                                   }
                                   break;
-                                case 10 :
+                                case 10:
                                   {
                                     textofindex = "10 ص";
                                   }
                                   break;
-                                case 11 :
+                                case 11:
                                   {
                                     textofindex = "11 ص";
                                   }
                                   break;
-                                case 12 :
+                                case 12:
                                   {
                                     textofindex = "12 ظ ";
                                   }
                                   break;
-                                case 13 :
+                                case 13:
                                   {
                                     textofindex = "1 ظ";
                                   }
                                   break;
-                                case 14 :
+                                case 14:
                                   {
                                     textofindex = "2 ظ";
                                   }
                                   break;
-                                case 15 :
+                                case 15:
                                   {
                                     textofindex = "3 م";
                                   }
                                   break;
-                                case 16 :
+                                case 16:
                                   {
                                     textofindex = "4 م";
                                   }
                                   break;
-                                case 17 :
+                                case 17:
                                   {
                                     textofindex = "5 م";
                                   }
                                   break;
-                                case 18 :
+                                case 18:
                                   {
                                     textofindex = "6 م";
                                   }
                                   break;
-                                case 19 :
+                                case 19:
                                   {
                                     textofindex = "7 م";
                                   }
                                   break;
-                                case 20 :
+                                case 20:
                                   {
                                     textofindex = "8 م";
                                   }
                                   break;
-                                case 21 :
+                                case 21:
                                   {
                                     textofindex = "9 م";
                                   }
                                   break;
-                                case 22 :
+                                case 22:
                                   {
                                     textofindex = "10 م";
                                   }
                                   break;
-                                case 23 :
+                                case 23:
                                   {
                                     textofindex = "11 م";
                                   }
                                   break;
-
                               }
 
-
                               if (reservation_color == "yellow") {
-
-
-
-                                expiredate = snapshot.data.documents[index]['Expired time'];
+                                expiredate = snapshot.data.documents[index]
+                                    ['Expired time'];
 
                                 if (expiredate > dateofnowepoch) {
                                   print(" $index still under the time");
                                 } else {
-
-                                  merchantRefNum = snapshot.data.documents[index]['merchrefnum'];
-                                print(merchantRefNum);
-                                  String conc = merchCode +
-                                      merchantRefNum +
-                                      secureCode;
+                                  merchantRefNum = snapshot
+                                      .data.documents[index]['merchrefnum'];
+                                  print(merchantRefNum);
+                                  String conc =
+                                      merchCode + merchantRefNum + secureCode;
                                   List<int> bytess = utf8.encode(conc);
-                                  String hash = sha256.convert(bytess).toString();
+                                  String hash =
+                                      sha256.convert(bytess).toString();
                                   //print("hash is $hash");
-                                String url = "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
-                                print(url);
-                                //print(concatData);
-                                loading = true;
+                                  String url =
+                                      "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
+                                  print(url);
+                                  //print(concatData);
+                                  loading = true;
                                   print(" $index can be checked now");
 
                                   return FutureBuilder(
-                                      future: _fetchData("https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash"),
+                                      future: _fetchData(
+                                          "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash"),
                                       builder: (context, snapshot) {
                                         Response FawryState = snapshot.data;
                                         var paymentStatus =
@@ -395,22 +436,7 @@ int price1,price2,price3;
                                             break;
                                           case "UNPAID":
                                             {
-                                              Firestore.instance
-                                                  .collection('pgs')
-                                                  .document("$pgname")
-                                                  .collection(
-                                                  DateFormat('dd MMM yyyy')
-                                                      .format(date))
-                                                  .document("h$index")
-                                                  .updateData({
-                                                'color': 'green',
-                                                'merchrefnum': "",
-                                                'Expired time': ""
-                                              });
-                                            }
-                                            break;
-                                          case "PAID":
-                                            {
+
                                               Firestore.instance
                                                   .collection('pgs')
                                                   .document("$pgname")
@@ -419,8 +445,41 @@ int price1,price2,price3;
                                                           .format(date))
                                                   .document("h$index")
                                                   .updateData({
+                                                'color': 'green',
+                                                'merchrefnum': "",
+                                                'Expired time': "",
+                                                'reservedBy':'',
+                                              });
+                                            }
+                                            break;
+                                          case "PAID":
+                                            {
+
+                                              var reservation_uid = snapshot.data.documents[index]['reservedBy'];
+                                              var refnum = snapshot.data.documents[index]['refnum'];
+
+                                              Firestore.instance
+                                                  .collection('users')
+                                                  .document(reservation_uid)
+                                                  .collection(
+                                                  "Transaction")
+                                                  .document(refnum)
+                                                  .updateData({
+                                                'pay': "paid",
+                                              });
+
+                                              Firestore.instance
+                                                  .collection('pgs')
+                                                  .document("$pgname")
+                                                  .collection(
+                                                  DateFormat('dd MMM yyyy')
+                                                      .format(date))
+                                                  .document("h$index")
+                                                  .updateData({
                                                 'color': 'red',
                                               });
+
+
                                             }
                                             break;
 
@@ -436,7 +495,8 @@ int price1,price2,price3;
                                             height: 70,
                                             color: selectionColor,
                                             child: Padding(
-                                              padding: const EdgeInsets.all(2.0),
+                                              padding:
+                                                  const EdgeInsets.all(2.0),
                                               child: Container(
                                                 height: 45,
                                                 width: 45,
@@ -458,15 +518,15 @@ int price1,price2,price3;
                                           Visibility(
                                               visible: loading,
                                               child: Padding(
-                                                padding:
-                                                EdgeInsets.fromLTRB(7, 7, 0, 0),
-                                                child: CircularProgressIndicator(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    7, 7, 0, 0),
+                                                child:
+                                                    CircularProgressIndicator(
                                                   strokeWidth: 1,
                                                 ),
                                               ))
                                         ]);
-                                      }
-                                      );
+                                      });
                                 }
                               }
                               return Padding(
@@ -615,51 +675,49 @@ int price1,price2,price3;
                 child: FlatButton(
                     color: Colors.yellow,
                     onPressed: () {
-
-                      if (selectedItems.length!=0){Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Confirmation(
-                                selecteditems: selectedItems,
-                                date:
-                                DateFormat('dd MMM yyyy').format(date),
-                                pgname: pgname,
-                                umail: usermail,
-                                uid: userId,
-                              )));}
-                      else { var snack1 = SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Colors.blue,
-                          content: Text(
-                             "لم تحدد أي ساعه",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold),
-                          ));
-                      Scaffold.of(context)
-                          .showSnackBar(snack1); }
-
-                    },child: Text(
+                      if (selectedItems.length != 0) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Confirmation(
+                                      selecteditems: selectedItems,
+                                      date: DateFormat('dd MMM yyyy')
+                                          .format(date),
+                                      pgname: pgname,
+                                      umail: usermail,
+                                      uid: userId,
+                                    )));
+                      } else {
+                        var snack1 = SnackBar(
+                            duration: Duration(seconds: 2),
+                            backgroundColor: Colors.blue,
+                            content: Text(
+                              "لم تحدد أي ساعه",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ));
+                        Scaffold.of(context).showSnackBar(snack1);
+                      }
+                    },
+                    child: Text(
                       "confirmation",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
 
-  adduReservationtodb({int inty, String date,int price}) {
+  adduReservationtodb({int inty, String date, int price}) {
     Map<String, dynamic> addReservedHour = {
       'color': 'green',
       'index': inty,
       'price': price,
-      'merchrefnum': "",
+      //'merchrefnum': "",
       //'userName': "amo",
       //'userID': "Ghgffgfg211fgfgfgfgfgfg",
       //'userEmail': "ph.ahmedmohsin@gmai.com",
@@ -679,5 +737,4 @@ int price1,price2,price3;
         .setData(addReservedHour);
     print("data created for this hour");
   }
-
 }

@@ -25,15 +25,21 @@ class _TicketsState extends State<Tickets> {
                 stream: Firestore.instance
                     .collection('users')
                     .document('${widget.userid}')
-                    .collection('Transaction')
+                    .collection('Transaction').where("pay", isEqualTo: 'paid')
                     .orderBy('Expired time', descending: true)
                     .snapshots(),
                 builder: (context, snapshot){
                   if (!snapshot.hasData) {
                     return Center(
-                        child: Text(
-                          " Loading transactions .... ",
-                          style: TextStyle(fontSize: 25),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: double.maxFinite,
+                          width: double.maxFinite,
+                          color: Colors.lightGreen,
+                          child: Text(
+                            " Loading tickets .... ",
+                            style: TextStyle(color: Colors.white,fontSize: 25),
+                          ),
                         ));
                   }
 
@@ -43,6 +49,7 @@ class _TicketsState extends State<Tickets> {
                       itemBuilder: (context,index){
                         DocumentSnapshot pgSnapshot =
                         snapshot.data.documents[index];
+
                         if(snapshot.data.documents.length==0){
 
                           return Text("you dont have any tickets ");
@@ -157,7 +164,7 @@ class _TicketsState extends State<Tickets> {
                                               ),
                                             ),
                                             Text(
-                                              "01553969051",
+                                              pgSnapshot['mobile'],
                                               style: TextStyle(color: Colors.white, fontSize: 25),
                                             )
                                           ]),
@@ -173,7 +180,7 @@ class _TicketsState extends State<Tickets> {
                                               ),
                                             ),
                                             Text(
-                                              "3232326565",
+                                              pgSnapshot['refnum'],
                                               style: TextStyle(color: Colors.white, fontSize: 25),
                                             )
                                           ]),
@@ -191,7 +198,7 @@ class _TicketsState extends State<Tickets> {
                                             Padding(
                                               padding: EdgeInsets.only(bottom: 10),
                                               child: Text(
-                                                "3 يوليو الساعه 12 مساء",
+                                                pgSnapshot['reservation time'],
                                                 style: TextStyle(color: Colors.white, fontSize: 25),
                                               ),
                                             )
