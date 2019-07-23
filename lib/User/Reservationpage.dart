@@ -23,7 +23,7 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String pic1 ;
+  String pic1;
   String textofindex;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
@@ -84,7 +84,6 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   void initState() {
-
     _loadprice(pgname);
     tapedItems = [];
     selectedItems = [];
@@ -142,42 +141,99 @@ class _ReservationPageState extends State<ReservationPage> {
                       'assets/pg1.jpg',
                       fit: BoxFit.fill,
                     ),
-                    pic1!=null?Image.network(pic1,fit: BoxFit.fill,):Image.asset("assets/pg3.jpg"),
-                    pic1!=null?Image.network(pic1):Image.asset("assets/pg3.jpg"),
-                    pic1!=null?Image.network(pic1):Image.asset("assets/pg3.jpg"),
+                    pic1 != null
+                        ? Image.network(
+                            pic1,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset("assets/pg3.jpg"),
+                    pic1 != null
+                        ? Image.network(pic1)
+                        : Image.asset("assets/pg3.jpg"),
+                    pic1 != null
+                        ? Image.network(pic1)
+                        : Image.asset("assets/pg3.jpg"),
 
                     Image.asset('assets/pg3.jpg', fit: BoxFit.fill),
                     //Image.network(pic1),
                     Image.asset('assets/pg5.jpg', fit: BoxFit.fill),
                     //Image.network(pic1),
                   ]),
-              Container(alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Icon(
-                      Icons.location_on,
-                      size: 25,
-                      color: Colors.green,
-                    ),
-                    Text("$location"),
-                  ],
-                ),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text("01553969051"),
-                  Icon(Icons.call,size: 45,color: Colors.lime,)
-                ],
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.end,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Expanded(
-                    child: Text(
-                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا $price1 جنيها و من الساعه الرابعه صباحا ختي السادسه مساء $price2 جنيه عرض لفتره محدوده"),
+                      child: Text(
+                    "$location",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 20),
+                  )),
+                  Icon(
+                    Icons.location_on,
+                    size: 35,
+                    color: Colors.green,
                   ),
-                  Icon(Icons.monetization_on,size: 25,color: Colors.lime,)
                 ],
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    "01553969051",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Icon(
+                    Icons.call,
+                    size: 35,
+                    color: Colors.green,
+                  )
+                ],
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    "5*5",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Icon(
+                    Icons.person,
+                    size: 35,
+                    color: Colors.green,
+                  )
+                ],
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا$price1 جنيها و من الساعه الرابعه صباحا حتي السادسه مساء $price2 جنيه عرض لفتره محدوده",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.monetization_on,
+                    size: 35,
+                    color: Colors.green,
+                  )
+                ],
+              ),
+              Divider(
+                color: Colors.grey,
               ),
               Center(
                   child: Row(
@@ -395,6 +451,13 @@ class _ReservationPageState extends State<ReservationPage> {
                                 } else {
                                   merchantRefNum = snapshot
                                       .data.documents[index]['merchrefnum'];
+
+                                  var reservation_uid = snapshot
+                                      .data.documents[index]['reservedBy'];
+
+                                  var refnum =
+                                      snapshot.data.documents[index]['refnum'];
+
                                   print(merchantRefNum);
                                   String conc =
                                       merchCode + merchantRefNum + secureCode;
@@ -420,6 +483,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                         switch (paymentStatus) {
                                           case "EXPIRED":
                                             {
+
                                               Firestore.instance
                                                   .collection('pgs')
                                                   .document("$pgname")
@@ -448,37 +512,21 @@ class _ReservationPageState extends State<ReservationPage> {
                                                 'color': 'green',
                                                 'merchrefnum': "",
                                                 'Expired time': "",
-                                                'reservedBy':'',
+                                                'reservedBy': '',
                                               });
                                             }
                                             break;
                                           case "PAID":
                                             {
 
-                                              var reservation_uid = snapshot.data.documents[index]['reservedBy'];
-                                              var refnum = snapshot.data.documents[index]['refnum'];
+                                              changeProcessToPaid(
+                                                  res: reservation_uid,
+                                                  ref: refnum);
 
-                                              Firestore.instance
-                                                  .collection('users')
-                                                  .document(reservation_uid)
-                                                  .collection(
-                                                  "Transaction")
-                                                  .document(refnum)
-                                                  .updateData({
-                                                'pay': "paid",
-                                              });
-
-                                              Firestore.instance
-                                                  .collection('pgs')
-                                                  .document("$pgname")
-                                                  .collection(
-                                                  DateFormat('dd MMM yyyy')
-                                                      .format(date))
-                                                  .document("h$index")
-                                                  .updateData({
-                                                'color': 'red',
-                                              });
-
+                                              changeProcessToRed(
+                                                  pgname: pgname,
+                                                  date: date,
+                                                  index: index);
 
                                             }
                                             break;
@@ -737,4 +785,27 @@ class _ReservationPageState extends State<ReservationPage> {
         .setData(addReservedHour);
     print("data created for this hour");
   }
+}
+
+changeProcessToRed({String pgname, date, index}) async {
+  await Firestore.instance
+      .collection('pgs')
+      .document("$pgname")
+      .collection(DateFormat('dd MMM yyyy').format(date))
+      .document("h$index")
+      .updateData({
+    'color': 'red',
+  });
+}
+
+Future<void> changeProcessToPaid({String res, ref}) async {
+  await Firestore.instance
+      .collection('users')
+      .document(res)
+      .collection("Transaction")
+      .document(ref)
+      .updateData({
+    'pay': "paid",
+  });
+  print("paid");
 }

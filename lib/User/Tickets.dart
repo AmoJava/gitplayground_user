@@ -25,8 +25,8 @@ class _TicketsState extends State<Tickets> {
                 stream: Firestore.instance
                     .collection('users')
                     .document('${widget.userid}')
-                    .collection('Transaction').where("pay", isEqualTo: 'paid')
-                    .orderBy('Expired time', descending: true)
+                    .collection('Transaction').where("pay", isEqualTo: "paid")
+                    .orderBy('reservation time', descending: true)
                     .snapshots(),
                 builder: (context, snapshot){
                   if (!snapshot.hasData) {
@@ -43,7 +43,7 @@ class _TicketsState extends State<Tickets> {
                         ));
                   }
 
-                  return ListView.builder(
+                  return ListView.builder(scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context,index){
@@ -64,7 +64,7 @@ class _TicketsState extends State<Tickets> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           child: SingleChildScrollView(
                             child: Container(
-                              width: MediaQuery.of(context).size.width * .86,
+                              width: MediaQuery.of(context).size.width * .93,
                               child: Column(
                                 children: <Widget>[
                                   Padding(
