@@ -734,6 +734,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                       pgname: pgname,
                                       umail: usermail,
                                       uid: userId,
+                                  day:day
                                     )));
                       } else {
                         var snack1 = SnackBar(

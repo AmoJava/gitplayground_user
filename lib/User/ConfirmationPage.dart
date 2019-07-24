@@ -14,12 +14,12 @@ class Confirmation extends StatefulWidget {
 
   List selecteditems;
   String uid, umail;
-
+var day ;
   var date;
   String pgname;
 
   Confirmation(
-      {this.umail, this.uid, this.selecteditems, this.date, this.pgname});
+      {this.day,this.umail, this.uid, this.selecteditems, this.date, this.pgname});
   @override
   _ConfirmationState createState() =>
       _ConfirmationState(selecteditems, date, pgname);
@@ -371,7 +371,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       'refnum': rfn,
                                                       'pay': "not paid",
                                                       'pgname': "$pgname",
-                                                      'day': " 1 june ",
+                                                      'day': "${widget.day}",
                                                       'mobile': "$mobile",
                                                       "reservation time": "${DateFormat(' dd MMM yyyy  @ hh:mm').format(date)}"
                                                     });
