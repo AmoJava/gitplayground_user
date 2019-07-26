@@ -30,7 +30,8 @@ class _payatfawryState extends State<payatfawry> {
     //_fetchData();
     return Scaffold(
         appBar: AppBar(
-          title: Text("ادفع في فوري"),
+          centerTitle: true,
+          title: Text("Fawry Pay"),
           backgroundColor: Colors.lightGreen,
         ), //1564160105046
         body: Container(

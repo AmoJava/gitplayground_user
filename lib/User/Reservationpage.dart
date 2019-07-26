@@ -148,33 +148,33 @@ class _ReservationPageState extends State<ReservationPage> {
                       pic1,
                       fit: BoxFit.fill,
                     )
-                        : Image.asset("assets/admin.png"),
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
                     pic2 != null
                         ? Image.network(
                             pic2,
                             fit: BoxFit.fill,
                           )
-                        : Image.asset("assets/admin.png",fit: BoxFit.fill,),
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
                     pic3 != null
                         ? Image.network(pic3,fit: BoxFit.fill,)
-                        : Image.asset("assets/admin.png",fit: BoxFit.fill,),
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
                     pic4 != null
                         ? Image.network(pic4,fit: BoxFit.fill,)
-                        : Image.asset("assets/admin.png",fit: BoxFit.fill),
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover),
 
                     pic5 != null
                         ? Image.network(
                       pic5,
                       fit: BoxFit.fill,
                     )
-                        : Image.asset("assets/admin.png.jpg"),
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
                     //Image.network(pic1),
                     pic6 != null
                         ? Image.network(
                       pic6,
                       fit: BoxFit.fill,
                     )
-                        : Image.asset("assets/admin.png.jpg")
+                        : Image.asset("assets/admin.png",fit: BoxFit.cover,)
                     //Image.network(pic1),
                   ]),
               Row(
