@@ -14,12 +14,17 @@ class Confirmation extends StatefulWidget {
 
   List selecteditems;
   String uid, umail;
-var day ;
+  var day;
   var date;
   String pgname;
 
   Confirmation(
-      {this.day,this.umail, this.uid, this.selecteditems, this.date, this.pgname});
+      {this.day,
+      this.umail,
+      this.uid,
+      this.selecteditems,
+      this.date,
+      this.pgname});
   @override
   _ConfirmationState createState() =>
       _ConfirmationState(selecteditems, date, pgname);
@@ -270,7 +275,8 @@ class _ConfirmationState extends State<Confirmation> {
                                                     "customerProfileId": userid,
                                                     "customerMobile": mobile,
                                                     "customerEmail": userMail,
-                                                    "paymentMethod": "PAYATFAWRY",
+                                                    "paymentMethod":
+                                                        "PAYATFAWRY",
                                                     "amount": tp,
                                                     "currencyCode": "EGP",
                                                     "description":
@@ -343,10 +349,12 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .document("h$i")
                                                         .updateData({
                                                       'color': 'yellow',
-                                                      'merchrefnum': merchantRefNum,
-                                                      'Expired time': expireDate,
+                                                      'merchrefnum':
+                                                          merchantRefNum,
+                                                      'Expired time':
+                                                          expireDate,
                                                       'mobile': mobile,
-                                                      'reservedBy' : userid ,
+                                                      'reservedBy': userid,
                                                       'refnum': rfn,
                                                     });
                                                   }
@@ -360,20 +368,20 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .document(userid)
                                                         .collection(
                                                             "Transaction")
-                                                        .document(rfn)
+                                                        .document(rfn+"$i")
                                                         .setData({
                                                       'merchrefnum':
                                                           merchantRefNum,
-                                                      'Expired time'://
+                                                      'Expired time': //
                                                           "${date.add(new Duration(hours: 1))}",
-                                                      'hours':
-                                                          '$i',
+                                                      'hours': '$i',
                                                       'refnum': rfn,
                                                       'pay': "not paid",
                                                       'pgname': "$pgname",
                                                       'day': "${widget.day}",
                                                       'mobile': "$mobile",
-                                                      "reservation time": "${DateFormat(' dd MMM yyyy  @ hh:mm').format(date)}"
+                                                      "reservation time":
+                                                          "${DateFormat(' dd MMM yyyy  @ hh:mm').format(date)}"
                                                     });
                                                   }
 

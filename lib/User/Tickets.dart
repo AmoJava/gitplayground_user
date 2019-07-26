@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 
 class Tickets extends StatefulWidget {
   String userid;
-  Tickets ({this.userid});
+  Tickets({this.userid});
 
   @override
   _TicketsState createState() => _TicketsState();
 }
 
 class _TicketsState extends State<Tickets> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,43 +25,47 @@ class _TicketsState extends State<Tickets> {
                 stream: Firestore.instance
                     .collection('users')
                     .document('${widget.userid}')
-                    .collection('Transaction').where("pay", isEqualTo: "paid")
+                    .collection('Transaction')
+                    .where("pay", isEqualTo: "paid")
                     .orderBy('reservation time', descending: true)
                     .snapshots(),
-                builder: (context, snapshot){
+                builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
                         child: Container(
-                          alignment: Alignment.center,
-                          height: double.maxFinite,
-                          width: double.maxFinite,
-                          color: Colors.lightGreen,
-                          child: Text(
-                            " Loading tickets .... ",
-                            style: TextStyle(color: Colors.white,fontSize: 25),
-                          ),
-                        ));
+                      alignment: Alignment.center,
+                      height: double.maxFinite,
+                      width: double.maxFinite,
+                      color: Colors.lightGreen,
+                      child: Text(
+                        " Loading tickets .... ",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                    ));
+                  }
+                  else if (snapshot.data.documents.length == 0) {
+                    return Center(
+                      child: Text(
+                        "لا يوجد لديك تزاكر ",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    );
                   }
 
-                  return ListView.builder(scrollDirection: Axis.horizontal,
+                  else return ListView.builder(
+                      scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         DocumentSnapshot pgSnapshot =
-                        snapshot.data.documents[index];
+                            snapshot.data.documents[index];
 
-                        if(snapshot.data.documents.length==0){
-
-                          return Text("you dont have any tickets ");
-                        }
-
-                        else
-
-                          return Card(
+                        return Card(
                           borderOnForeground: true,
                           elevation: 123,
                           color: Colors.white30,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
                           child: SingleChildScrollView(
                             child: Center(
                               child: Container(
@@ -84,124 +87,159 @@ class _TicketsState extends State<Tickets> {
                                       child: Directionality(
                                         textDirection: TextDirection.rtl,
                                         child: Table(
-                                          columnWidths: {1: FractionColumnWidth(.7)},
-                                          border: TableBorder.all(color: Colors.black12),
+                                          columnWidths: {
+                                            1: FractionColumnWidth(.7)
+                                          },
+                                          border: TableBorder.all(
+                                              color: Colors.black12),
                                           children: [
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "الملعب",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 25,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(right: 5, top: 6),
+                                                padding: EdgeInsets.only(
+                                                    right: 5, top: 6),
                                                 child: Text(
                                                   pgSnapshot['pgname'],
-                                                  style: TextStyle(color: Colors.white, fontSize: 25),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
                                                 ),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "اليوم",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 25,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Text(
                                                 pgSnapshot['day'],
-                                                style: TextStyle(color: Colors.white, fontSize: 25),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "الساعه",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 25,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Text(
                                                 pgSnapshot['hours'],
-                                                style: TextStyle(color: Colors.white, fontSize: 25),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "الاسم",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 25,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Text(
                                                 "أحمد",
-                                                style: TextStyle(color: Colors.white, fontSize: 25),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "الموبايل",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 20,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Text(
                                                 pgSnapshot['mobile'],
-                                                style: TextStyle(color: Colors.white, fontSize: 25),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "رقم الفاتوره",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 20,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Text(
                                                 pgSnapshot['refnum'],
-                                                style: TextStyle(color: Colors.white, fontSize: 25),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25),
                                               )
                                             ]),
                                             TableRow(children: [
                                               Padding(
-                                                padding: EdgeInsets.only(right: 8),
+                                                padding:
+                                                    EdgeInsets.only(right: 8),
                                                 child: Text(
                                                   "تاريخ الحجز",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 20,
                                                       color: Colors.black),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(bottom: 10),
+                                                padding:
+                                                    EdgeInsets.only(bottom: 10),
                                                 child: Text(
-                                                  pgSnapshot['reservation time'],
-                                                  style: TextStyle(color: Colors.white, fontSize: 25),textAlign: TextAlign.right,
+                                                  pgSnapshot[
+                                                      'reservation time'],
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
+                                                  textAlign: TextAlign.right,
                                                 ),
                                               )
                                             ])
@@ -215,12 +253,8 @@ class _TicketsState extends State<Tickets> {
                             ),
                           ),
                         );
-
-
                       });
-
                 },
-
               ),
             )
           ],

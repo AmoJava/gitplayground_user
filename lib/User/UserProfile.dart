@@ -122,7 +122,7 @@ class _UserProfileState extends State<UserProfile> {
                       height: 80,
                       child: Center(
                           child: Text(
-                            "الدفع بواسطه فوري",
+                            "إدفع بواسطه فوري",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
