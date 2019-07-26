@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class payatfawry extends StatefulWidget {
   String userid;
@@ -16,13 +17,16 @@ class _payatfawryState extends State<payatfawry> {
     Response response;
     Dio dio = new Dio();
     response = await dio.get(url);
-    print(response);
+    print(DateTime.now().millisecondsSinceEpoch);
     return response;
   }
 
+
   @override
   Widget build(BuildContext context) {
-    print(DateTime.now().toUtc());
+
+
+    print(DateTime.now().millisecondsSinceEpoch);
     //_fetchData();
     return Scaffold(
         appBar: AppBar(
@@ -53,7 +57,7 @@ class _payatfawryState extends State<payatfawry> {
                               .document('${widget.userid}')
                               .collection('Transaction')
                               .where("Expired time",
-                                  isGreaterThan: '${DateTime.now().toUtc()}')
+                                  isGreaterThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
                               .orderBy('Expired time', descending: true)
                               .snapshots(),
                           builder: (context, snapshot) {
@@ -120,7 +124,7 @@ class _payatfawryState extends State<payatfawry> {
                                                             alignment: Alignment
                                                                 .centerRight,
                                                             child: Text(
-                                                                "رقم العمليه")),
+                                                                "رقم العمليه",style: TextStyle(color: Colors.white),)),
                                                       ),
                                                       Padding(
                                                         padding:
@@ -139,8 +143,9 @@ class _payatfawryState extends State<payatfawry> {
                                                       ),
                                                       Center(
                                                         child: Text(
+                                                          //DateFormat("yMd").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))
                                                           //DateFormat(' dd MMM yyyy  @ hh:mm').format(pgSnapshot["Expired time"])
-                                                          " will expire in ${pgSnapshot["Expired time"]}",
+                                                          " will expire in ${DateFormat("yMd HH-mm").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))}",
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -158,8 +163,6 @@ class _payatfawryState extends State<payatfawry> {
                                                         color:
                                                             Colors.lightGreen,
                                                         child: Column(
-                                                          textDirection:
-                                                              TextDirection.rtl,
                                                           children: <Widget>[
                                                             Text(
                                                               "بيانات الحجز ",
@@ -169,10 +172,7 @@ class _payatfawryState extends State<payatfawry> {
                                                               style: TextStyle(
                                                                   fontSize: 20),
                                                             ),
-                                                            Directionality(
-                                                                textDirection:
-                                                                    TextDirection
-                                                                        .rtl,
+                                                            Container(alignment: Alignment.centerRight,
                                                                 child: Table(
                                                                   columnWidths: {
                                                                     1: FractionColumnWidth(
@@ -185,7 +185,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                     TableRow(
                                                                         children: [
                                                                           Center(
-                                                                              child: Text("الملعب")),
+                                                                              child: Text("Playground name",textAlign: TextAlign.center,)),
                                                                           Padding(
                                                                             padding:
                                                                                 EdgeInsets.only(right: 3),
@@ -199,7 +199,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                     TableRow(
                                                                         children: [
                                                                           Center(
-                                                                              child: Text("اليوم")),
+                                                                              child: Text("day")),
                                                                           Padding(
                                                                             padding:
                                                                                 EdgeInsets.only(right: 3),
@@ -213,7 +213,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                     TableRow(
                                                                         children: [
                                                                           Center(
-                                                                              child: Text("الساعه")),
+                                                                              child: Text("Hour")),
                                                                           Padding(
                                                                             padding:
                                                                                 EdgeInsets.only(right: 3),

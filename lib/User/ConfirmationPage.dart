@@ -373,7 +373,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       'merchrefnum':
                                                           merchantRefNum,
                                                       'Expired time': //
-                                                          "${date.add(new Duration(hours: 1))}",
+                                                          "${date.add(new Duration(hours: 1)).millisecondsSinceEpoch}",
                                                       'hours': '$i',
                                                       'refnum': rfn,
                                                       'pay': "not paid",

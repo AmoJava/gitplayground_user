@@ -43,16 +43,8 @@ class _TicketsState extends State<Tickets> {
                       ),
                     ));
                   }
-                  else if (snapshot.data.documents.length == 0) {
-                    return Center(
-                      child: Text(
-                        "لا يوجد لديك تزاكر ",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    );
-                  }
 
-                  else return ListView.builder(
+                  return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
@@ -171,7 +163,7 @@ class _TicketsState extends State<Tickets> {
                                                 ),
                                               ),
                                               Text(
-                                                "أحمد",
+                                                "Ahmed",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 25),

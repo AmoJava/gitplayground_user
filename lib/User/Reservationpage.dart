@@ -23,7 +23,7 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String pic1;
+  String pic1,pic2,pic3,pic4,pic5,pic6,mobile;
   String textofindex;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
@@ -97,11 +97,17 @@ class _ReservationPageState extends State<ReservationPage> {
     ref.get().then((datasnapshot) {
       if (datasnapshot.exists) {
         setState(() {
+          mobile = datasnapshot.data['mobile'];
           location = datasnapshot.data['address'];
           price1 = datasnapshot.data['price1'];
           price2 = datasnapshot.data['price2'];
           price3 = datasnapshot.data['price3'];
           pic1 = datasnapshot.data['pic1'];
+          pic2 = datasnapshot.data['pic2'];
+          pic3 = datasnapshot.data['pic3'];
+          pic4 = datasnapshot.data['pic4'];
+          pic5 = datasnapshot.data['pic5'];
+          pic6 = datasnapshot.data['pic6'];
           print(price1);
           print(price2);
           print(price3);
@@ -137,26 +143,38 @@ class _ReservationPageState extends State<ReservationPage> {
                   width: MediaQuery.of(context).size.width,
                   type: "simple",
                   children: [
-                    Image.asset(
-                      'assets/pg1.jpg',
-                      fit: BoxFit.fill,
-                    ),
                     pic1 != null
                         ? Image.network(
-                            pic1,
+                      pic1,
+                      fit: BoxFit.fill,
+                    )
+                        : Image.asset("assets/admin.png"),
+                    pic2 != null
+                        ? Image.network(
+                            pic2,
                             fit: BoxFit.fill,
                           )
-                        : Image.asset("assets/pg3.jpg"),
-                    pic1 != null
-                        ? Image.network(pic1)
-                        : Image.asset("assets/pg3.jpg"),
-                    pic1 != null
-                        ? Image.network(pic1)
-                        : Image.asset("assets/pg3.jpg"),
+                        : Image.asset("assets/admin.png",fit: BoxFit.fill,),
+                    pic3 != null
+                        ? Image.network(pic3,fit: BoxFit.fill,)
+                        : Image.asset("assets/admin.png",fit: BoxFit.fill,),
+                    pic4 != null
+                        ? Image.network(pic4,fit: BoxFit.fill,)
+                        : Image.asset("assets/admin.png",fit: BoxFit.fill),
 
-                    Image.asset('assets/pg3.jpg', fit: BoxFit.fill),
+                    pic5 != null
+                        ? Image.network(
+                      pic5,
+                      fit: BoxFit.fill,
+                    )
+                        : Image.asset("assets/admin.png.jpg"),
                     //Image.network(pic1),
-                    Image.asset('assets/pg5.jpg', fit: BoxFit.fill),
+                    pic6 != null
+                        ? Image.network(
+                      pic6,
+                      fit: BoxFit.fill,
+                    )
+                        : Image.asset("assets/admin.png.jpg")
                     //Image.network(pic1),
                   ]),
               Row(
@@ -182,7 +200,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    "01553969051",
+                    "$mobile",
                     style: TextStyle(fontSize: 20),
                   ),
                   Icon(
