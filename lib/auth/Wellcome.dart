@@ -30,11 +30,12 @@ class _spalsh_screenState extends State<spalsh_screen> {
     return Scaffold(
       //backgroundColor:Colors.yellow.shade500,
       body: Container(
-        decoration: BoxDecoration(
+
+        decoration: BoxDecoration(color: Colors.white,
             image: DecorationImage(
                 image: AssetImage(
-                    "assets/alex-462576-unsplash.jpg"
-                ), fit: BoxFit.fill)),
+                    "assets/Splash.png"
+                ))),
       ),
     );
   }
