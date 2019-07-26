@@ -364,10 +364,10 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .setData({
                                                       'merchrefnum':
                                                           merchantRefNum,
-                                                      'Expired time':
+                                                      'Expired time'://
                                                           "${date.add(new Duration(hours: 1))}",
                                                       'hours':
-                                                          '$i', // loop for each hour
+                                                          '$i',
                                                       'refnum': rfn,
                                                       'pay': "not paid",
                                                       'pgname': "$pgname",

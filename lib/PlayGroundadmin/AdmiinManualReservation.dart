@@ -182,15 +182,22 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                       .snapshots(),
 
                                                   builder: (BuildContext context, snapshot) {
-                                                    return AlertDialog(
-                                                      title: Text("بيانات الساعة المحجوزة"),
-                                                      content: Column(
-                                                        children: <Widget>[
+                                                    return SizedBox(
+                                                      height: 50,
+                                                      child: AlertDialog(contentPadding: EdgeInsets.all(2),
+                                                        title: Text("بيانات الساعة المحجوزة"),
+                                                        content: SizedBox(height: 100,
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              Text("تم حجزها بواسطه "),
+                                                              Text(snapshot.data.documents[index]["mobile"]==null?"admin":snapshot.data.documents[index]["mobile"].toString()),
+                                                              Text("المبلغ المدفوع "),
+                                                              Text(snapshot.data.documents[index]["price"].toString()),
 
-                                                          Text(snapshot.data.documents[index]["mobile"].toString()),
-                                                          Text(snapshot.data.documents[index]["price"].toString()),
-                                                          //Text("الموبايل:0101520")
-                                                        ],
+                                                              //Text("الموبايل:0101520")
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
                                                     );
                                                   }

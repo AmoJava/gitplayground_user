@@ -766,16 +766,6 @@ class _ReservationPageState extends State<ReservationPage> {
       'color': 'green',
       'index': inty,
       'price': price,
-      //'merchrefnum': "",
-      //'userName': "amo",
-      //'userID': "Ghgffgfg211fgfgfgfgfgfg",
-      //'userEmail': "ph.ahmedmohsin@gmai.com",
-      //"userProfilePic":"httppp/gjgjhgjhgjhg",
-      //'dateOfReservation': "${getDateofnow()}",
-      //'isReserved': true,
-      //"paymentConfirmed" : true ,
-      //"paymentMethod": "visa",
-      //"operationNumber": 2121512121212442
     };
 
     Firestore.instance

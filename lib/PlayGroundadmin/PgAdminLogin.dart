@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PgLogin extends StatefulWidget {
   PgLogin({this.auth, this.onSignedIn});
@@ -12,6 +13,8 @@ class PgLogin extends StatefulWidget {
 }
 
 enum FormMode { LOGIN, SIGNUP }
+
+
 
 class PgLoginState extends State<PgLogin> {
 
@@ -82,6 +85,7 @@ class PgLoginState extends State<PgLogin> {
 
   @override
   void initState() {
+
     _errorMessage = "";
     _isLoading = false;
     super.initState();
@@ -108,8 +112,9 @@ class PgLoginState extends State<PgLogin> {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: new AppBar(
-        title: new Text('Flutter login demooooo'),
+      appBar: new AppBar(centerTitle: true,
+        backgroundColor: Colors.green,
+        title: new Text('El3bkora admin'),
       ),
       body:
 
@@ -186,7 +191,7 @@ class PgLoginState extends State<PgLogin> {
         _errorMessage,
         style: TextStyle(
             fontSize: 13.0,
-            color: Colors.red,
+            color: Colors.green,
             height: 1.0,
             fontWeight: FontWeight.w300),
       );
@@ -200,13 +205,16 @@ class PgLoginState extends State<PgLogin> {
   Widget _showLogo() {
     return new Hero(
       tag: 'hero',
-      child: FlutterLogo(size: 100.0),
+      child: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Image.asset("assets/admin.png",height: 140,width: 100,fit: BoxFit.cover,),
+      ),
     );
   }
 
   Widget _showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
@@ -273,13 +281,13 @@ class PgLoginState extends State<PgLogin> {
 
   Widget _showPrimaryButton() {
     return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
         child: SizedBox(
           height: 40.0,
           child: new RaisedButton(
             elevation: 5.0,
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
+            color: Colors.green,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white))
@@ -293,7 +301,6 @@ class PgLoginState extends State<PgLogin> {
 
 
 }
-
 
 
 

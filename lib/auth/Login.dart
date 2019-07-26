@@ -177,6 +177,15 @@ Stack(children: <Widget>[
                   child: MaterialButton(
                     height: 20,
                     onPressed: () {
+
+
+                      //Future<void>_signout()async{
+
+
+                        FirebaseAuth.instance.signOut();
+                        //exit(0);
+
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
                     },

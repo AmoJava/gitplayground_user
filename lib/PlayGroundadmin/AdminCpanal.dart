@@ -70,7 +70,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
                       color: Colors.white,
                       fontWeight: FontWeight.w900),
                 ),
-                SizedBox(
+                /*SizedBox(
                   height: 8,
                 ),
                 FlatButton(
@@ -90,7 +90,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
                       color: Colors.lightGreen,
                       height: 60,
                       width: 180,
-                    )),
+                    )),*/
                 SizedBox(
                   height: 8,
                 ),

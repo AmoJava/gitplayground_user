@@ -64,7 +64,8 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(onWillPop: _onBackPressed,
-      child: Scaffold(
+      child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(child: Icon(Icons.call,color: Colors.green,),backgroundColor: Colors.white,onPressed: (){}),
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -93,7 +94,7 @@ class _UserProfileState extends State<UserProfile> {
                           color: Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: 280,
+                      width: MediaQuery.of(context).size.width*.75,
                       height: 80,
                       child: Center(
                           child: Text(
@@ -116,7 +117,7 @@ class _UserProfileState extends State<UserProfile> {
                           color: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: 280,
+                      width: MediaQuery.of(context).size.width*.75,
                       //color: Colors.indigoAccent,
                       height: 80,
                       child: Center(
@@ -138,7 +139,7 @@ class _UserProfileState extends State<UserProfile> {
                           color: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: 280,
+                      width: MediaQuery.of(context).size.width*.75,
                       //color: Colors.indigoAccent,
                       height: 80,
                       child: Center(
@@ -149,6 +150,7 @@ class _UserProfileState extends State<UserProfile> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           )))),
+
             ],
           ),
         ),
