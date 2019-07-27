@@ -26,8 +26,7 @@ class _TicketsState extends State<Tickets> {
                     .collection('users')
                     .document('${widget.userid}')
                     .collection('Transaction')
-                    .where("pay", isEqualTo: "paid")
-                    .orderBy('reservation time', descending: true)
+                    .where("pay", isEqualTo: "paid").orderBy('Expired time', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -163,7 +162,7 @@ class _TicketsState extends State<Tickets> {
                                                 ),
                                               ),
                                               Text(
-                                                "Ahmed",
+                                                pgSnapshot['mobile'],
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 25),

@@ -187,7 +187,7 @@ class _ConfirmationState extends State<Confirmation> {
                                         decoration: new InputDecoration(
                                             prefixIcon:
                                                 Icon(Icons.mobile_screen_share),
-                                            hintText: "01004545545"),
+                                            hintText: "01012345678"),
                                       ),
                                       Text("سيصلك كود الدفع علي هذا الرقم"),
                                       Stack(
@@ -372,8 +372,8 @@ class _ConfirmationState extends State<Confirmation> {
                                                         .setData({
                                                       'merchrefnum':
                                                           merchantRefNum,
-                                                      'Expired time': //
-                                                          "${date.add(new Duration(hours: 1)).millisecondsSinceEpoch}",
+                                                      'Expired time':
+                                                          date.add(new Duration(hours: 1)).millisecondsSinceEpoch,
                                                       'hours': '$i',
                                                       'refnum': rfn,
                                                       'pay': "not paid",

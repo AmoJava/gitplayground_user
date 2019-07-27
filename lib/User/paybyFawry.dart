@@ -146,7 +146,7 @@ class _payatfawryState extends State<payatfawry> {
                                                         child: Text(
                                                           //DateFormat("yMd").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))
                                                           //DateFormat(' dd MMM yyyy  @ hh:mm').format(pgSnapshot["Expired time"])
-                                                          " will expire in ${DateFormat("yMd HH-mm").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))}",
+                                                          " will expire in ${DateFormat("y M d HH-mm").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))}",
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
