@@ -26,7 +26,7 @@ class _TicketsState extends State<Tickets> {
                     .collection('users')
                     .document('${widget.userid}')
                     .collection('Transaction')
-                    .where("pay", isEqualTo: "paid").orderBy('Expired time', descending: true)
+                    .where("pay", isEqualTo: "paid")
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {

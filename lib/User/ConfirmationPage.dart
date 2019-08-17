@@ -378,7 +378,7 @@ class _ConfirmationState extends State<Confirmation> {
                                                       'refnum': rfn,
                                                       'pay': "not paid",
                                                       'pgname': "$pgname",
-                                                      'day': "${widget.day}",
+                                                      'day': widget.day == null ? '${DateTime.now().day}' : "${widget.day}",
                                                       'mobile': "$mobile",
                                                       "reservation time":
                                                           "${DateFormat(' dd MMM yyyy  @ hh:mm').format(date)}"

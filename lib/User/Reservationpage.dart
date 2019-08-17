@@ -41,7 +41,7 @@ class _ReservationPageState extends State<ReservationPage> {
   var dateofnowepoch;
   var expiredate = 00;
   int price1, price2, price3;
-  String location;
+  String location , type;
   _fetchData(String url) async {
     Response response;
     Dio dio = new Dio();
@@ -99,6 +99,7 @@ class _ReservationPageState extends State<ReservationPage> {
         setState(() {
           mobile = datasnapshot.data['mobile'];
           location = datasnapshot.data['address'];
+          type = datasnapshot.data['type'];
           price1 = datasnapshot.data['price1'];
           price2 = datasnapshot.data['price2'];
           price3 = datasnapshot.data['price3'];
@@ -139,7 +140,7 @@ class _ReservationPageState extends State<ReservationPage> {
                   axis: Axis.horizontal,
                   indicatorType: "dot",
                   showIndicator: true,
-                  height: 200,
+                  height: MediaQuery.of(context).size.height*.5,
                   width: MediaQuery.of(context).size.width,
                   type: "simple",
                   children: [
@@ -182,7 +183,8 @@ class _ReservationPageState extends State<ReservationPage> {
                 children: <Widget>[
                   Expanded(
                       child: Text(
-                    "$location",
+                        location != null ?
+                        "$location" : "loading ... ",
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 20),
                   )),
@@ -199,8 +201,8 @@ class _ReservationPageState extends State<ReservationPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text(
-                    "$mobile",
+                  Text( mobile != null ?
+                    "$mobile" : "loading ... ",
                     style: TextStyle(fontSize: 20),
                   ),
                   Icon(
@@ -217,7 +219,8 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    "5*5",
+                    type != null ?
+                    "$type" : "loading ... ",
                     style: TextStyle(fontSize: 20),
                   ),
                   Icon(
@@ -236,8 +239,8 @@ class _ReservationPageState extends State<ReservationPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا$price1 جنيها و من الساعه الرابعه صباحا حتي السادسه مساء $price2 جنيه عرض لفتره محدوده",
+                      child: Text( price1 != null ?
+                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا$price1 جنيها و من الساعه الرابعه صباحا حتي السادسه مساء $price2 جنيه عرض لفتره محدوده" : "loading prices",
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 18),
                       ),
@@ -470,11 +473,11 @@ class _ReservationPageState extends State<ReservationPage> {
                                   merchantRefNum = snapshot
                                       .data.documents[index]['merchrefnum'];
 
-                                  var reservation_uid = snapshot
-                                      .data.documents[index]['reservedBy'];
+                                  var reservation_uid = snapshot.data.documents[index]['reservedBy'];
 
-                                  var refnum =
-                                      snapshot.data.documents[index]['refnum'];
+                                  var refnum = snapshot.data.documents[index]['refnum'];
+                                  print("still "+reservation_uid);
+                                  print("still "+refnum);
 
                                   print(merchantRefNum);
                                   String conc =
@@ -519,6 +522,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                           case "UNPAID":
                                             {
 
+
                                               Firestore.instance
                                                   .collection('pgs')
                                                   .document("$pgname")
@@ -537,9 +541,15 @@ class _ReservationPageState extends State<ReservationPage> {
                                           case "PAID":
                                             {
 
-                                              changeProcessToPaid(
-                                                  res: reservation_uid,
-                                                  ref: refnum);
+
+                                              Firestore.instance
+                                                  .collection('users')
+                                                  .document(reservation_uid)
+                                                  .collection("Transaction")
+                                                  .document(refnum+'$index')
+                                                  .updateData({
+                                                'pay': "paid",
+                                              });
 
                                               changeProcessToRed(
                                                   pgname: pgname,
