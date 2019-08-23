@@ -42,6 +42,7 @@ class _ReservationPageState extends State<ReservationPage> {
   var expiredate = 00;
   int price1, price2, price3;
   String location , type;
+
   _fetchData(String url) async {
     Response response;
     Dio dio = new Dio();

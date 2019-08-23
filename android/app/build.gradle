@@ -48,8 +48,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 7
-        versionName "2.0"
+        versionCode 10 //19-8 fagr
+        versionName "2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 

@@ -31,16 +31,36 @@ class _TicketsState extends State<Tickets> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
-                        child: Container(
-                      alignment: Alignment.center,
-                      height: double.maxFinite,
-                      width: double.maxFinite,
-                      color: Colors.lightGreen,
-                      child: Text(
-                        " Loading tickets .... ",
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                              EdgeInsets.only(right: 20, left: 20, bottom: 15),
+                          child: LinearProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.green),
+                            backgroundColor: Colors.lightGreenAccent.shade100,
+                          ),
+                        ),
+                        Text(
+                          " يتم تحميل التزاكر .... ",
+                          style: TextStyle(fontSize: 25),
+                        ),
+                      ],
                     ));
+                  } else if (snapshot.data.documents.length == 0) {
+                    return Center(
+                      child: Column(
+                        children: <Widget>[
+
+                          Text(
+                            "لا يوجد لديك تزاكر ",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    );
                   }
 
                   return ListView.builder(
@@ -255,6 +275,8 @@ class _TicketsState extends State<Tickets> {
   }
 }
 
+
+/*
 Widget tabelticeket(var context) {
   return Card(
     borderOnForeground: true,
@@ -412,3 +434,4 @@ Widget tabelticeket(var context) {
     ),
   );
 }
+*/
