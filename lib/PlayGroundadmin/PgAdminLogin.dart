@@ -55,10 +55,11 @@ class PgLoginState extends State<PgLogin> {
           userId = await widget.auth.signIn(_email, _password);
           print('Signed in: $userId');
         } else {
+          /*
           userId = await widget.auth.signUp(_email, _password);
           widget.auth.sendEmailVerification();
           _showVerifyEmailSentDialog();
-
+*/
           print('Signed up user: $userId');
         }
         setState(() {
@@ -178,8 +179,9 @@ class PgLoginState extends State<PgLogin> {
               _showEmailInput(),
               _showPasswordInput(),
               _showPrimaryButton(),
-              _showSecondaryButton(),
+              //_showSecondaryButton(),
               _showErrorMessage(),
+
             ],
           ),
         ));

@@ -48,8 +48,9 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 10 //19-8 fagr
-        versionName "2.4"
+        // flutter build apk --split-per-abi
+        versionCode 11 //23-8 m3'rb
+        versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 

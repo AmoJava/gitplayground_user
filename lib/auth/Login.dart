@@ -172,28 +172,28 @@ Stack(children: <Widget>[
   ),)
 ],),
                 SizedBox(height: 20,),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: MaterialButton(
-                    height: 20,
-                    onPressed: () {
+                Container(),
+                InkWell(
+                  onLongPress: () {
 
 
-                      //Future<void>_signout()async{
+
+                    FirebaseAuth.instance.signOut();
 
 
-                        FirebaseAuth.instance.signOut();
-                        //exit(0);
-
-
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
-                    },
-                    color: Colors.grey,
-                    minWidth: 100,
-                    child: Text(
-                      ' Admins',
-                      style: textstyle,
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      height: 20,
+                      color: Colors.white30,
+                      child: Text(
+                        '+',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
