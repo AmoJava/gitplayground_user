@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fitHeight, repeat: ImageRepeat.repeatX,
-                image: AssetImage("assets/intro.gif",)
+                image: AssetImage("assets/giphy (1).gif",)
                 //  "https://media.giphy.com/media/ckXTbeFGygcMiuh8pr/giphy.gif")
                 , /*colorFilter:ColorFilter.linearToSrgbGamma() */)),
           child: Container(width: double.infinity,
@@ -97,7 +97,7 @@ Stack(children: <Widget>[
           style: TextStyle(
               fontSize: 35,
               fontWeight: FontWeight.w900,
-              color: Colors.white),
+              color: Colors.green),
         ),
         SizedBox(
           height: 3,
@@ -186,13 +186,16 @@ Stack(children: <Widget>[
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      height: 20,
-                      color: Colors.white30,
-                      child: Text(
-                        '+',
-                        style: TextStyle(fontSize: 20),
+                    child: Align(alignment: Alignment.centerRight,
+                      child: Container(
+                        //alignment: Alignment.centerRight,
+                        width: 20,
+                        height: 30,
+                        color: Colors.white30,
+                        child: Text(
+                          '+',
+                          style: TextStyle(fontSize: 20,color: Colors.grey),textAlign: TextAlign.right,
+                        ),
                       ),
                     ),
                   ),

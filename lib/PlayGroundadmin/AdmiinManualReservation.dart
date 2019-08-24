@@ -318,14 +318,14 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                       (BuildContext context,
                                                           snapshot) {
                                                     return SizedBox(
-                                                      height: 50,
+                                                      height: 80,
                                                       child: AlertDialog(
                                                         contentPadding:
                                                             EdgeInsets.all(2),
                                                         title: Text(
                                                             "بيانات الساعة المحجوزة"),
                                                         content: SizedBox(
-                                                          height: 140,
+                                                          height: 180,
                                                           child: Column(
                                                             children: <Widget>[
                                                               Text(
@@ -365,7 +365,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                                         width:
                                                                             30,
                                                                         color: Colors
-                                                                            .yellow,
+                                                                            .grey,
                                                                         child:
                                                                             Center(
                                                                           child:
@@ -414,6 +414,8 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                                                         });
 
                                                                                         Navigator.of(context).pop();
+                                                                                        Navigator.of(context).pop();
+                                                                                        
                                                                                       }));
                                                                             }
 
