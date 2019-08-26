@@ -19,7 +19,7 @@ enum FormMode { LOGIN, SIGNUP }
 class PgLoginState extends State<PgLogin> {
 
   final _formKey = new GlobalKey<FormState>();
-
+ bool val = false ;
   String _email;
   String _password;
   String _errorMessage;
@@ -30,6 +30,8 @@ class PgLoginState extends State<PgLogin> {
   bool _isLoading;
 
 
+
+  /*bool remmemberpassword , if true it will be saved in the shared pref oon lo */
 
   // Check if form is valid before perform login or signup
 
@@ -114,7 +116,7 @@ class PgLoginState extends State<PgLogin> {
     return new Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: new AppBar(centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         title: new Text('El3bkora admin'),
       ),
       body:
@@ -178,7 +180,18 @@ class PgLoginState extends State<PgLogin> {
               _showLogo(),
               _showEmailInput(),
               _showPasswordInput(),
-              _showPrimaryButton(),
+              Row(
+                children: <Widget>[
+                  Checkbox(activeColor: Colors.teal,value: val, onChanged: (bool value){
+
+                                  setState(() {
+                                  val = value ;
+                      });
+
+  }),Text("Remember login data")
+                ],
+              )
+              ,_showPrimaryButton(),
               //_showSecondaryButton(),
               _showErrorMessage(),
 
@@ -289,7 +302,7 @@ class PgLoginState extends State<PgLogin> {
           child: new RaisedButton(
             elevation: 5.0,
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.green,
+            color: Colors.teal,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white))

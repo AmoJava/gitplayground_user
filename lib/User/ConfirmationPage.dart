@@ -55,6 +55,7 @@ class _ConfirmationState extends State<Confirmation> {
     var random = Random.secure();
     var value = random.nextInt(1000000000);
     payloading = false;
+
     for (final i in selecteditems) {
       DocumentReference ref = Firestore.instance
           .collection('pgs')

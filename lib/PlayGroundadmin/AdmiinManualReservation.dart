@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:giffy_dialog/giffy_dialog.dart';
 
 class AdmiinManualReservation extends StatefulWidget {
@@ -16,7 +16,7 @@ class AdmiinManualReservation extends StatefulWidget {
 
 class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
   bool isSelected;
-
+int byuserssum=0 ;
   var reservationColor;
   String hourStateColor;
   String textofindex;
@@ -71,7 +71,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    DateFormat('dd MMM yyyy').format(date),
+                    intl.DateFormat('dd MMM yyyy').format(date),
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20,
@@ -97,7 +97,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                       stream: Firestore.instance
                           .collection("pgs")
                           .document("$pgname")
-                          .collection(DateFormat('dd MMM yyyy').format(date))
+                          .collection(intl.DateFormat('dd MMM yyyy').format(date))
                           .orderBy('index', descending: false)
                           .snapshots(),
                       builder: (BuildContext context, snapshot) {
@@ -106,21 +106,21 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                         } else if (snapshot.data.documents.length < 24) {
                           for (int x = 0; x < 4; x++) {
                             addReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: widget.price1);
                           }
                           ;
                           for (int x = 4; x < 17; x++) {
                             addReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: widget.price2);
                           }
                           ;
                           for (int x = 17; x < 24; x++) {
                             addReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: widget.price3);
                           }
@@ -136,6 +136,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                             itemBuilder: (BuildContext context, int index) {
                               /* var reservation_bool =
                                   snapshot.data.documents[index]['isReserved'];*/
+
 
                               var reservation_color =
                                   snapshot.data.documents[index]['color'];
@@ -308,7 +309,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                   stream: Firestore.instance
                                                       .collection("pgs")
                                                       .document("$pgname")
-                                                      .collection(DateFormat(
+                                                      .collection(intl.DateFormat(
                                                               'dd MMM yyyy')
                                                           .format(date))
                                                       .orderBy('index',
@@ -404,7 +405,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                                                         Firestore.instance
                                                                                             .collection('pgs')
                                                                                             .document("$pgname")
-                                                                                            .collection(DateFormat(
+                                                                                            .collection(intl.DateFormat(
                                                                                             'dd MMM yyyy')
                                                                                             .format(date))
                                                                                             .document("h$index")
@@ -472,7 +473,7 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                                                   Firestore.instance
                                                       .collection('pgs')
                                                       .document("$pgname")
-                                                      .collection(DateFormat(
+                                                      .collection(intl.DateFormat(
                                                               'dd MMM yyyy')
                                                           .format(date))
                                                       .document("h$index")
@@ -518,14 +519,29 @@ class _AdmiinManualReservationState extends State<AdmiinManualReservation> {
                   },
                   child: Text(
                     "تأكيد الحجز",
+                    
                     style: TextStyle(
                         color: Colors.green, fontWeight: FontWeight.bold),
                   ))*/
+
+              /*Directionality(textDirection: TextDirection.rtl,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(4, 8, 5, 8),
+                      child: Container(width: MediaQuery.of(context).size.width*.75,child: Text("عدد الساعات المحجوزه بواسطه المستخدمين",textAlign: TextAlign.center,)),
+                    ),
+                    Text("5",style: TextStyle(fontSize: 20),)
+                  ],
+                ),
+              )*/
+
             ],
           ),
         ),
       ),
     );
+
   }
 
   addReservationtodb({int inty, String date, int price}) {

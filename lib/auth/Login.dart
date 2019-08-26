@@ -97,7 +97,7 @@ Stack(children: <Widget>[
           style: TextStyle(
               fontSize: 35,
               fontWeight: FontWeight.w900,
-              color: Colors.green),
+              color: Colors.teal),
         ),
         SizedBox(
           height: 3,
@@ -107,7 +107,7 @@ Stack(children: <Widget>[
           color: Colors.red,
           minWidth: 160,
           child: Text(
-            'gmail',
+            'Gmail',
             style: TextStyle(fontSize: 25, color: Colors.white),
           ),
         ),
