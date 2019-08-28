@@ -75,13 +75,7 @@ class _UserProfileState extends State<UserProfile> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              /*Text(
-                "أهلا أحمد",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.pink,
-                    fontWeight: FontWeight.bold),
-              ),*/
+
               FlatButton(
                   onPressed: () {
                     Navigator.push(

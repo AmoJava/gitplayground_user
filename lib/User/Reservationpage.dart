@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:playground_user/User/Payment.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
@@ -23,7 +22,7 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
-  String pic1,pic2,pic3,pic4,pic5,pic6,mobile;
+  String pic1, pic2, pic3, pic4, pic5, pic6, mobile;
   String textofindex;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
@@ -41,7 +40,7 @@ class _ReservationPageState extends State<ReservationPage> {
   var dateofnowepoch;
   var expiredate = 00;
   int price1, price2, price3;
-  String location , type;
+  String location, type;
 
   _fetchData(String url) async {
     Response response;
@@ -141,42 +140,63 @@ class _ReservationPageState extends State<ReservationPage> {
                   axis: Axis.horizontal,
                   indicatorType: "dot",
                   showIndicator: true,
-                  height: MediaQuery.of(context).size.height*.5,
+                  height: MediaQuery.of(context).size.height * .5,
                   width: MediaQuery.of(context).size.width,
                   type: "simple",
                   children: [
                     pic1 != null
                         ? Image.network(
-                      pic1,
-                      fit: BoxFit.fill,
-                    )
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
+                            pic1,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/admin.png",
+                            fit: BoxFit.cover,
+                          ),
                     pic2 != null
                         ? Image.network(
                             pic2,
                             fit: BoxFit.fill,
                           )
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
+                        : Image.asset(
+                            "assets/admin.png",
+                            fit: BoxFit.cover,
+                          ),
                     pic3 != null
-                        ? Image.network(pic3,fit: BoxFit.fill,)
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
+                        ? Image.network(
+                            pic3,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/admin.png",
+                            fit: BoxFit.cover,
+                          ),
                     pic4 != null
-                        ? Image.network(pic4,fit: BoxFit.fill,)
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover),
+                        ? Image.network(
+                            pic4,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset("assets/admin.png", fit: BoxFit.cover),
 
                     pic5 != null
                         ? Image.network(
-                      pic5,
-                      fit: BoxFit.fill,
-                    )
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover,),
+                            pic5,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/admin.png",
+                            fit: BoxFit.cover,
+                          ),
                     //Image.network(pic1),
                     pic6 != null
                         ? Image.network(
-                      pic6,
-                      fit: BoxFit.fill,
-                    )
-                        : Image.asset("assets/admin.png",fit: BoxFit.cover,)
+                            pic6,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/admin.png",
+                            fit: BoxFit.cover,
+                          )
                     //Image.network(pic1),
                   ]),
               Row(
@@ -184,8 +204,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 children: <Widget>[
                   Expanded(
                       child: Text(
-                        location != null ?
-                        "$location" : "loading ... ",
+                    location != null ? "$location" : "loading ... ",
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 20),
                   )),
@@ -202,8 +221,8 @@ class _ReservationPageState extends State<ReservationPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text( mobile != null ?
-                    "$mobile" : "loading ... ",
+                  Text(
+                    mobile != null ? "$mobile" : "loading ... ",
                     style: TextStyle(fontSize: 20),
                   ),
                   Icon(
@@ -220,8 +239,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    type != null ?
-                    "$type" : "loading ... ",
+                    type != null ? "$type" : "loading ... ",
                     style: TextStyle(fontSize: 20),
                   ),
                   Icon(
@@ -240,8 +258,10 @@ class _ReservationPageState extends State<ReservationPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text( price1 != null ?
-                        "من الساعه 6 مساء حتي الساعه الرابعه صباحا$price1 جنيها و من الساعه الرابعه صباحا حتي السادسه مساء $price2 جنيه عرض لفتره محدوده" : "loading prices",
+                      child: Text(
+                        price1 != null
+                            ? "من الساعه 6 مساء حتي الساعه الرابعه صباحا$price1 جنيها و من الساعه الرابعه صباحا حتي السادسه مساء $price2 جنيه عرض لفتره محدوده"
+                            : "loading prices",
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 18),
                       ),
@@ -474,11 +494,13 @@ class _ReservationPageState extends State<ReservationPage> {
                                   merchantRefNum = snapshot
                                       .data.documents[index]['merchrefnum'];
 
-                                  var reservation_uid = snapshot.data.documents[index]['reservedBy'];
+                                  var reservation_uid = snapshot
+                                      .data.documents[index]['reservedBy'];
 
-                                  var refnum = snapshot.data.documents[index]['refnum'];
-                                  print("still "+reservation_uid);
-                                  print("still "+refnum);
+                                  var refnum =
+                                      snapshot.data.documents[index]['refnum'];
+                                  print("still " + reservation_uid);
+                                  print("still " + refnum);
 
                                   print(merchantRefNum);
                                   String conc =
@@ -505,7 +527,6 @@ class _ReservationPageState extends State<ReservationPage> {
                                         switch (paymentStatus) {
                                           case "EXPIRED":
                                             {
-
                                               Firestore.instance
                                                   .collection('pgs')
                                                   .document("$pgname")
@@ -522,8 +543,6 @@ class _ReservationPageState extends State<ReservationPage> {
                                             break;
                                           case "UNPAID":
                                             {
-
-
                                               Firestore.instance
                                                   .collection('pgs')
                                                   .document("$pgname")
@@ -541,13 +560,11 @@ class _ReservationPageState extends State<ReservationPage> {
                                             break;
                                           case "PAID":
                                             {
-
-
                                               Firestore.instance
                                                   .collection('users')
                                                   .document(reservation_uid)
                                                   .collection("Transaction")
-                                                  .document(refnum+'$index')
+                                                  .document(refnum + '$index')
                                                   .updateData({
                                                 'pay': "paid",
                                               });
@@ -556,7 +573,6 @@ class _ReservationPageState extends State<ReservationPage> {
                                                   pgname: pgname,
                                                   date: date,
                                                   index: index);
-
                                             }
                                             break;
 
@@ -748,6 +764,14 @@ class _ReservationPageState extends State<ReservationPage> {
                           );
                       })),
               Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "-- اضغط مره لاختيار ساعه  و ضغطتين متتاليتن لإلغاء اختيار ساعه ",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: FlatButton(
                     color: Colors.yellow,
@@ -757,14 +781,13 @@ class _ReservationPageState extends State<ReservationPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Confirmation(
-                                      selecteditems: selectedItems,
-                                      date: DateFormat('dd MMM yyyy')
-                                          .format(date),
-                                      pgname: pgname,
-                                      umail: usermail,
-                                      uid: userId,
-                                  day:day
-                                    )));
+                                    selecteditems: selectedItems,
+                                    date:
+                                        DateFormat('dd MMM yyyy').format(date),
+                                    pgname: pgname,
+                                    umail: usermail,
+                                    uid: userId,
+                                    day: day)));
                       } else {
                         var snack1 = SnackBar(
                             duration: Duration(seconds: 2),
@@ -778,7 +801,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       }
                     },
                     child: Text(
-                      "confirmation",
+                      "تأكيد",
                       style: TextStyle(
                           color: Colors.green, fontWeight: FontWeight.bold),
                     )),

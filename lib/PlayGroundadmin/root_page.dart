@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:playground_user/PlayGroundadmin/adminpglist.dart';
 import 'PgAdminLogin.dart';
 import 'authentication.dart';
-import 'AdminCpanal.dart';
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});

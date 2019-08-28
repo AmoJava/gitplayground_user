@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 class payatfawry extends StatefulWidget {
   String userid;
@@ -13,13 +12,13 @@ class payatfawry extends StatefulWidget {
 class _payatfawryState extends State<payatfawry> {
   String merchrefnum;
 
-  _fetchData(String url) async {
+  /*_fetchData(String url) async {
     Response response;
     Dio dio = new Dio();
     response = await dio.get(url);
     print(DateTime.now().millisecondsSinceEpoch);
     return response;
-  }
+  }*/
 
 
   @override
@@ -146,7 +145,7 @@ class _payatfawryState extends State<payatfawry> {
                                                         child: Text( //صالح حتي الساعه
                                                           //DateFormat("yMd").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))
                                                           //DateFormat(' dd MMM yyyy  @ hh:mm').format(pgSnapshot["Expired time"])
-                                                          " صالحه حتي الساعه  ${DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))}",
+                                                          " صالحه حتي الساعه  ${intl.DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(pgSnapshot["Expired time"]))}",
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(

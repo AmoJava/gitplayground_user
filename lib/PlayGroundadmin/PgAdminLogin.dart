@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 class PgLogin extends StatefulWidget {
   PgLogin({this.auth, this.onSignedIn});
@@ -14,14 +15,11 @@ class PgLogin extends StatefulWidget {
 
 enum FormMode { LOGIN, SIGNUP }
 
-
-
 class PgLoginState extends State<PgLogin> {
-
   final _formKey = new GlobalKey<FormState>();
- bool val = false ;
-  String _email;
-  String _password;
+  bool val = true;
+  String _email, emailHint;
+  String _password, passwordHint;
   String _errorMessage;
 
   // Initial form is login form
@@ -29,7 +27,14 @@ class PgLoginState extends State<PgLogin> {
   bool _isIos;
   bool _isLoading;
 
+  @override
+  void initState() {
+    _loademailHint();
+    _errorMessage = "";
+    _isLoading = false;
 
+    super.initState();
+  }
 
   /*bool remmemberpassword , if true it will be saved in the shared pref oon lo */
 
@@ -55,6 +60,18 @@ class PgLoginState extends State<PgLogin> {
       try {
         if (_formMode == FormMode.LOGIN) {
           userId = await widget.auth.signIn(_email, _password);
+
+          if (val == true) {
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString('email', _email).whenComplete(() {
+              print("data saved");
+            });
+            prefs.setString('password', _password).whenComplete(() {
+              print("data saved");
+            });
+
+          }
+
           print('Signed in: $userId');
         } else {
           /*
@@ -68,10 +85,11 @@ class PgLoginState extends State<PgLogin> {
           _isLoading = false;
         });
 
-        if (userId != null && userId.length > 0 && _formMode == FormMode.LOGIN) {
+        if (userId != null &&
+            userId.length > 0 &&
+            _formMode == FormMode.LOGIN) {
           widget.onSignedIn();
         }
-
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -85,13 +103,24 @@ class PgLoginState extends State<PgLogin> {
     }
   }
 
+  Future<bool> saveData(String key, String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(key, value);
+  }
 
-  @override
-  void initState() {
+  Future<String> loadData(String key) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(key);
+  }
 
-    _errorMessage = "";
-    _isLoading = false;
-    super.initState();
+  _loademailHint() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    emailHint = (prefs.getString('email') ?? "");
+    print(emailHint);
+    setState(() {
+      emailHint = (prefs.getString('email') ?? "");
+      passwordHint = (prefs.getString('password') ?? "");
+    });
   }
 
   void _changeFormToSignUp() {
@@ -113,41 +142,38 @@ class PgLoginState extends State<PgLogin> {
   @override
   Widget build(BuildContext context) {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    // _loademailHint();
     return new Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: new AppBar(centerTitle: true,
+      appBar: new AppBar(
+        centerTitle: true,
         backgroundColor: Colors.teal,
         title: new Text('El3bkora admin'),
       ),
-      body:
-
-
-      ListView(
+      body: ListView(
         children: <Widget>[
           Stack(
             children: <Widget>[
-
               _showBody(),
               _showCircularProgress(),
-
             ],
-
           ),
-
         ],
       ),
-
     );
   }
 
-  Widget _showCircularProgress(){
+  Widget _showCircularProgress() {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
-    } return Container(height: 0.0, width: 0.0,);
-
+    }
+    return Container(
+      height: 0.0,
+      width: 0.0,
+    );
   }
 
-  void _showVerifyEmailSentDialog() {
+  /*void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -167,9 +193,9 @@ class PgLoginState extends State<PgLogin> {
         );
       },
     );
-  }
+  }*/
 
-  Widget _showBody(){
+  Widget _showBody() {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
@@ -182,19 +208,20 @@ class PgLoginState extends State<PgLogin> {
               _showPasswordInput(),
               Row(
                 children: <Widget>[
-                  Checkbox(activeColor: Colors.teal,value: val, onChanged: (bool value){
-
-                                  setState(() {
-                                  val = value ;
-                      });
-
-  }),Text("Remember login data")
+                  Checkbox(
+                      activeColor: Colors.teal,
+                      value: val,
+                      onChanged: (bool value) {
+                        setState(() {
+                          val = value;
+                        });
+                      }),
+                  Text("Remember login data")
                 ],
-              )
-              ,_showPrimaryButton(),
+              ),
+              _showPrimaryButton(),
               //_showSecondaryButton(),
               _showErrorMessage(),
-
             ],
           ),
         ));
@@ -222,15 +249,23 @@ class PgLoginState extends State<PgLogin> {
       tag: 'hero',
       child: Padding(
         padding: EdgeInsets.only(top: 10),
-        child: Image.asset("assets/admin.png",height: 140,width: 100,fit: BoxFit.cover,),
+        child: Image.asset(
+          "assets/admin.png",
+          height: 140,
+          width: 100,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
   Widget _showEmailInput() {
+    TextEditingController controller = TextEditingController(text: "$emailHint");
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: controller,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
@@ -251,13 +286,14 @@ class PgLoginState extends State<PgLogin> {
         onSaved: (value) => _email = value,
       ),
     );
-
   }
 
   Widget _showPasswordInput() {
+    TextEditingController controller = TextEditingController(text: "$passwordHint");
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: controller,
         maxLines: 1,
         obscureText: true,
         autofocus: false,
@@ -284,10 +320,10 @@ class PgLoginState extends State<PgLogin> {
     return new FlatButton(
       child: _formMode == FormMode.LOGIN
           ? new Text('Create an account',
-          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
+              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
           : new Text('Have an account? Sign in',
-          style:
-          new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+              style:
+                  new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
       onPressed: _formMode == FormMode.LOGIN
           ? _changeFormToSignUp
           : _changeFormToLogin,
@@ -301,49 +337,19 @@ class PgLoginState extends State<PgLogin> {
           height: 40.0,
           child: new RaisedButton(
             elevation: 5.0,
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0)),
             color: Colors.teal,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white))
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white))
                 : new Text('Create account',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             onPressed: _validateAndSubmit,
           ),
         ));
   }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*import 'package:flutter/material.dart';
 

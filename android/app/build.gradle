@@ -49,7 +49,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         // flutter build apk --split-per-abi
-        versionCode 11 //23-8 m3'rb
+        versionCode 11 //24-8 3sr
         versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

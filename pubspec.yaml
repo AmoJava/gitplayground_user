@@ -47,6 +47,7 @@ dev_dependencies:
   easy_dialog: ^1.0.4
   rflutter_alert: ^1.0.3
   date_format: ^1.0.6
+  shared_preferences: any
 
 
 

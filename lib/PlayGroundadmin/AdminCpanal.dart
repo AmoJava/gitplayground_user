@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:playground_user/PlayGroundadmin/adminpglist.dart';
 
 import 'AdmiinManualReservation.dart';
-import 'Pgdetails.dart';
 import 'Pricing.dart';
 
 class pgAdminCpanal extends StatefulWidget {
@@ -45,7 +43,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         title: Text(
           pgname,
           style: TextStyle(color: Colors.white),
@@ -54,7 +52,7 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
       ),
       body: Container(
         width: double.infinity,
-        color: Colors.lightGreen,
+        color: Colors.teal[400],
         child: Center(
           child: Container(
             height: 350,
