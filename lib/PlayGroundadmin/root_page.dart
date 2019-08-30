@@ -4,10 +4,10 @@ import 'PgAdminLogin.dart';
 import 'authentication.dart';
 
 class RootPage extends StatefulWidget {
-  RootPage({this.auth});
+  RootPage({this.auth,this.passwordhint,this.emailhint});
 
   final BaseAuth auth;
-
+String emailhint , passwordhint ;
   @override
   State<StatefulWidget> createState() => new _RootPageState();
 }
@@ -73,6 +73,8 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.NOT_LOGGED_IN:
         return new PgLogin(
+          emailHint: widget.emailhint,
+          passwordHint: widget.passwordhint,
           auth: widget.auth,
           onSignedIn: _onLoggedIn,
         );

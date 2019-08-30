@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 class PgLogin extends StatefulWidget {
-  PgLogin({this.auth, this.onSignedIn});
-
+  PgLogin({this.auth, this.onSignedIn,this.emailHint,this.passwordHint});
+final String emailHint, passwordHint ;
   final BaseAuth auth;
   final VoidCallback onSignedIn;
 
@@ -18,8 +18,8 @@ enum FormMode { LOGIN, SIGNUP }
 class PgLoginState extends State<PgLogin> {
   final _formKey = new GlobalKey<FormState>();
   bool val = true;
-  String _email, emailHint;
-  String _password, passwordHint;
+  String _email ;
+  String _password;
   String _errorMessage;
 
   // Initial form is login form
@@ -29,16 +29,19 @@ class PgLoginState extends State<PgLogin> {
 
   @override
   void initState() {
-    _loademailHint();
+
+    /*loadmailfromShared().then((String val) {
+      setState(() {
+        emailHint = val;
+        passwordHint=val;
+      });
+      print(emailHint);
+    });*/
     _errorMessage = "";
     _isLoading = false;
 
     super.initState();
   }
-
-  /*bool remmemberpassword , if true it will be saved in the shared pref oon lo */
-
-  // Check if form is valid before perform login or signup
 
   bool _validateAndSave() {
     final form = _formKey.currentState;
@@ -60,17 +63,20 @@ class PgLoginState extends State<PgLogin> {
       try {
         if (_formMode == FormMode.LOGIN) {
           userId = await widget.auth.signIn(_email, _password);
-
-          if (val == true) {
-            final prefs = await SharedPreferences.getInstance();
-            prefs.setString('email', _email).whenComplete(() {
-              print("data saved");
-            });
-            prefs.setString('password', _password).whenComplete(() {
-              print("data saved");
-            });
-
+          final prefs = await SharedPreferences.getInstance();
+          if(val==true){
+          prefs.setString('email', _email).whenComplete(() {
+            print("data saved");
+          });
+          prefs.setString('password', _password).whenComplete(() {
+            print("data saved");
+          });}
+          else if (val==false){
+          prefs.remove('email');
+          prefs.remove('password');
           }
+
+
 
           print('Signed in: $userId');
         } else {
@@ -108,20 +114,29 @@ class PgLoginState extends State<PgLogin> {
     return await preferences.setString(key, value);
   }
 
-  Future<String> loadData(String key) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(key);
+  Future<String> loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+     String key = prefs.getString('email') ?? "email";
+    return key ;
+
   }
 
-  _loademailHint() async {
+  Future<String> loadmailfromShared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    emailHint = (prefs.getString('email') ?? "");
+    String mail = prefs.get("email");
+    return mail;
+  }
+
+  /*_loademailHint() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //emailHint = (prefs.getString('email') ?? "");
     print(emailHint);
     setState(() {
-      emailHint = (prefs.getString('email') ?? "");
-      passwordHint = (prefs.getString('password') ?? "");
+      emailHint = prefs.getString('email');
+      passwordHint = prefs.getString('password');
     });
-  }
+  }*/
 
   void _changeFormToSignUp() {
     _formKey.currentState.reset();
@@ -141,7 +156,12 @@ class PgLoginState extends State<PgLogin> {
 
   @override
   Widget build(BuildContext context) {
+
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    String mh ;
+
+
+
     // _loademailHint();
     return new Scaffold(
       resizeToAvoidBottomInset: true,
@@ -154,7 +174,87 @@ class PgLoginState extends State<PgLogin> {
         children: <Widget>[
           Stack(
             children: <Widget>[
-              _showBody(),
+              Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: new Form(
+                    key: _formKey,
+                    child: new ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        _showLogo(),
+                        //Center(child:emailHint==null ? CircularProgressIndicator(): Text(emailHint,style: TextStyle(color: Colors.blue),)),
+                        //Center(child: Text(passwordHint,style: TextStyle(color: Colors.white),)),
+
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                          child: new TextFormField(
+                            initialValue: widget.emailHint,
+                            style: TextStyle(fontSize: 18, color: Colors.teal),
+                            // controller: controller,
+                            keyboardType: TextInputType.emailAddress,
+                            autofocus: true,
+                            decoration: new InputDecoration(
+                                icon: new Icon(
+                              Icons.mail,
+                              color: Colors.grey,
+                            )),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                return 'Email can\'t be empty';
+                              }
+                            },
+                            onSaved: (value) => _email = value,
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+                          child: new TextFormField(
+                            initialValue: widget.passwordHint,
+                            style: TextStyle(fontSize: 20,color: Colors.teal),
+                            // controller: controller,
+                            maxLines: 1,
+                            obscureText: true,
+                            autofocus: false,
+                            decoration: new InputDecoration(
+                                icon: new Icon(
+                                  Icons.lock,
+                                  color: Colors.grey,
+                                )),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                return 'Email can\'t be empty';
+                              }
+                            },
+                            onSaved: (value) => _password = value,
+                          ),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                                activeColor: Colors.teal,
+                                value: val,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    val = value;
+                                  });
+                                }),
+                            Text("Remember login data")
+                          ],
+                        ),
+                        _showPrimaryButton(),
+                        //_showSecondaryButton(),
+                        _showErrorMessage(),
+                      ],
+                    ),
+                  )),
               _showCircularProgress(),
             ],
           ),
@@ -195,38 +295,6 @@ class PgLoginState extends State<PgLogin> {
     );
   }*/
 
-  Widget _showBody() {
-    return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: new Form(
-          key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _showLogo(),
-              _showEmailInput(),
-              _showPasswordInput(),
-              Row(
-                children: <Widget>[
-                  Checkbox(
-                      activeColor: Colors.teal,
-                      value: val,
-                      onChanged: (bool value) {
-                        setState(() {
-                          val = value;
-                        });
-                      }),
-                  Text("Remember login data")
-                ],
-              ),
-              _showPrimaryButton(),
-              //_showSecondaryButton(),
-              _showErrorMessage(),
-            ],
-          ),
-        ));
-  }
-
   Widget _showErrorMessage() {
     if (_errorMessage != null && _errorMessage.length > 0) {
       return new Text(
@@ -255,63 +323,6 @@ class PgLoginState extends State<PgLogin> {
           width: 100,
           fit: BoxFit.cover,
         ),
-      ),
-    );
-  }
-
-  Widget _showEmailInput() {
-    TextEditingController controller = TextEditingController(text: "$emailHint");
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-      child: new TextFormField(
-        controller: controller,
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Email',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
-        validator: (value) {
-          if (value.isEmpty) {
-            setState(() {
-              _isLoading = false;
-            });
-            return 'Email can\'t be empty';
-          }
-        },
-        onSaved: (value) => _email = value,
-      ),
-    );
-  }
-
-  Widget _showPasswordInput() {
-    TextEditingController controller = TextEditingController(text: "$passwordHint");
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: new TextFormField(
-        controller: controller,
-        maxLines: 1,
-        obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Password',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
-        validator: (value) {
-          if (value.isEmpty) {
-            setState(() {
-              _isLoading = false;
-            });
-            return 'Email can\'t be empty';
-          }
-        },
-        onSaved: (value) => _password = value,
       ),
     );
   }
