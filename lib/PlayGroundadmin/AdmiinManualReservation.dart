@@ -142,6 +142,10 @@ int byuserssum=0 ;
                                   snapshot.data.documents[index]['color'];
                               var reserved_by =
                                   snapshot.data.documents[index]['reservedBy'];
+                              var price =
+                              snapshot.data.documents[index]['price'];
+
+
 
                               hourStateColor = reservation_color;
 

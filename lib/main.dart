@@ -8,6 +8,9 @@ import 'auth/Signup.dart';
 
 void main() {
   runApp(MaterialApp(
+    theme: ThemeData(
+        fontFamily: 'Cairo'
+    ),
     debugShowCheckedModeBanner: false,
     initialRoute: "splash",
 

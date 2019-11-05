@@ -10,6 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class Login extends StatefulWidget {
   static const String id = "login";
@@ -182,10 +185,30 @@ class _LoginState extends State<Login> {
                     Visibility(
                       visible: loading,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 100, top: 80),
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.purpleAccent,
-                          strokeWidth: 10,
+                        padding: EdgeInsets.only(left: 10, top: 8),
+                        child: AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 10,
+                          content: Container(
+                            height: 150,
+                            width: 250,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SpinKitCircle(
+                                      color: Colors.lightGreen),
+                                  Text(
+                                    'برجاء الانتطار جاري تسجيل الدخول...',
+                                    style: TextStyle(fontWeight: FontWeight.bold,
+                                        color: Colors.green),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     )

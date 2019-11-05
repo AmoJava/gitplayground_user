@@ -188,7 +188,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                               child: Text("Playground name",textAlign: TextAlign.center,)),
                                                                           Padding(
                                                                             padding:
-                                                                                EdgeInsets.only(right: 3),
+                                                                                EdgeInsets.only(right: 5,left: 5),
                                                                             child:
                                                                                 Text(
                                                                               "${pgSnapshot["pgname"]}",
@@ -202,7 +202,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                               child: Text("day")),
                                                                           Padding(
                                                                             padding:
-                                                                                EdgeInsets.only(right: 3),
+                                                                                EdgeInsets.only(right: 5,left: 5),
                                                                             child:
                                                                                 Text(
                                                                               "${pgSnapshot["day"]}",
@@ -216,7 +216,7 @@ class _payatfawryState extends State<payatfawry> {
                                                                               child: Text("Hour")),
                                                                           Padding(
                                                                             padding:
-                                                                                EdgeInsets.only(right: 3),
+                                                                                EdgeInsets.only(right: 5,left: 5),
                                                                             child:
                                                                                 Text(
                                                                               "${pgSnapshot["hours"]}",

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:playground_user/User/paybyFawry.dart';
 import 'package:playground_user/User/playgroundlist.dart';
@@ -13,26 +14,23 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  var userId  ;
-  var usermail ;
+  var userId;
 
-  Future<void> getUserId ()async {
+  var usermail;
+
+  Future<void> getUserId() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
     setState(() {
-       userId = user.uid ;
-       usermail = user.email ;
+      userId = user.uid;
+      usermail = user.email;
     });
   }
 
-  Future<void>_signout()async{
-
-
+  Future<void> _signout() async {
     FirebaseAuth.instance.signOut();
     exit(0);
-
   }
-
 
   Future<bool> _onBackPressed() async {
     return showDialog(
@@ -54,8 +52,6 @@ class _UserProfileState extends State<UserProfile> {
         });
   }
 
-
-
   @override
   void initState() {
     getUserId();
@@ -63,9 +59,9 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: _onBackPressed,
-      child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(child: Icon(Icons.call,color: Colors.green,),backgroundColor: Colors.white,onPressed: (){}),
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -75,7 +71,6 @@ class _UserProfileState extends State<UserProfile> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
               FlatButton(
                   onPressed: () {
                     Navigator.push(
@@ -88,63 +83,85 @@ class _UserProfileState extends State<UserProfile> {
                           color: Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: MediaQuery.of(context).size.width*.75,
+                      width: MediaQuery.of(context).size.width * .75,
                       height: 80,
                       child: Center(
                           child: Text(
-                            "احجز ملعب",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )))),
+                        "احجز ملعب",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )))),
               SizedBox(
                 height: 5,
               ),
               FlatButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => payatfawry(userid: userId,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => payatfawry(
+                                  userid: userId,
+                                )));
                   },
                   child: Container(
                       decoration: ShapeDecoration(
                           color: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: MediaQuery.of(context).size.width*.75,
+                      width: MediaQuery.of(context).size.width * .75,
                       //color: Colors.indigoAccent,
                       height: 80,
                       child: Center(
-                          child: Text(
-                            "إدفع بواسطه فوري",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )))),
-              SizedBox(height: 5,),
+                          child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "إدفع بواسطه فوري",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+
+                          Text(
+                            "لو حاجز ساعه و موصلكش كود الدفع علي الموبايل هتلاقيه هنا",
+                            style: TextStyle(color: Colors.black,
+                                fontSize: 8, fontStyle: FontStyle.italic),
+                          )
+                        ],
+                      )))),
+              SizedBox(
+                height: 5,
+              ),
               FlatButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Tickets(userid: userId,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Tickets(
+                                  userid: userId,
+                                )));
                   },
                   child: Container(
                       decoration: ShapeDecoration(
                           color: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0))),
-                      width: MediaQuery.of(context).size.width*.75,
+                      width: MediaQuery.of(context).size.width * .75,
                       //color: Colors.indigoAccent,
                       height: 80,
                       child: Center(
                           child: Text(
-                            "تذاكر حجوزاتك",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )))),
-
+                        "تذاكر حجوزاتك",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )))),
             ],
           ),
         ),

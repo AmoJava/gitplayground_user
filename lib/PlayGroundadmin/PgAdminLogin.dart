@@ -22,7 +22,6 @@ class PgLoginState extends State<PgLogin> {
   String _password;
   String _errorMessage;
 
-  // Initial form is login form
   FormMode _formMode = FormMode.LOGIN;
   bool _isIos;
   bool _isLoading;
@@ -30,13 +29,6 @@ class PgLoginState extends State<PgLogin> {
   @override
   void initState() {
 
-    /*loadmailfromShared().then((String val) {
-      setState(() {
-        emailHint = val;
-        passwordHint=val;
-      });
-      print(emailHint);
-    });*/
     _errorMessage = "";
     _isLoading = false;
 
@@ -128,16 +120,6 @@ class PgLoginState extends State<PgLogin> {
     return mail;
   }
 
-  /*_loademailHint() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //emailHint = (prefs.getString('email') ?? "");
-    print(emailHint);
-    setState(() {
-      emailHint = prefs.getString('email');
-      passwordHint = prefs.getString('password');
-    });
-  }*/
-
   void _changeFormToSignUp() {
     _formKey.currentState.reset();
     _errorMessage = "";
@@ -182,8 +164,6 @@ class PgLoginState extends State<PgLogin> {
                       shrinkWrap: true,
                       children: <Widget>[
                         _showLogo(),
-                        //Center(child:emailHint==null ? CircularProgressIndicator(): Text(emailHint,style: TextStyle(color: Colors.blue),)),
-                        //Center(child: Text(passwordHint,style: TextStyle(color: Colors.white),)),
 
                         Padding(
                           padding:

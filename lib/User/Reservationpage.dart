@@ -5,28 +5,38 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/material.dart' as prefix0;
+import 'package:intl/intl.dart'as intl;
+import 'package:playground_user/User/gradientappbar.dart';
 import 'package:queries/collections.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
 import 'dart:async';
-
+import 'package:flip_card/flip_card.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:playground_user/User/ConfirmationPage.dart';
+import 'package:nice_button/nice_button.dart';
 
 class ReservationPage extends StatefulWidget {
   static const String id = "reservationPage";
   String pgname;
+
   ReservationPage({this.pgname});
+
   @override
   _ReservationPageState createState() => _ReservationPageState(pgname);
 }
 
 class _ReservationPageState extends State<ReservationPage> {
   _ReservationPageState(this.pgname);
+
+  var firstColor = Colors.green, secondColor = Colors.lightGreen;
+
   String pic1, pic2, pic3, pic4, pic5, pic6, mobile;
   String textofindex;
   String merchCode = "2CoQMvyQiz8v2XJswGNsTw==";
   String secureCode = "53c6b354a3934f2697a7078394944f89";
   String userId;
+
   String usermail;
   String pgname;
   var reservationColor;
@@ -82,6 +92,12 @@ class _ReservationPageState extends State<ReservationPage> {
     }
   }
 
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    selectedItems = [];
+  }
+
   @override
   void initState() {
     _loadprice(pgname);
@@ -119,19 +135,24 @@ class _ReservationPageState extends State<ReservationPage> {
 
   @override
   Widget build(BuildContext context) {
+    selectedItems = [];
     var selectionColor = Colors.transparent;
     var st = Firestore.instance
         .collection("pgs")
         .document("$pgname")
-        .collection(DateFormat('dd MMM yyyy').format(date))
+        .collection(intl.DateFormat('dd MMM yyyy').format(date))
         .orderBy('index', descending: false)
         .snapshots();
     return Scaffold(
-      appBar: AppBar(
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 50),
+        child: GradientAppBar("mal3ab$pgname"),
+      ) /*AppBar(
         centerTitle: true,
         title: Text("mal3ab$pgname "),
         backgroundColor: Colors.green,
-      ),
+      )*/
+      ,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -208,10 +229,13 @@ class _ReservationPageState extends State<ReservationPage> {
                     textAlign: TextAlign.right,
                     style: TextStyle(fontSize: 20),
                   )),
-                  Icon(
-                    Icons.location_on,
-                    size: 35,
-                    color: Colors.green,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(
+                      Icons.location_on,
+                      size: 35,
+                      color: Colors.green,
+                    ),
                   ),
                 ],
               ),
@@ -221,14 +245,20 @@ class _ReservationPageState extends State<ReservationPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text(
-                    mobile != null ? "$mobile" : "loading ... ",
-                    style: TextStyle(fontSize: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      mobile != null ? "$mobile" : "loading ... ",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
-                  Icon(
-                    Icons.call,
-                    size: 35,
-                    color: Colors.green,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(
+                      Icons.call,
+                      size: 35,
+                      color: Colors.green,
+                    ),
                   )
                 ],
               ),
@@ -242,10 +272,13 @@ class _ReservationPageState extends State<ReservationPage> {
                     type != null ? "$type" : "loading ... ",
                     style: TextStyle(fontSize: 20),
                   ),
-                  Icon(
-                    Icons.person,
-                    size: 35,
-                    color: Colors.green,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(
+                      Icons.person,
+                      size: 35,
+                      color: Colors.green,
+                    ),
                   )
                 ],
               ),
@@ -267,10 +300,13 @@ class _ReservationPageState extends State<ReservationPage> {
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.monetization_on,
-                    size: 35,
-                    color: Colors.green,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(
+                      Icons.attach_money,
+                      size: 35,
+                      color: Colors.green,
+                    ),
                   )
                 ],
               ),
@@ -282,7 +318,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    DateFormat('dd MMM yyyy ').format(date),
+                    intl.DateFormat('dd MMM yyyy ').format(date),
                     style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20,
@@ -306,21 +342,21 @@ class _ReservationPageState extends State<ReservationPage> {
                         } else if (snapshot.data.documents.length < 24) {
                           for (int x = 0; x < 4; x++) {
                             adduReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: price1);
                           }
                           ;
                           for (int x = 4; x < 17; x++) {
                             adduReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: price2);
                           }
                           ;
                           for (int x = 17; x < 24; x++) {
                             adduReservationtodb(
-                                date: DateFormat('dd MMM yyyy').format(date),
+                                date: intl.DateFormat('dd MMM yyyy').format(date),
                                 inty: x,
                                 price: price3);
                           }
@@ -332,12 +368,11 @@ class _ReservationPageState extends State<ReservationPage> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 6),
                             shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             itemCount: 24,
                             itemBuilder: (BuildContext context, int index) {
                               var reservation_color =
                                   snapshot.data.documents[index]['color'];
-
-                              bool loading = false;
 
                               switch (reservation_color) {
                                 case "green":
@@ -354,7 +389,7 @@ class _ReservationPageState extends State<ReservationPage> {
 
                                 case "yellow":
                                   {
-                                    reservationColor = Colors.yellowAccent;
+                                    reservationColor = Colors.yellow;
                                   }
                                   break;
                               }
@@ -513,7 +548,6 @@ class _ReservationPageState extends State<ReservationPage> {
                                       "https://www.atfawry.com//ECommerceWeb/Fawry/payments/status?merchantCode=$merchCode&merchantRefNumber=$merchantRefNum&signature=$hash";
                                   print(url);
                                   //print(concatData);
-                                  loading = true;
                                   print(" $index can be checked now");
 
                                   return FutureBuilder(
@@ -531,7 +565,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                                   .collection('pgs')
                                                   .document("$pgname")
                                                   .collection(
-                                                      DateFormat('dd MMM yyyy')
+                                                  intl.DateFormat('dd MMM yyyy')
                                                           .format(date))
                                                   .document("h$index")
                                                   .updateData({
@@ -547,7 +581,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                                   .collection('pgs')
                                                   .document("$pgname")
                                                   .collection(
-                                                      DateFormat('dd MMM yyyy')
+                                                  intl.DateFormat('dd MMM yyyy')
                                                           .format(date))
                                                   .document("h$index")
                                                   .updateData({
@@ -582,230 +616,69 @@ class _ReservationPageState extends State<ReservationPage> {
                                             }
                                             break;
                                         }
-                                        var c = Colors.yellow;
                                         return Stack(children: <Widget>[
                                           Container(
-                                            height: 70,
-                                            color: selectionColor,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(2.0),
-                                              child: Container(
-                                                height: 45,
-                                                width: 45,
-                                                decoration: BoxDecoration(
-                                                    color: c,
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "$textofindex",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 25),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            child: Text("loading data"),
                                           ),
-                                          Visibility(
-                                              visible: loading,
-                                              child: Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    7, 7, 0, 0),
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1,
-                                                ),
-                                              ))
                                         ]);
                                       });
                                 }
                               }
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Center(
-                                  child: InkWell(
-                                    child: Stack(children: <Widget>[
-                                      Container(
-                                        height: 70,
-                                        color: selectionColor,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Container(
-                                            height: 45,
-                                            width: 45,
-                                            decoration: BoxDecoration(
-                                                color: reservationColor,
-                                                shape: BoxShape.circle),
-                                            child: Center(
-                                              child: Text(
-                                                "$textofindex",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Visibility(
-                                          visible: loading,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.fromLTRB(7, 7, 0, 0),
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 1,
-                                            ),
-                                          ))
-                                    ]),
-                                    onTap: () {
-                                      switch (reservation_color) {
-                                        case 'green':
-                                          {
-                                            setState(() {
-                                              selectionColor = Colors.pink;
-                                            });
-                                            print(index);
-                                            tapedItems.add(index);
-                                            selectedItems =
-                                                Collection(tapedItems)
-                                                    .distinct()
-                                                    .toList();
-                                            print(tapedItems);
-                                            print(selectedItems.toList());
-
-                                            var snack = SnackBar(
-                                                duration: Duration(seconds: 2),
-                                                backgroundColor: Colors.blue,
-                                                content: Text(
-                                                  "لقد قمت بتحديد الساعه ${selectedItems.toString()} لالغاء التحديد انقر مرتين علي الساعه المراد الغاء تحديدها ",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ));
-                                            Scaffold.of(context)
-                                                .showSnackBar(snack);
-                                          }
-                                          break;
-                                        case 'red':
-                                          {
-                                            setState(() {
-                                              var snack = SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                    "هذه الساعه محجوزه مسبقا ",
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ));
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snack);
-                                            });
-                                          }
-                                          break;
-                                        case 'yellow':
-                                          {
-                                            setState(() {
-                                              var snack = SnackBar(
-                                                  backgroundColor:
-                                                      Colors.yellow,
-                                                  content: Text(
-                                                    "هذه الساعه محجوزه مؤقتا بانتظار الدفع ",
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ));
-                                              Scaffold.of(context)
-                                                  .showSnackBar(snack);
-                                            });
-                                          }
-                                          break;
-                                      }
-                                    },
-                                    onDoubleTap: () {
-                                      if (reservation_color == 'green') {
-                                        tapedItems.remove(index);
-                                        selectedItems.remove(index);
-
-                                        print(selectedItems);
-                                        setState(() {
-                                          if (selectedItems.isEmpty) {
-                                            tapedItems = [];
-                                          }
-                                        });
-                                        var snack = SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            backgroundColor: Colors.blue,
-                                            content: Text(
-                                              selectedItems.isEmpty
-                                                  ? "لم تحدد اي ساعه"
-                                                  : "you have select ${selectedItems.toString()} ",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ));
-                                        Scaffold.of(context)
-                                            .showSnackBar(snack);
-                                      }
-                                    },
-                                  ),
-                                ),
-                              );
+                              return hour(
+                                  index: index,
+                                  reservation_color: reservation_color,
+                                  context: context);
                             },
                           );
                       })),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "-- اضغط مره لاختيار ساعه  و ضغطتين متتاليتن لإلغاء اختيار ساعه ",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(color: Colors.grey),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                child: NiceButton(
+                  background: Colors.blue,
+                  radius: 30,
+                  padding: const EdgeInsets.all(15),
+                  text: "إستمرار",
+                  elevation: 5,
+                  //icon: Icons.account_box,
+                  gradientColors: [secondColor, firstColor],
+                  onPressed: () {
+                    if (selectedItems.length != 0) {
+                      print(textofindex);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Confirmation(
+
+                                  selecteditems: selectedItems,
+                                  date: intl.DateFormat('dd MMM yyyy').format(date),
+                                  pgname: pgname,
+                                  umail: usermail,
+                                  uid: userId,
+                                  day: day))).whenComplete((){
+                        tapedItems = [];
+                                    selectedItems = [];
+                      });
+                      //
+                    } else {
+                      Directionality(textDirection: TextDirection.rtl,
+                        child: Flushbar(backgroundColor: Colors.pink,
+                          //message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                          icon: Icon(
+                            Icons.error,
+                            size: 28.0,
+                            color: Colors.white,
+                          ),
+                          duration: Duration(seconds: 3),
+                          leftBarIndicatorColor: Colors.pinkAccent,
+                          message: 'لم تقم بتحديد ولاااا ساعه ',
+                        )
+                          ..show(context),
+                      );
+
+                    }
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: FlatButton(
-                    color: Colors.yellow,
-                    onPressed: () {
-                      if (selectedItems.length != 0) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Confirmation(
-                                    selecteditems: selectedItems,
-                                    date:
-                                        DateFormat('dd MMM yyyy').format(date),
-                                    pgname: pgname,
-                                    umail: usermail,
-                                    uid: userId,
-                                    day: day)));
-                      } else {
-                        var snack1 = SnackBar(
-                            duration: Duration(seconds: 2),
-                            backgroundColor: Colors.blue,
-                            content: Text(
-                              "لم تحدد أي ساعه",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ));
-                        Scaffold.of(context).showSnackBar(snack1);
-                      }
-                    },
-                    child: Text(
-                      "تأكيد",
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
-                    )),
-              ),
+              )
             ],
           ),
         ),
@@ -828,13 +701,131 @@ class _ReservationPageState extends State<ReservationPage> {
         .setData(addReservedHour);
     print("data created for this hour");
   }
+
+  Widget hour({clickedhour, reservation_color, index, context}) {
+    var selected = false;
+    GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Center(
+        child: InkWell(
+          child: Stack(children: <Widget>[
+            Container(
+              height: 70,
+              //color: selectionColor,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: FlipCard(
+                  flipOnTouch: false,
+                  key: cardKey,
+                  back: InkWell(
+                    onTap: () {
+                      if (reservation_color == 'green') {
+                        tapedItems.remove(index);
+                        selectedItems.remove(index);
+
+                        print(selectedItems);
+
+                        if (selectedItems.isEmpty) {
+                          tapedItems = [];
+                        }
+                        cardKey.currentState.toggleCard();
+                      }
+                    },
+                    child: Container(
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                          color: Colors.blue, shape: BoxShape.circle),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  front: InkWell(
+                    child: Container(
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                          color: reservationColor, shape: BoxShape.circle),
+                      child: Center(
+                        child: Text(
+                          "$textofindex",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    onDoubleTap: () {},
+                    onTap: () {
+                      switch (reservation_color) {
+                        case 'green':
+                          {
+                            print(index);
+                            tapedItems.add(index);
+                            selectedItems =
+                                Collection(tapedItems).distinct().toList();
+                            print(tapedItems);
+                            print(selectedItems.toList());
+                            cardKey.currentState.toggleCard();
+                          }
+                          break;
+                        case 'red':
+                          {
+
+                            Flushbar(backgroundColor: Colors.red,
+                              //message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                              icon: Icon(
+                                Icons.error,
+                                size: 28.0,
+                                color: Colors.blue[300],
+                              ),
+                              duration: Duration(seconds: 3),
+                              leftBarIndicatorColor: Colors.blue[300],
+                              message: 'هذه الساعه محجوزه مسبقا ',
+                            )
+                              ..show(context);
+
+
+                          }
+                          break;
+                        case 'yellow':
+                          {
+
+                            Flushbar(backgroundColor: Colors.deepOrange,
+                              //message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                              icon: Icon(
+                                Icons.error,
+                                size: 28.0,
+                                color: Colors.white,
+                              ),
+                              duration: Duration(seconds: 3),
+                              leftBarIndicatorColor: Colors.blue[300],
+                              message: 'هذه الساعه محجوزه مؤقتا بانتظار الدفع ',
+                            )
+                              ..show(context);
+
+                          }
+                          break;
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
 }
 
 changeProcessToRed({String pgname, date, index}) async {
   await Firestore.instance
       .collection('pgs')
       .document("$pgname")
-      .collection(DateFormat('dd MMM yyyy').format(date))
+      .collection(intl.DateFormat('dd MMM yyyy').format(date))
       .document("h$index")
       .updateData({
     'color': 'red',

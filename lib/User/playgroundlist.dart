@@ -13,8 +13,8 @@ class _PlayGroundListState extends State<PlayGroundList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("الملاعب المتاحه"),
+        appBar: AppBar(centerTitle: true,
+          title: Text("الملاعب المتاحة",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
           backgroundColor: Colors.lightGreen,
         ),
         body: Container(
@@ -49,41 +49,46 @@ class _PlayGroundListState extends State<PlayGroundList> {
                               Navigator.push(context, MaterialPageRoute(builder: (_)=>ReservationPage(pgname: pgSnapshot["pgname"],)  ));
 
                             },
-                              child: Card(elevation: 1,
-                                color: Colors.transparent,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 130,
-                                  //color: Colors.transparent,
-                                  child: Row(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(pgSnapshot["pgpic"]),
-                                        radius: 35,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              "${pgSnapshot["name"]}",
-                                              style: TextStyle(fontWeight: FontWeight.w900,
-                                                  fontSize: 25,
-                                                  color: Colors.white),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                            Center(
-                                                child: Text(
-                                              "${pgSnapshot["address"]}",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                              textAlign: TextAlign.center,
-                                            )),
-                                          ],
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 4,right: 8,top: 4),
+                                child: Card(elevation: 1,
+                                  color: Colors.white70,
+                                  child: Container(
+                                    width: double.infinity,
+                                    //color: Colors.transparent,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(pgSnapshot["pgpic"]),
+                                            radius: 35,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Expanded(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text(
+                                                "${pgSnapshot["name"]}",
+                                                style: TextStyle(fontWeight: FontWeight.w900,
+                                                    fontSize: 25,
+                                                    color: Colors.black54),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                              Center(
+                                                  child: Text(
+                                                "${pgSnapshot["address"]}",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center,
+                                              )),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

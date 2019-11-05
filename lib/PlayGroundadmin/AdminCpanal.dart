@@ -68,9 +68,9 @@ class _pgAdminCpanalState extends State<pgAdminCpanal> {
                       color: Colors.white,
                       fontWeight: FontWeight.w900),
                 ),
-                /*SizedBox(
-                  height: 8,
-                ),
+                SizedBox(
+                  height: 38,
+                ),/*
                 FlatButton(
                     onPressed: () {
                       Navigator.push(context,
